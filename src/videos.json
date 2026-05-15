@@ -7,8 +7,9 @@
     "date": "2026-05-09",
     "lift": "jerk",
     "weight": 57,
-    "tags": ["week-12", "heavy", "rack", "technique"],
-    "notes": "Not getting under the bar fast enough or low enough."
+    "tags": ["week-12-c1", "heavy", "rack", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Not getting under the bar fast enough or low enough.",
+    "bodyweight": 82
   },
   {
     "id": "v2",
@@ -18,8 +19,9 @@
     "date": "2026-05-09",
     "lift": "jerk",
     "weight": 50,
-    "tags": ["week-12", "working-set", "rack", "technique"],
-    "notes": "Not fully extended; rushing to get under the bar."
+    "tags": ["week-12-c1", "working-set", "rack", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Not fully extended; rushing to get under the bar.",
+    "bodyweight": 82
   },
   {
     "id": "v3",
@@ -29,8 +31,9 @@
     "date": "2026-05-09",
     "lift": "jerk",
     "weight": 45,
-    "tags": ["week-12", "working-set", "rack", "technique", "dip-drive"],
-    "notes": "Dip drifts forward of vertical; bar travels off midfoot. Incomplete drive — not finishing triple extension at the hips. Recurring fault across the session."
+    "tags": ["week-12-c1", "working-set", "rack", "technique", "dip-drive", "cycle-1", "loc-brunswick"],
+    "notes": "Dip drifts forward of vertical; bar travels off midfoot. Incomplete drive — not finishing triple extension at the hips. Recurring fault across the session.",
+    "bodyweight": 82
   },
   {
     "id": "v4",
@@ -40,8 +43,9 @@
     "date": "2026-05-09",
     "lift": "press_in_split",
     "weight": 30,
-    "tags": ["week-12", "primer", "split", "lockout"],
-    "notes": "Midline braced and glutes engaged through the split. Lockout incomplete — elbows not fully extending overhead."
+    "tags": ["week-12-c1", "primer", "split", "lockout", "cycle-1", "loc-brunswick"],
+    "notes": "Midline braced and glutes engaged through the split. Lockout incomplete — elbows not fully extending overhead.",
+    "bodyweight": 82
   },
   {
     "id": "v5",
@@ -51,8 +55,9 @@
     "date": "2026-05-09",
     "lift": "hang_power_clean_push_press",
     "weight": 50,
-    "tags": ["week-12", "working-set", "complex", "btk-hang", "technique"],
-    "notes": "Setup is solid: flat back, lats engaged, gaze forward. Strong, patient pull — bar makes contact at the mid-thigh before the jump. Fast turnover through the elbows but could be quicker. Push press is OK; needs more leg drive before the arms take over."
+    "tags": ["week-12-c1", "working-set", "complex", "btk-hang", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Setup is solid: flat back, lats engaged, gaze forward. Strong, patient pull — bar makes contact at the mid-thigh before the jump. Fast turnover through the elbows but could be quicker. Push press is OK; needs more leg drive before the arms take over.",
+    "bodyweight": 82
   },
   {
     "id": "v6",
@@ -62,8 +67,9 @@
     "date": "2026-05-09",
     "lift": "hang_power_clean_push_press",
     "weight": 50,
-    "tags": ["week-12", "working-set", "complex", "btk-hang", "technique"],
-    "notes": "Same as set 4 — flat back, lats engaged, gaze forward; patient pull with mid-thigh contact; fast turnover but could be quicker. Push press has stronger leg drive than set 4 — better drive from the legs before the arms take over."
+    "tags": ["week-12-c1", "working-set", "complex", "btk-hang", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Same as set 4 — flat back, lats engaged, gaze forward; patient pull with mid-thigh contact; fast turnover but could be quicker. Push press has stronger leg drive than set 4 — better drive from the legs before the arms take over.",
+    "bodyweight": 82
   },
   {
     "id": "v7",
@@ -73,8 +79,9 @@
     "date": "2026-05-09",
     "lift": "hang_power_clean_push_press",
     "weight": 50,
-    "tags": ["week-12", "working-set", "complex", "btk-hang", "technique"],
-    "notes": "Same mix of strong points and faults seen in the other sets. Standout: very consistent setup — flat back and patient pull with mid-thigh contact. Main issue is the push press: leg drive isn't consistent — arms take over before the legs finish."
+    "tags": ["week-12-c1", "working-set", "complex", "btk-hang", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Same mix of strong points and faults seen in the other sets. Standout: very consistent setup — flat back and patient pull with mid-thigh contact. Main issue is the push press: leg drive isn't consistent — arms take over before the legs finish.",
+    "bodyweight": 82
   },
   {
     "id": "v10",
@@ -84,8 +91,9 @@
     "date": "2026-05-09",
     "lift": "hang_power_clean_push_press",
     "weight": 50,
-    "tags": ["week-12", "working-set", "complex", "btk-hang", "technique"],
-    "notes": "Push press leg drive is especially weak on this rep — arms take over before the legs finish. The session's recurring push press fault is most pronounced here."
+    "tags": ["week-12-c1", "working-set", "complex", "btk-hang", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Push press leg drive is especially weak on this rep — arms take over before the legs finish. The session's recurring push press fault is most pronounced here.",
+    "bodyweight": 82
   },
   {
     "id": "v9",
@@ -95,8 +103,9 @@
     "date": "2026-05-07",
     "lift": "raised_snatch_deadlift",
     "weight": 80,
-    "tags": ["week-12", "working-set", "raised", "technique"],
-    "notes": "Bar elevated on 20kg plates. Hips and shoulders rise together off the floor — no hips-first fault. Shoulders well-stacked over the bar at the start."
+    "tags": ["week-12-c1", "working-set", "raised", "technique", "cycle-1", "loc-brunswick"],
+    "notes": "Bar elevated on 20kg plates. Hips and shoulders rise together off the floor — no hips-first fault. Shoulders well-stacked over the bar at the start.",
+    "bodyweight": 82
   },
   {
     "id": "v11",
@@ -106,7 +115,56 @@
     "date": "2026-05-07",
     "lift": "raised_snatch_deadlift",
     "weight": 80,
-    "tags": ["week-12", "working-set", "raised"],
-    "notes": "Bar elevated on 20kg plates."
+    "tags": ["week-12-c1", "working-set", "raised", "cycle-1", "loc-brunswick"],
+    "notes": "Bar elevated on 20kg plates.",
+    "bodyweight": 82
+  },
+  {
+    "id": "v15",
+    "youtubeId": "Nbm_szlH2Xc",
+    "vertical": true,
+    "title": "Paused Back Squat, set 4",
+    "date": "2026-05-14",
+    "lift": "paused_back_squat",
+    "weight": 60,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "paused", "technique", "cycle-2", "loc-altona"],
+    "notes": "Same as set 3 — depth dialed in, tension maintained through the full ascent, ribs stacked over hips. Clean execution."
+  },
+  {
+    "id": "v14",
+    "youtubeId": "wZUAThRJZpQ",
+    "vertical": true,
+    "title": "Paused Back Squat, set 3",
+    "date": "2026-05-14",
+    "lift": "paused_back_squat",
+    "weight": 60,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "paused", "technique", "cycle-2", "loc-altona"],
+    "notes": "Depth dialed in. Tension maintained through the full ascent, ribs stacked over hips. Clean execution — no faults to call out."
+  },
+  {
+    "id": "v13",
+    "youtubeId": "wuAT-8bBVtc",
+    "vertical": true,
+    "title": "Paused Back Squat, set 2",
+    "date": "2026-05-14",
+    "lift": "paused_back_squat",
+    "weight": 60,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "paused", "technique", "cycle-2", "loc-altona"],
+    "notes": "Better than set 1 — held brace and tension through the entire ascent (the cue from set 1). Also got deeper, breaking parallel more decisively."
+  },
+  {
+    "id": "v12",
+    "youtubeId": "MPErMveCXJw",
+    "vertical": true,
+    "title": "Paused Back Squat, set 1",
+    "date": "2026-05-14",
+    "lift": "paused_back_squat",
+    "weight": 60,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "paused", "technique", "cycle-2", "loc-altona"],
+    "notes": "Three-second pause at the bottom. Good breathing — ribs stacked over hips, strong brace. Focus on maintaining that tension all the way through the ascent. Toe angle slightly wider than ideal; flagging as a mobility limitation rather than a cueing issue."
   }
 ]

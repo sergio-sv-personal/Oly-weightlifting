@@ -55,6 +55,7 @@ Sergio pastes a YouTube URL plus a short description (lift, weight, set, notes).
      "date": "2026-MM-DD",
      "lift": "lift_type_key",
      "weight": 50,
+     "bodyweight": 100,
      "tags": ["week-N", "working-set", "..."],
      "notes": "OWL-translated note."
    }
@@ -62,10 +63,14 @@ Sergio pastes a YouTube URL plus a short description (lift, weight, set, notes).
 
    `id`: increment from the highest existing `v{N}`. It only needs to be unique. Comments key on `youtubeId`, not `id`.
 
+   `bodyweight`: optional (kg). When set, the card and modal display the lift's percentage of bodyweight (e.g. "60% BW") alongside the absolute weight. Omit if unknown.
+
 6. **Array position matters within a group.** Cards group by `(lift, date)`. Inside a group, sets sort by weight descending; same-weight sets preserve **array order**. Sergio's convention is "most recent set at the top of the modal." So if a working set at 50kg already has set 4, set 3 in that order, place new set 2 **after** them in the JSON.
 
-7. **Tags use kebab-case.** Conventions:
-   - `week-N` — training week (always include).
+7. **Tags use kebab-case.** Three categories have dedicated filter rows and prefixes — keep these conventions:
+   - **Week:** `week-N` or `week-N-c{cycle}` (e.g. `week-12-c1`). The `-cN` suffix is optional and only used when the cycle is known; the UI parses it for the chip label ("Week 12 — C1"). Always include the week.
+   - **Cycle:** `cycle-N` (e.g. `cycle-1`). Separate tag from the cycle suffix on the week tag. Both should be present when known.
+   - **Location:** `loc-{name}` (e.g. `loc-brunswick`). The UI capitalises the first letter for display.
    - Session role: `primer` (warmup/activation), `working-set` (main work), `heavy` (top-end/max-effort).
    - Focus: `technique`.
    - Context: `rack`, `split`, `raised`, `complex`, `btk-hang`, `dip-drive`, `lockout`.

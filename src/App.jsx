@@ -15,6 +15,7 @@ const LIFT_LABELS = {
   raised_snatch_deadlift: 'Raised Snatch Deadlift',
   front_squat: 'Front Squat',
   back_squat: 'Back Squat',
+  paused_back_squat: 'Paused Back Squat',
   deadlift: 'Deadlift',
 };
 
@@ -22,21 +23,27 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [selectedLifts, setSelectedLifts] = useState(new Set());
   const [selectedWeeks, setSelectedWeeks] = useState(() => {
-    // Default to the latest week present in the data.
+    // Default to the latest week present in the data, where "latest"
+    // means highest cycle, then highest week within that cycle.
     let latest = null;
-    let latestN = -Infinity;
+    let latestCycle = -Infinity;
+    let latestWeek = -Infinity;
     for (const v of videos) {
       for (const t of v.tags) {
         if (!t.startsWith('week-')) continue;
-        const n = parseInt(t.slice(5), 10);
-        if (Number.isFinite(n) && n > latestN) {
-          latestN = n;
+        const [w, c] = parseWeekTag(t);
+        if (!Number.isFinite(w)) continue;
+        if (c > latestCycle || (c === latestCycle && w > latestWeek)) {
+          latestCycle = c;
+          latestWeek = w;
           latest = t;
         }
       }
     }
     return latest ? new Set([latest]) : new Set();
   });
+  const [selectedCycles, setSelectedCycles] = useState(new Set());
+  const [selectedLocations, setSelectedLocations] = useState(new Set());
   const [selectedTags, setSelectedTags] = useState(new Set());
   const [activeGroup, setActiveGroup] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(true);
@@ -57,7 +64,10 @@ export default function App() {
   const allTags = useMemo(() => {
     const tags = new Set();
     videos.forEach(v => v.tags.forEach(t => {
-      if (!t.startsWith('week-')) tags.add(t);
+      if (t.startsWith('week-')) return;
+      if (t.startsWith('cycle-')) return;
+      if (t.startsWith('loc-')) return;
+      tags.add(t);
     }));
     return Array.from(tags).sort();
   }, []);
@@ -67,7 +77,28 @@ export default function App() {
     videos.forEach(v => v.tags.forEach(t => {
       if (t.startsWith('week-')) weeks.add(t);
     }));
-    return Array.from(weeks).sort((a, b) => parseInt(b.slice(5), 10) - parseInt(a.slice(5), 10));
+    return Array.from(weeks).sort((a, b) => {
+      const [wa, ca] = parseWeekTag(a);
+      const [wb, cb] = parseWeekTag(b);
+      if (cb !== ca) return cb - ca;
+      return wb - wa;
+    });
+  }, []);
+
+  const allCycles = useMemo(() => {
+    const cycles = new Set();
+    videos.forEach(v => v.tags.forEach(t => {
+      if (t.startsWith('cycle-')) cycles.add(t);
+    }));
+    return Array.from(cycles).sort();
+  }, []);
+
+  const allLocations = useMemo(() => {
+    const locations = new Set();
+    videos.forEach(v => v.tags.forEach(t => {
+      if (t.startsWith('loc-')) locations.add(t);
+    }));
+    return Array.from(locations).sort();
   }, []);
 
   const allLifts = useMemo(() => {
@@ -82,6 +113,8 @@ export default function App() {
       .filter(v => {
         if (selectedLifts.size > 0 && !selectedLifts.has(v.lift)) return false;
         if (selectedWeeks.size > 0 && !v.tags.some(t => selectedWeeks.has(t))) return false;
+        if (selectedCycles.size > 0 && !v.tags.some(t => selectedCycles.has(t))) return false;
+        if (selectedLocations.size > 0 && !v.tags.some(t => selectedLocations.has(t))) return false;
         if (selectedTags.size > 0 && !v.tags.some(t => selectedTags.has(t))) return false;
         if (q) {
           const haystack = `${v.title} ${v.notes} ${v.tags.join(' ')} ${LIFT_LABELS[v.lift] || v.lift} ${v.weight}`.toLowerCase();
@@ -90,7 +123,7 @@ export default function App() {
         return true;
       })
       .sort((a, b) => b.date.localeCompare(a.date));
-  }, [search, selectedLifts, selectedWeeks, selectedTags]);
+  }, [search, selectedLifts, selectedWeeks, selectedCycles, selectedLocations, selectedTags]);
 
   // Group by (lift, date). Map insertion order preserves the upstream
   // date-descending sort, so groups are also date-descending. Within a
@@ -121,10 +154,12 @@ export default function App() {
     setSearch('');
     setSelectedLifts(new Set());
     setSelectedWeeks(new Set());
+    setSelectedCycles(new Set());
+    setSelectedLocations(new Set());
     setSelectedTags(new Set());
   };
 
-  const hasActiveFilters = search || selectedLifts.size > 0 || selectedWeeks.size > 0 || selectedTags.size > 0;
+  const hasActiveFilters = search || selectedLifts.size > 0 || selectedWeeks.size > 0 || selectedCycles.size > 0 || selectedLocations.size > 0 || selectedTags.size > 0;
 
   return (
     <div style={styles.root}>
@@ -199,6 +234,46 @@ export default function App() {
                     }}
                   >
                     {formatWeek(week)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {allCycles.length > 0 && (
+            <div style={styles.filterGroup}>
+              <div style={styles.filterLabel}>Cycle</div>
+              <div style={styles.chipRow}>
+                {allCycles.map(cycle => (
+                  <button
+                    key={cycle}
+                    onClick={() => toggle(selectedCycles, cycle, setSelectedCycles)}
+                    style={{
+                      ...styles.chip,
+                      ...(selectedCycles.has(cycle) ? styles.chipActive : {}),
+                    }}
+                  >
+                    {formatCycle(cycle)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {allLocations.length > 0 && (
+            <div style={styles.filterGroup}>
+              <div style={styles.filterLabel}>Location</div>
+              <div style={styles.chipRow}>
+                {allLocations.map(loc => (
+                  <button
+                    key={loc}
+                    onClick={() => toggle(selectedLocations, loc, setSelectedLocations)}
+                    style={{
+                      ...styles.chip,
+                      ...(selectedLocations.has(loc) ? styles.chipActive : {}),
+                    }}
+                  >
+                    {formatLocation(loc)}
                   </button>
                 ))}
               </div>
@@ -291,6 +366,11 @@ function GroupCard({ group, onClick }) {
         <span style={styles.cardWeightNum}>{top.weight}</span>
         <span style={styles.cardWeightUnit}>kg</span>
       </div>
+      {top.bodyweight && (
+        <div style={styles.cardBwPct}>
+          {Math.round((top.weight / top.bodyweight) * 100)}% BW
+        </div>
+      )}
       <div style={styles.cardSetMeta}>
         <span>{setCount} {setCount === 1 ? 'set' : 'sets'}</span>
         {otherWeights.length > 0 && (
@@ -461,9 +541,33 @@ function SnatchLifter() {
   );
 }
 
+function parseWeekTag(weekTag) {
+  // "week-12-c1" -> [12, 1]; "week-12" -> [12, 0]
+  const parts = weekTag.split('-');
+  const week = parseInt(parts[1], 10);
+  const cycle = parts[2] && /^c\d+$/i.test(parts[2]) ? parseInt(parts[2].slice(1), 10) : 0;
+  return [week, cycle];
+}
+
 function formatWeek(weekTag) {
-  const n = weekTag.slice(5);
+  // "week-12" -> "Week 12"; "week-12-c1" -> "Week 12 — C1"
+  const parts = weekTag.split('-');
+  const n = parts[1] || '';
+  const cycle = parts[2];
+  if (cycle && /^c\d+$/i.test(cycle)) {
+    return `Week ${n} — ${cycle.toUpperCase()}`;
+  }
   return `Week ${n}`;
+}
+
+function formatCycle(cycleTag) {
+  const n = cycleTag.slice('cycle-'.length);
+  return `Cycle ${n}`;
+}
+
+function formatLocation(locTag) {
+  const name = locTag.slice('loc-'.length);
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 function formatCommentDate(s) {
@@ -535,6 +639,9 @@ function SetSection({ video, setNumber, totalSets, isFirst }) {
           <span style={styles.setWeightNum}>{video.weight}</span>
           <span style={styles.setWeightUnit}>kg</span>
         </div>
+        {video.bodyweight && (
+          <span style={styles.setBwPct}>{Math.round((video.weight / video.bodyweight) * 100)}% BW</span>
+        )}
         <div style={styles.setTitle}>{video.title}</div>
       </div>
 
@@ -959,6 +1066,13 @@ const styles = {
     fontWeight: 500,
     color: COLORS.text,
   },
+  cardBwPct: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    letterSpacing: '0.06em',
+    color: COLORS.textDim,
+    marginTop: -4,
+  },
   cardSetMeta: {
     fontFamily: FONTS.mono,
     fontSize: 11,
@@ -1026,6 +1140,12 @@ const styles = {
     fontFamily: FONTS.mono,
     fontSize: 12,
     color: COLORS.textDim,
+  },
+  setBwPct: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textDim,
+    letterSpacing: '0.06em',
   },
   setTitle: {
     fontFamily: FONTS.body,
