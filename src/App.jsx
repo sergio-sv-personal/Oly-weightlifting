@@ -25,6 +25,8 @@ const LIFT_LABELS = {
   back_squat: 'Back Squat',
   paused_back_squat: 'Paused Back Squat',
   deadlift: 'Deadlift',
+  dips: 'Dips',
+  pull_ups: 'Pull-Ups',
 };
 
 export default function App() {
@@ -172,19 +174,22 @@ export default function App() {
   }, []);
 
   // Bucket the groups by training day so we can render a "Day N" header
-  // above each day's set of cards.
+  // above each day's set of cards. Within a day, split main lifts from
+  // accessories so accessories can render in their own muted sub-grid
+  // below the main lifts.
   const groupedByDay = useMemo(() => {
     const result = [];
     for (const g of groupedVideos) {
       const week = g.videos[0].tags.find(t => t.startsWith('week-'));
       const dayKey = `${week || 'no-week'}|${g.date}`;
       const dayNum = week ? dayNumberByKey.get(`${week}|${g.date}`) : null;
-      const bucket = result[result.length - 1];
+      const isAccessory = g.videos.some(v => v.accessory);
+      let bucket = result[result.length - 1];
       if (!bucket || bucket.dayKey !== dayKey) {
-        result.push({ dayKey, date: g.date, dayNum, week, groups: [g] });
-      } else {
-        bucket.groups.push(g);
+        bucket = { dayKey, date: g.date, dayNum, week, mainGroups: [], accessoryGroups: [] };
+        result.push(bucket);
       }
+      (isAccessory ? bucket.accessoryGroups : bucket.mainGroups).push(g);
     }
     return result;
   }, [groupedVideos, dayNumberByKey]);
@@ -381,11 +386,23 @@ export default function App() {
                   {day.dayNum != null && <span style={styles.daySep}>·</span>}
                   <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
                 </div>
-                <div style={styles.grid}>
-                  {day.groups.map(g => (
-                    <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} />
-                  ))}
-                </div>
+                {day.mainGroups.length > 0 && (
+                  <div style={styles.grid}>
+                    {day.mainGroups.map(g => (
+                      <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} />
+                    ))}
+                  </div>
+                )}
+                {day.accessoryGroups.length > 0 && (
+                  <div style={styles.accessoryBlock}>
+                    <div style={styles.accessoryLabel}>Accessories</div>
+                    <div style={styles.accessoryGrid}>
+                      {day.accessoryGroups.map(g => (
+                        <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} accessory />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </section>
             ))}
           </div>
@@ -403,32 +420,54 @@ export default function App() {
   );
 }
 
-function GroupCard({ group, onClick }) {
+function GroupCard({ group, onClick, accessory }) {
   const date = new Date(group.date);
   const dateStr = date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: '2-digit' });
 
   const top = group.videos[0]; // sorted weight-desc
   const otherWeights = Array.from(new Set(group.videos.slice(1).map(v => v.weight))).filter(w => w !== top.weight);
-  const setCount = group.videos.length;
+  const setCount = group.videos.reduce((sum, v) => sum + (v.sets || 1), 0);
   const allTags = Array.from(new Set(group.videos.flatMap(v => v.tags)));
+  const reps = top.reps;
+  const isBodyweight = accessory && (top.weight == null || top.weight === 0);
+  const hasVideo = group.videos.some(v => v.youtubeId);
 
   return (
-    <button onClick={onClick} style={styles.card} className="lift-card">
+    <button
+      onClick={hasVideo ? onClick : undefined}
+      style={{
+        ...styles.card,
+        ...(accessory ? styles.cardAccessory : {}),
+        ...(hasVideo ? {} : styles.cardLogged),
+      }}
+      className="lift-card"
+    >
       <div style={styles.cardTop}>
-        <div style={styles.cardLift}>{LIFT_LABELS[group.lift] || group.lift}</div>
+        <div style={{ ...styles.cardLift, ...(accessory ? styles.cardLiftAccessory : {}) }}>
+          {LIFT_LABELS[group.lift] || group.lift}
+        </div>
         <div style={styles.cardDate}>{dateStr}</div>
       </div>
-      <div style={styles.cardWeight}>
-        <span style={styles.cardWeightNum}>{top.weight}</span>
-        <span style={styles.cardWeightUnit}>kg</span>
-      </div>
-      {top.bodyweight && (
-        <div style={styles.cardBwPct}>
-          {Math.round((top.weight / top.bodyweight) * 100)}% BW
+      {isBodyweight ? (
+        <div style={styles.cardWeight}>
+          <span style={styles.cardWeightAccessoryNum}>{setCount}×{reps || '?'}</span>
+          <span style={styles.cardWeightUnit}>BW</span>
         </div>
+      ) : (
+        <>
+          <div style={styles.cardWeight}>
+            <span style={{ ...styles.cardWeightNum, ...(accessory ? styles.cardWeightAccessoryNum : {}) }}>{top.weight}</span>
+            <span style={styles.cardWeightUnit}>kg</span>
+          </div>
+          {top.bodyweight && top.weight > 0 && (
+            <div style={styles.cardBwPct}>
+              {Math.round((top.weight / top.bodyweight) * 100)}% BW
+            </div>
+          )}
+        </>
       )}
       <div style={styles.cardSetMeta}>
-        <span>{setCount} {setCount === 1 ? 'set' : 'sets'}</span>
+        <span>{setCount} {setCount === 1 ? 'set' : 'sets'}{reps && !isBodyweight ? ` × ${reps}` : ''}</span>
         {otherWeights.length > 0 && (
           <span style={styles.cardSetMetaSecondary}> · also {otherWeights.join(', ')}kg</span>
         )}
@@ -441,10 +480,14 @@ function GroupCard({ group, onClick }) {
           <span key={t} style={styles.cardTag}>{t}</span>
         ))}
       </div>
-      <div style={styles.cardFooter}>
-        <Play size={11} style={{ marginRight: 6 }} fill="currentColor" />
-        Play {setCount} {setCount === 1 ? 'set' : 'sets'}
-      </div>
+      {hasVideo ? (
+        <div style={{ ...styles.cardFooter, ...(accessory ? styles.cardFooterAccessory : {}) }}>
+          <Play size={11} style={{ marginRight: 6 }} fill="currentColor" />
+          Play {setCount} {setCount === 1 ? 'set' : 'sets'}
+        </div>
+      ) : (
+        <div style={styles.cardLoggedFooter}>Logged · no video</div>
+      )}
     </button>
   );
 }
@@ -1189,6 +1232,49 @@ const styles = {
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     color: COLORS.accent,
+  },
+  cardAccessory: {
+    padding: 14,
+    gap: 8,
+  },
+  cardLiftAccessory: {
+    color: COLORS.textDim,
+  },
+  cardWeightAccessoryNum: {
+    fontSize: 38,
+  },
+  cardFooterAccessory: {
+    color: COLORS.textDim,
+  },
+  cardLogged: {
+    cursor: 'default',
+    opacity: 0.85,
+  },
+  cardLoggedFooter: {
+    marginTop: 8,
+    paddingTop: 12,
+    borderTop: `1px solid ${COLORS.border}`,
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+  },
+  accessoryBlock: {
+    marginTop: 8,
+  },
+  accessoryLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    marginBottom: 8,
+  },
+  accessoryGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+    gap: 10,
   },
   setList: {
     display: 'flex',

@@ -67,6 +67,14 @@ Sergio pastes a YouTube URL plus a short description (lift, weight, set, notes).
 
    `summary`: optional. Set on the **top entry** of a multi-set group (highest weight, first in array order). When present, the card preview uses this instead of the entry's own `notes`, so the coach reads one sentence describing the whole working set rather than the top set's specific note. Skip for single-set groups. Update the summary on the top entry whenever you add/remove sets in the group — and when the top changes (heavier set added), move/rewrite the summary on the new top.
 
+   `accessory`: optional boolean. When true, the entry renders in a separate "Accessories" sub-grid below the day's main lifts, with muted styling and a smaller card. Use for bodyweight accessory work (dips, pull-ups, etc.) and machine work that isn't the focus of the session.
+
+   `reps`: optional number. Per-set rep count. Surfaces on accessory cards as "N×reps" beside the BW badge.
+
+   `sets`: optional number. Use **only** on a single videoless entry that represents an entire accessory exercise's volume (e.g. one entry with `sets: 3, reps: 5, no youtubeId` represents 3×5 pull-ups that weren't filmed). For recorded entries (one entry per set), omit `sets` — the grid counts entries instead.
+
+   **Videoless logged entries.** Omit `youtubeId`. The card hides the Play footer and shows "Logged · no video"; clicking the card does nothing. Use this only for accessory volume you want logged but didn't record.
+
 6. **Array position matters within a group.** Cards group by `(lift, date)`. Inside a group, sets sort by weight descending; same-weight sets preserve **array order**. Sergio's convention is "most recent set at the top of the modal." So if a working set at 50kg already has set 4, set 3 in that order, place new set 2 **after** them in the JSON.
 
 7. **Tags use kebab-case.** Three categories have dedicated filter rows and prefixes — keep these conventions:
