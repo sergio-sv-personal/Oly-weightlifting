@@ -1,5 +1,29 @@
 [
   {
+    "id": "v17",
+    "youtubeId": "BCK5uCa8hSs",
+    "vertical": true,
+    "title": "Drop Snatch, set 2",
+    "date": "2026-05-14",
+    "lift": "drop_snatch",
+    "weight": 20,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "primer", "technique", "lockout", "cycle-2", "loc-altona"],
+    "notes": "Faster drop under the bar than set 1. Lockout stronger overhead. Coach cue: chin up — chin dropping during the catch, compromising the upper-back position."
+  },
+  {
+    "id": "v16",
+    "youtubeId": "phBxZTx4-k8",
+    "vertical": true,
+    "title": "Drop Snatch, set 1",
+    "date": "2026-05-14",
+    "lift": "drop_snatch",
+    "weight": 20,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "primer", "technique", "lockout", "cycle-2", "loc-altona"],
+    "notes": "First exposure to the drop snatch. Drop under the bar is slow — needs more aggression into the receiving position. Arm punch / overhead lockout isn't decisive. Foot angle wider than the standard 10-and-2; flagging as a mobility limitation rather than a cueing issue."
+  },
+  {
     "id": "v1",
     "youtubeId": "PesVfzoU3-0",
     "vertical": true,

@@ -6,6 +6,7 @@ import { supabase } from './supabase.js';
 const LIFT_LABELS = {
   snatch: 'Snatch',
   power_snatch: 'Power Snatch',
+  drop_snatch: 'Drop Snatch',
   clean_and_jerk: 'Clean & Jerk',
   clean: 'Clean',
   power_clean: 'Power Clean',
