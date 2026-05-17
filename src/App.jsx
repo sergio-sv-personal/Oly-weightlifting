@@ -440,7 +440,7 @@ function GroupCard({ group, onClick, accessory }) {
         ...(accessory ? styles.cardAccessory : {}),
         ...(hasVideo ? {} : styles.cardLogged),
       }}
-      className="lift-card"
+      className={accessory ? 'lift-card lift-card-accessory' : 'lift-card'}
     >
       <div style={styles.cardTop}>
         <div style={{ ...styles.cardLift, ...(accessory ? styles.cardLiftAccessory : {}) }}>
@@ -815,6 +815,7 @@ const globalCss = `
   body { margin: 0; }
   .lift-card { transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease; }
   .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; }
+  .lift-card-accessory:hover { border-color: ${COLORS.accent}; background: #221c18; }
   .lift-card:active { transform: scale(0.99); }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: ${COLORS.bg}; }
@@ -1090,25 +1091,29 @@ const styles = {
   },
   dayHeader: {
     display: 'flex',
-    alignItems: 'baseline',
-    gap: 10,
-    paddingBottom: 8,
-    borderBottom: `1px solid ${COLORS.border}`,
+    alignItems: 'center',
+    gap: 12,
+    paddingLeft: 14,
+    paddingTop: 6,
+    paddingBottom: 6,
+    borderLeft: `4px solid ${COLORS.accent}`,
     fontFamily: FONTS.mono,
-    fontSize: 11,
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
   },
   dayLabel: {
-    color: COLORS.accent,
+    color: COLORS.text,
     fontWeight: 600,
+    fontSize: 16,
   },
   daySep: {
     color: COLORS.textMute,
     opacity: 0.5,
+    fontSize: 14,
   },
   dayDate: {
     color: COLORS.textDim,
+    fontSize: 12,
   },
   groups: {
     display: 'flex',
@@ -1236,6 +1241,8 @@ const styles = {
   cardAccessory: {
     padding: 14,
     gap: 8,
+    background: COLORS.surfaceLift,
+    borderColor: COLORS.borderStrong,
   },
   cardLiftAccessory: {
     color: COLORS.textDim,
