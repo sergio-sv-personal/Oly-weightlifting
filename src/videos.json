@@ -1,5 +1,48 @@
 [
   {
+    "id": "v67",
+    "youtubeId": "6bGCsQnwELQ",
+    "vertical": true,
+    "accessory": true,
+    "title": "Single-Leg Glute Bridge, set 3",
+    "date": "2026-05-16",
+    "lift": "single_leg_glute_bridge",
+    "weight": 0,
+    "reps": 8,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "accessory", "cycle-2", "loc-brunswick"],
+    "notes": "Bodyweight, 8 reps each side, RPE 7.",
+    "summary": "Three accessory sets of single-leg glute bridges, bodyweight × 8 each side, RPE 7."
+  },
+  {
+    "id": "v66",
+    "youtubeId": "uHYJnZUipQk",
+    "vertical": true,
+    "accessory": true,
+    "title": "Single-Leg Glute Bridge, set 2",
+    "date": "2026-05-16",
+    "lift": "single_leg_glute_bridge",
+    "weight": 0,
+    "reps": 8,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "accessory", "cycle-2", "loc-brunswick"],
+    "notes": "Bodyweight, 8 reps each side, RPE 7."
+  },
+  {
+    "id": "v65",
+    "youtubeId": "4PxoC3Jw6bc",
+    "vertical": true,
+    "accessory": true,
+    "title": "Single-Leg Glute Bridge, set 1",
+    "date": "2026-05-16",
+    "lift": "single_leg_glute_bridge",
+    "weight": 0,
+    "reps": 8,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "accessory", "cycle-2", "loc-brunswick"],
+    "notes": "Bodyweight, 8 reps each side, RPE 7."
+  },
+  {
     "id": "v64",
     "youtubeId": "YU1Hy-mokCU",
     "vertical": true,

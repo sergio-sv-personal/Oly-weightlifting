@@ -27,6 +27,7 @@ const LIFT_LABELS = {
   back_squat: 'Back Squat',
   paused_back_squat: 'Paused Back Squat',
   bulgarian_split_squat: 'Bulgarian Split Squat',
+  single_leg_glute_bridge: 'Single-Leg Glute Bridge',
   deadlift: 'Deadlift',
   bb_bent_over_row_supinated: 'BB Bent-Over Row, Supinated',
   dips: 'Dips',
