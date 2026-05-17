@@ -432,7 +432,9 @@ function GroupCard({ group, onClick }) {
           <span style={styles.cardSetMetaSecondary}> · also {otherWeights.join(', ')}kg</span>
         )}
       </div>
-      {top.notes && <div style={styles.cardNotes}>{top.notes}</div>}
+      {(top.summary || top.notes) && (
+        <div style={styles.cardNotes}>{top.summary || top.notes}</div>
+      )}
       <div style={styles.cardTags}>
         {allTags.map(t => (
           <span key={t} style={styles.cardTag}>{t}</span>

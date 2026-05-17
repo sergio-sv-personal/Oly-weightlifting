@@ -65,6 +65,8 @@ Sergio pastes a YouTube URL plus a short description (lift, weight, set, notes).
 
    `bodyweight`: optional (kg). When set, the card and modal display the lift's percentage of bodyweight (e.g. "60% BW") alongside the absolute weight. Omit if unknown.
 
+   `summary`: optional. Set on the **top entry** of a multi-set group (highest weight, first in array order). When present, the card preview uses this instead of the entry's own `notes`, so the coach reads one sentence describing the whole working set rather than the top set's specific note. Skip for single-set groups. Update the summary on the top entry whenever you add/remove sets in the group — and when the top changes (heavier set added), move/rewrite the summary on the new top.
+
 6. **Array position matters within a group.** Cards group by `(lift, date)`. Inside a group, sets sort by weight descending; same-weight sets preserve **array order**. Sergio's convention is "most recent set at the top of the modal." So if a working set at 50kg already has set 4, set 3 in that order, place new set 2 **after** them in the JSON.
 
 7. **Tags use kebab-case.** Three categories have dedicated filter rows and prefixes — keep these conventions:

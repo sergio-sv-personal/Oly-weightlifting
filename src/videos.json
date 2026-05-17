@@ -21,7 +21,8 @@
     "weight": 25,
     "bodyweight": 82,
     "tags": ["week-1-c2", "working-set", "complex", "technique", "cycle-2", "loc-altona"],
-    "notes": "Same overhead stability issues as set 1 — overhead position still not locked in."
+    "notes": "Same overhead stability issues as set 1 — overhead position still not locked in.",
+    "summary": "Strong lockout but overhead stability is the recurring limiter. Transition into the overhead squat choppy; depth not breaking parallel."
   },
   {
     "id": "v35",
@@ -57,7 +58,8 @@
     "weight": 40,
     "bodyweight": 82,
     "tags": ["week-1-c2", "working-set", "split", "technique", "cycle-2", "loc-altona"],
-    "notes": "Same faults as set 3 — dip not smooth, shoulders not oriented downward in the catch, torso leaning forward, split still needs work."
+    "notes": "Same faults as set 3 — dip not smooth, shoulders not oriented downward in the catch, torso leaning forward, split still needs work.",
+    "summary": "Dip improving across the working set but hips still aren't driving down to get under the bar. Shoulders not oriented downward in the catch; split stance the limiter."
   },
   {
     "id": "v32",
@@ -105,7 +107,8 @@
     "weight": 40,
     "bodyweight": 82,
     "tags": ["week-1-c2", "working-set", "complex", "split", "technique", "cycle-2", "loc-altona"],
-    "notes": "Split stance continues to be the limiting factor across the session — needs focused work on committing to the split position."
+    "notes": "Split stance continues to be the limiting factor across the session — needs focused work on committing to the split position.",
+    "summary": "Strong arm punch overhead and improving chest lead off the floor across the working set. Split stance is the limiting factor — needs focused work on committing to it."
   },
   {
     "id": "v28",
@@ -165,7 +168,8 @@
     "weight": 25,
     "bodyweight": 82,
     "tags": ["week-1-c2", "primer", "split", "technique", "cycle-2", "loc-altona"],
-    "notes": "Balance over the split is forward of centre — weight settling on the front foot rather than evenly between both feet."
+    "notes": "Balance over the split is forward of centre — weight settling on the front foot rather than evenly between both feet.",
+    "summary": "Dip and arm punch need more speed. Split balance settling forward — weight on the front foot instead of evenly between both feet."
   },
   {
     "id": "v23",
@@ -189,7 +193,8 @@
     "weight": 30,
     "bodyweight": 82,
     "tags": ["week-1-c2", "working-set", "technique", "cycle-2", "loc-altona"],
-    "notes": "Strongest rep of the working set so far."
+    "notes": "Strongest rep of the working set so far.",
+    "summary": "First exposure to the floating snatch. Lead-with-the-chest the recurring fault — improving across the working set as load went up. Set 4 (30kg) the strongest."
   },
   {
     "id": "v21",
@@ -237,7 +242,8 @@
     "weight": 20,
     "bodyweight": 82,
     "tags": ["week-1-c2", "primer", "technique", "lockout", "cycle-2", "loc-altona"],
-    "notes": "Drop under the bar lacks speed, arm punch isn't aggressive — regression on the gains from set 2."
+    "notes": "Drop under the bar lacks speed, arm punch isn't aggressive — regression on the gains from set 2.",
+    "summary": "First exposure to the drop snatch. Drop under the bar and arm punch lacking aggression across the working set — set 2 was the cleanest rep."
   },
   {
     "id": "v17",
@@ -273,6 +279,7 @@
     "weight": 57,
     "tags": ["week-12-c1", "heavy", "rack", "technique", "cycle-1", "loc-brunswick"],
     "notes": "Not getting under the bar fast enough or low enough.",
+    "summary": "Recurring faults across the working set: incomplete drive (not finishing triple extension), dip drifting forward of vertical, not pulling under the bar fast or low enough.",
     "bodyweight": 82
   },
   {
@@ -321,6 +328,7 @@
     "weight": 50,
     "tags": ["week-12-c1", "working-set", "complex", "btk-hang", "technique", "cycle-1", "loc-brunswick"],
     "notes": "Setup is solid: flat back, lats engaged, gaze forward. Strong, patient pull — bar makes contact at the mid-thigh before the jump. Fast turnover through the elbows but could be quicker. Push press is OK; needs more leg drive before the arms take over.",
+    "summary": "Consistently strong setup and patient pull across the working set. Push press is the limiter — leg drive inconsistent; arms take over before the legs finish.",
     "bodyweight": 82
   },
   {
@@ -369,6 +377,7 @@
     "weight": 80,
     "tags": ["week-12-c1", "working-set", "raised", "technique", "cycle-1", "loc-brunswick"],
     "notes": "Bar elevated on 20kg plates. Hips and shoulders rise together off the floor — no hips-first fault. Shoulders well-stacked over the bar at the start.",
+    "summary": "Bar elevated on 20kg plates. Set 3 the cleaner rep — hips and shoulders rise together with shoulders well-stacked over the bar.",
     "bodyweight": 82
   },
   {
@@ -393,7 +402,8 @@
     "weight": 60,
     "bodyweight": 82,
     "tags": ["week-1-c2", "working-set", "paused", "technique", "cycle-2", "loc-altona"],
-    "notes": "Same as set 3 — depth dialed in, tension maintained through the full ascent, ribs stacked over hips. Clean execution."
+    "notes": "Same as set 3 — depth dialed in, tension maintained through the full ascent, ribs stacked over hips. Clean execution.",
+    "summary": "Three-second pause at the bottom across all sets. Brace and tension held through the full ascent; depth dialed in by set 3."
   },
   {
     "id": "v14",
