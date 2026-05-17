@@ -151,6 +151,43 @@ export default function App() {
     return Array.from(groups.values());
   }, [visibleVideos]);
 
+  // For each week, number the training days starting at Day 1 = earliest date.
+  // Day numbers are stable across filters because they're computed from the
+  // full data set.
+  const dayNumberByKey = useMemo(() => {
+    const datesByWeek = new Map();
+    for (const v of videos) {
+      const week = v.tags.find(t => t.startsWith('week-'));
+      if (!week) continue;
+      if (!datesByWeek.has(week)) datesByWeek.set(week, new Set());
+      datesByWeek.get(week).add(v.date);
+    }
+    const result = new Map();
+    for (const [week, dates] of datesByWeek) {
+      const sorted = Array.from(dates).sort(); // ascending
+      sorted.forEach((d, i) => result.set(`${week}|${d}`, i + 1));
+    }
+    return result;
+  }, []);
+
+  // Bucket the groups by training day so we can render a "Day N" header
+  // above each day's set of cards.
+  const groupedByDay = useMemo(() => {
+    const result = [];
+    for (const g of groupedVideos) {
+      const week = g.videos[0].tags.find(t => t.startsWith('week-'));
+      const dayKey = `${week || 'no-week'}|${g.date}`;
+      const dayNum = week ? dayNumberByKey.get(`${week}|${g.date}`) : null;
+      const bucket = result[result.length - 1];
+      if (!bucket || bucket.dayKey !== dayKey) {
+        result.push({ dayKey, date: g.date, dayNum, week, groups: [g] });
+      } else {
+        bucket.groups.push(g);
+      }
+    }
+    return result;
+  }, [groupedVideos, dayNumberByKey]);
+
   const toggle = (set, value, setter) => {
     const next = new Set(set);
     next.has(value) ? next.delete(value) : next.add(value);
@@ -335,9 +372,20 @@ export default function App() {
             )}
           </div>
         ) : (
-          <div style={styles.grid}>
-            {groupedVideos.map(g => (
-              <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} />
+          <div style={styles.days}>
+            {groupedByDay.map(day => (
+              <section key={day.dayKey} style={styles.daySection}>
+                <div style={styles.dayHeader}>
+                  {day.dayNum != null && <span style={styles.dayLabel}>Day {day.dayNum}</span>}
+                  {day.dayNum != null && <span style={styles.daySep}>·</span>}
+                  <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
+                </div>
+                <div style={styles.grid}>
+                  {day.groups.map(g => (
+                    <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} />
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )}
@@ -587,6 +635,12 @@ function formatGroupDate(s) {
   const d = new Date(s);
   if (isNaN(d.getTime())) return s;
   return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+}
+
+function formatDayDate(s) {
+  const d = new Date(s);
+  if (isNaN(d.getTime())) return s;
+  return d.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short' });
 }
 
 function GroupModal({ group, onClose }) {
@@ -977,6 +1031,38 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
     gap: 14,
+  },
+  days: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 32,
+  },
+  daySection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+  },
+  dayHeader: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 10,
+    paddingBottom: 8,
+    borderBottom: `1px solid ${COLORS.border}`,
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+  },
+  dayLabel: {
+    color: COLORS.accent,
+    fontWeight: 600,
+  },
+  daySep: {
+    color: COLORS.textMute,
+    opacity: 0.5,
+  },
+  dayDate: {
+    color: COLORS.textDim,
   },
   groups: {
     display: 'flex',
