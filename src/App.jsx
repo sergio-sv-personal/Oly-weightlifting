@@ -7,6 +7,7 @@ const LIFT_LABELS = {
   snatch: 'Snatch',
   power_snatch: 'Power Snatch',
   drop_snatch: 'Drop Snatch',
+  floating_snatch: 'Floating Snatch',
   clean_and_jerk: 'Clean & Jerk',
   clean: 'Clean',
   power_clean: 'Power Clean',

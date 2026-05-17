@@ -1,5 +1,65 @@
 [
   {
+    "id": "v22",
+    "youtubeId": "MKWW_1Otups",
+    "vertical": true,
+    "title": "Floating Snatch, set 4",
+    "date": "2026-05-14",
+    "lift": "floating_snatch",
+    "weight": 30,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "notes": "Strongest rep of the working set so far."
+  },
+  {
+    "id": "v21",
+    "youtubeId": "vqC0GENJ0qQ",
+    "vertical": true,
+    "title": "Floating Snatch, set 3",
+    "date": "2026-05-14",
+    "lift": "floating_snatch",
+    "weight": 27,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "notes": "Cleaner chest lead off the floor than set 2, but still not where it needs to be. Bar travels too far from the body during the pull — keep it tight by driving the elbows up and back."
+  },
+  {
+    "id": "v20",
+    "youtubeId": "AOG0kbyNVJw",
+    "vertical": true,
+    "title": "Floating Snatch, set 2",
+    "date": "2026-05-14",
+    "lift": "floating_snatch",
+    "weight": 25,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "notes": "Same lead-with-the-chest fault — hips rising before shoulders out of the floor again."
+  },
+  {
+    "id": "v19",
+    "youtubeId": "k87z__yMm4k",
+    "vertical": true,
+    "title": "Floating Snatch, set 1",
+    "date": "2026-05-14",
+    "lift": "floating_snatch",
+    "weight": 25,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "working-set", "technique", "lockout", "cycle-2", "loc-altona"],
+    "notes": "First exposure to the floating snatch. First two reps: hips rose before shoulders out of the floor, compromising back angle. Coach cue 'lead with the chest' corrected the fault. Arm punch overhead needs more aggression."
+  },
+  {
+    "id": "v18",
+    "youtubeId": "JMsu_lvlrwI",
+    "vertical": true,
+    "title": "Drop Snatch, set 3",
+    "date": "2026-05-14",
+    "lift": "drop_snatch",
+    "weight": 20,
+    "bodyweight": 82,
+    "tags": ["week-1-c2", "primer", "technique", "lockout", "cycle-2", "loc-altona"],
+    "notes": "Drop under the bar lacks speed, arm punch isn't aggressive — regression on the gains from set 2."
+  },
+  {
     "id": "v17",
     "youtubeId": "BCK5uCa8hSs",
     "vertical": true,
