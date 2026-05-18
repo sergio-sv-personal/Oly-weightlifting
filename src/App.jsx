@@ -34,6 +34,46 @@ const LIFT_LABELS = {
   pull_ups: 'Pull-Ups',
 };
 
+// Movement family of each lift, for grouping chips in the Lift filter.
+const LIFT_CATEGORIES = {
+  snatch: 'snatch',
+  power_snatch: 'snatch',
+  drop_snatch: 'snatch',
+  floating_snatch: 'snatch',
+  hip_power_snatch_ohs: 'snatch',
+  btn_strict_press_snatch_grip: 'snatch',
+  paused_snatch_pull: 'snatch',
+  raised_snatch_deadlift: 'snatch',
+  clean_and_jerk: 'clean_jerk',
+  pause_off_floor_clean_jerk: 'clean_jerk',
+  clean: 'clean_jerk',
+  power_clean: 'clean_jerk',
+  hang_power_clean_push_press: 'clean_jerk',
+  pause_above_knee_clean: 'clean_jerk',
+  tempo_clean_grip_deadlift: 'clean_jerk',
+  jerk: 'clean_jerk',
+  behind_neck_jerk: 'clean_jerk',
+  press_in_split: 'clean_jerk',
+  push_jerk_in_split: 'clean_jerk',
+  front_squat: 'squat_pull',
+  back_squat: 'squat_pull',
+  paused_back_squat: 'squat_pull',
+  deadlift: 'squat_pull',
+  bb_bent_over_row_supinated: 'squat_pull',
+  dips: 'accessory',
+  pull_ups: 'accessory',
+  bulgarian_split_squat: 'accessory',
+  single_leg_glute_bridge: 'accessory',
+};
+
+const LIFT_CATEGORY_ORDER = ['snatch', 'clean_jerk', 'squat_pull', 'accessory'];
+const LIFT_CATEGORY_LABELS = {
+  snatch: 'Snatch',
+  clean_jerk: 'Clean & Jerk',
+  squat_pull: 'Squat & Pull',
+  accessory: 'Accessory',
+};
+
 export default function App() {
   const [search, setSearch] = useState('');
   const [selectedLifts, setSelectedLifts] = useState(new Set());
@@ -337,19 +377,30 @@ export default function App() {
 
           <div style={styles.filterGroup}>
             <div style={styles.filterLabel}>Lift</div>
-            <div style={styles.chipRow}>
-              {allLifts.map(lift => (
-                <button
-                  key={lift}
-                  onClick={() => toggle(selectedLifts, lift, setSelectedLifts)}
-                  style={{
-                    ...styles.chip,
-                    ...(selectedLifts.has(lift) ? styles.chipActive : {}),
-                  }}
-                >
-                  {LIFT_LABELS[lift] || lift}
-                </button>
-              ))}
+            <div style={styles.liftCategories}>
+              {LIFT_CATEGORY_ORDER.map(cat => {
+                const liftsInCat = allLifts.filter(l => (LIFT_CATEGORIES[l] || 'accessory') === cat);
+                if (liftsInCat.length === 0) return null;
+                return (
+                  <div key={cat} style={styles.liftCategory}>
+                    <div style={styles.liftCategoryLabel}>{LIFT_CATEGORY_LABELS[cat]}</div>
+                    <div style={styles.chipRow}>
+                      {liftsInCat.map(lift => (
+                        <button
+                          key={lift}
+                          onClick={() => toggle(selectedLifts, lift, setSelectedLifts)}
+                          style={{
+                            ...styles.chip,
+                            ...(selectedLifts.has(lift) ? styles.chipActive : {}),
+                          }}
+                        >
+                          {LIFT_LABELS[lift] || lift}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -1057,6 +1108,24 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     gap: 6,
+  },
+  liftCategories: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+  },
+  liftCategory: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 6,
+  },
+  liftCategoryLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 9,
+    letterSpacing: '0.14em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    opacity: 0.7,
   },
   chip: {
     background: 'transparent',

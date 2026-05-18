@@ -41,8 +41,7 @@ Sergio pastes a YouTube URL plus a short description (lift, weight, set, notes).
    - "lockout could be better" → "lockout incomplete — elbows not fully extending overhead"
    - "didn't respect the vertical on the dip" → "dip drifts forward of vertical"
 
-4. **Check the lift type.** If the lift key isn't in `LIFT_LABELS` in `src/App.jsx`, add it. Key is snake_case; value is the display name. Existing keys:
-   `snatch`, `power_snatch`, `clean_and_jerk`, `clean`, `power_clean`, `hang_power_clean_push_press` ("Below-the-Knee HPC + PP"), `jerk`, `press_in_split`, `raised_snatch_deadlift`, `front_squat`, `back_squat`, `deadlift`.
+4. **Check the lift type.** If the lift key isn't in `LIFT_LABELS` in `src/App.jsx`, add it. Key is snake_case; value is the display name. Also add the lift to `LIFT_CATEGORIES` so it shows up in the right movement-family group in the Lift filter. Categories: `snatch`, `clean_jerk`, `squat_pull`, `accessory`. The chip filter renders these as subheaders under the Lift row.
 
 5. **Append an entry to `src/videos.json`.** Schema:
 
