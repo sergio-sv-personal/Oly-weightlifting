@@ -269,6 +269,9 @@ export default function App() {
               <h1 style={styles.title}>Sergio / Lifts</h1>
               <SnatchLifter />
             </div>
+            <p style={styles.intro}>
+              Welcome to my Oly Fans. I log my training mostly for me — sometimes for my coach. I don't take payments; please don't offer crypto.
+            </p>
           </div>
           <div style={styles.headerStats}>
             <div style={styles.stat}>
@@ -998,6 +1001,13 @@ const styles = {
     alignItems: 'center',
     gap: 16,
     flexWrap: 'wrap',
+  },
+  intro: {
+    margin: '14px 0 0',
+    maxWidth: 520,
+    fontSize: 15,
+    lineHeight: 1.55,
+    color: COLORS.textDim,
   },
   snatchAnim: {
     color: COLORS.textDim,
