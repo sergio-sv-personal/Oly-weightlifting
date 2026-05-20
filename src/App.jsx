@@ -102,6 +102,7 @@ export default function App() {
   const [selectedTags, setSelectedTags] = useState(new Set());
   const [activeGroup, setActiveGroup] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(true);
+  const [collapsedDays, setCollapsedDays] = useState(new Set());
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -435,32 +436,62 @@ export default function App() {
           </div>
         ) : (
           <div style={styles.days}>
-            {groupedByDay.map(day => (
-              <section key={day.dayKey} style={styles.daySection}>
-                <div style={styles.dayHeader}>
-                  {day.dayNum != null && <span style={styles.dayLabel}>Day {day.dayNum}</span>}
-                  {day.dayNum != null && <span style={styles.daySep}>·</span>}
-                  <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
-                </div>
-                {day.mainGroups.length > 0 && (
-                  <div style={styles.grid}>
-                    {day.mainGroups.map(g => (
-                      <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} />
-                    ))}
-                  </div>
-                )}
-                {day.accessoryGroups.length > 0 && (
-                  <div style={styles.accessoryBlock}>
-                    <div style={styles.accessoryLabel}>Accessories</div>
-                    <div style={styles.accessoryGrid}>
-                      {day.accessoryGroups.map(g => (
-                        <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} accessory />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </section>
-            ))}
+            {groupedByDay.map(day => {
+              const collapsed = collapsedDays.has(day.dayKey);
+              const totalCards = day.mainGroups.length + day.accessoryGroups.length;
+              return (
+                <section key={day.dayKey} style={styles.daySection}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCollapsedDays(prev => {
+                        const next = new Set(prev);
+                        if (next.has(day.dayKey)) next.delete(day.dayKey);
+                        else next.add(day.dayKey);
+                        return next;
+                      });
+                    }}
+                    style={styles.dayHeader}
+                    aria-expanded={!collapsed}
+                  >
+                    {day.dayNum != null && <span style={styles.dayLabel}>Day {day.dayNum}</span>}
+                    {day.dayNum != null && <span style={styles.daySep}>·</span>}
+                    <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
+                    <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
+                    <ChevronDown
+                      size={16}
+                      style={{
+                        marginLeft: 'auto',
+                        color: COLORS.textDim,
+                        transform: collapsed ? 'rotate(-90deg)' : 'none',
+                        transition: 'transform 0.18s ease',
+                      }}
+                    />
+                  </button>
+                  {!collapsed && (
+                    <>
+                      {day.mainGroups.length > 0 && (
+                        <div style={styles.grid}>
+                          {day.mainGroups.map(g => (
+                            <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} />
+                          ))}
+                        </div>
+                      )}
+                      {day.accessoryGroups.length > 0 && (
+                        <div style={styles.accessoryBlock}>
+                          <div style={styles.accessoryLabel}>Accessories</div>
+                          <div style={styles.accessoryGrid}>
+                            {day.accessoryGroups.map(g => (
+                              <GroupCard key={g.key} group={g} onClick={() => setActiveGroup(g)} accessory />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </section>
+              );
+            })}
           </div>
         )}
       </main>
@@ -873,6 +904,7 @@ const globalCss = `
   .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; }
   .lift-card-accessory:hover { border-color: ${COLORS.accent}; background: #221c18; }
   .lift-card:active { transform: scale(0.99); }
+  button:focus-visible { outline: 2px solid ${COLORS.accent}; outline-offset: 2px; }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: ${COLORS.bg}; }
   ::-webkit-scrollbar-thumb { background: ${COLORS.border}; border-radius: 4px; }
@@ -1167,13 +1199,30 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: 12,
+    width: '100%',
     paddingLeft: 14,
-    paddingTop: 6,
-    paddingBottom: 6,
+    paddingRight: 12,
+    paddingTop: 8,
+    paddingBottom: 8,
+    background: 'transparent',
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
     borderLeft: `4px solid ${COLORS.accent}`,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    cursor: 'pointer',
+    color: COLORS.text,
     fontFamily: FONTS.mono,
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
+    textAlign: 'left',
+    transition: 'background 0.15s ease',
+  },
+  dayCount: {
+    color: COLORS.textMute,
+    fontSize: 10,
+    letterSpacing: '0.1em',
   },
   dayLabel: {
     color: COLORS.text,
