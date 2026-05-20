@@ -102,6 +102,13 @@ If Sergio asks to change the grouping logic, fine — but check with him before 
 - `src/supabase.js` holds a **publishable** key (`sb_publishable_...`). This is safe for the browser by design; do not move it to env vars unless asked.
 - If you need to recreate the schema, the idempotent SQL is in the chat history (or write it again — it's straightforward).
 
+## Comment notifications (Resend)
+
+- `api/notify-comment.js` is a Vercel serverless function that receives a Supabase Database Webhook on every new comment and sends an email via Resend.
+- Env vars (set in the Vercel project): `RESEND_API_KEY`, `NOTIFY_EMAIL`, `NOTIFY_SECRET`.
+- The Supabase webhook is configured in **Database → Webhooks** in the Supabase dashboard. Event: `comments` INSERT. URL: `https://oly-weightlifting.vercel.app/api/notify-comment`. Header: `x-notify-secret: <NOTIFY_SECRET>`.
+- Sends from `onboarding@resend.dev` (the Resend test sender). To send to addresses other than the account owner, verify a domain in Resend and update the `from` field.
+
 ## Git workflow (important quirk)
 
 - Develop on the branch `claude/build-website-9m6qo`. Never push directly to `main` — it's branch-protected (you'll get 403).
