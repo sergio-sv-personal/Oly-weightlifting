@@ -240,6 +240,22 @@ export default function App() {
     return result;
   }, [groupedVideos, dayNumberByKey]);
 
+  // Bucket the day buckets by week so we can render a week separator
+  // whenever multiple weeks are visible at once.
+  const groupedByWeek = useMemo(() => {
+    const result = [];
+    for (const day of groupedByDay) {
+      const weekKey = day.week || 'no-week';
+      const bucket = result[result.length - 1];
+      if (!bucket || bucket.weekKey !== weekKey) {
+        result.push({ weekKey, week: day.week, days: [day] });
+      } else {
+        bucket.days.push(day);
+      }
+    }
+    return result;
+  }, [groupedByDay]);
+
   const toggle = (set, value, setter) => {
     const next = new Set(set);
     next.has(value) ? next.delete(value) : next.add(value);
@@ -439,7 +455,18 @@ export default function App() {
           </div>
         ) : (
           <div style={styles.days}>
-            {groupedByDay.map(day => {
+            {groupedByWeek.map((weekBucket, wi) => (
+              <div key={weekBucket.weekKey} style={styles.weekSection}>
+                {groupedByWeek.length > 1 && (
+                  <div style={styles.weekDivider}>
+                    <span style={styles.weekDividerLabel}>
+                      {weekBucket.week ? formatWeek(weekBucket.week) : 'No week'}
+                    </span>
+                    <span style={styles.weekDividerLine} />
+                  </div>
+                )}
+                <div style={styles.days}>
+                  {weekBucket.days.map(day => {
               const collapsed = collapsedDays.has(day.dayKey);
               const totalCards = day.mainGroups.length + day.accessoryGroups.length;
               return (
@@ -495,6 +522,9 @@ export default function App() {
                 </section>
               );
             })}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </main>
@@ -1199,6 +1229,33 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: 32,
+  },
+  weekSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 18,
+  },
+  weekDivider: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 14,
+    marginTop: 12,
+    marginBottom: 4,
+  },
+  weekDividerLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 12,
+    letterSpacing: '0.16em',
+    textTransform: 'uppercase',
+    color: COLORS.accent,
+    fontWeight: 700,
+    whiteSpace: 'nowrap',
+  },
+  weekDividerLine: {
+    flex: 1,
+    height: 2,
+    background: COLORS.accent,
+    opacity: 0.7,
   },
   daySection: {
     display: 'flex',
