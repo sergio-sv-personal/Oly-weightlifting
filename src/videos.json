@@ -1,5 +1,30 @@
 [
   {
+    "id": "v108",
+    "youtubeId": "l_vMh_HeRdk",
+    "vertical": true,
+    "title": "Paused BTK + ATK Snatch Pull, set 2",
+    "date": "2026-05-23",
+    "lift": "paused_snatch_pull",
+    "weight": 37.5,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Slight improvement. Strong tempo control. Arms staying loose through the pull — good, letting the legs and back drive.",
+    "summary": "Two sets at 37.5kg. Chest-up start the limiter (mobility). Strong tempo control and loose arms through the pull — letting the legs and back do the work."
+  },
+  {
+    "id": "v107",
+    "youtubeId": "gkPNGrwf3f8",
+    "vertical": true,
+    "title": "Paused BTK + ATK Snatch Pull, set 1",
+    "date": "2026-05-23",
+    "lift": "paused_snatch_pull",
+    "weight": 37.5,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Chest not leading off the floor — needs to set a taller chest at the start. Confirmed mobility limitation (can't reach the tall-chest start position even unloaded), not just a cueing fix."
+  },
+  {
     "id": "v106",
     "youtubeId": "66xAvQD5rhs",
     "vertical": true,
