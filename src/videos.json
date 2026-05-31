@@ -1,5 +1,67 @@
 [
   {
+    "id": "v113",
+    "youtubeId": "PWGafL3rEXs",
+    "vertical": true,
+    "title": "Front Squat, set 3",
+    "date": "2026-05-23",
+    "lift": "front_squat",
+    "weight": 58,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Brace still off — back to sucking the belly in instead of inflating the ribcage.",
+    "summary": "Three sets, 55 → 58kg. Brace is the theme — inflate the ribcage and brace 360° instead of sucking the belly in. Torso leaning forward; 'elbows to the sky' to keep the chest tall."
+  },
+  {
+    "id": "v112",
+    "youtubeId": "q1semvWUvv4",
+    "vertical": true,
+    "title": "Front Squat, set 2",
+    "date": "2026-05-23",
+    "lift": "front_squat",
+    "weight": 58,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Torso leaning forward out of the bottom. Cue: elbows to the sky to keep the chest tall and the rack high."
+  },
+  {
+    "id": "v111",
+    "youtubeId": "eFnVZrKoVBE",
+    "vertical": true,
+    "title": "Front Squat, set 1",
+    "date": "2026-05-23",
+    "lift": "front_squat",
+    "weight": 55,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Brace correction from coach: was sucking the belly in on the inhale. Should instead inflate the ribcage and brace 360° so the ribs stay stacked over the pelvis. Context: normally set up from the bar, but the gym was packed for Murph so the setup was improvised."
+  },
+  {
+    "id": "v110",
+    "youtubeId": "bXd-yHtYtdw",
+    "vertical": true,
+    "title": "Paused BTK + ATK Snatch Pull, set 4",
+    "date": "2026-05-23",
+    "lift": "paused_snatch_pull",
+    "weight": 37.5,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Keep the bar closer to the body through the pull — still drifting slightly off.",
+    "summary": "Four sets at 37.5kg. Chest-up start the mobility limiter. Strong tempo and loose arms; recurring refinement — keep the bar tight to the body and drive through the legs with balanced foot pressure."
+  },
+  {
+    "id": "v109",
+    "youtubeId": "xwMlczNxYu4",
+    "vertical": true,
+    "title": "Paused BTK + ATK Snatch Pull, set 3",
+    "date": "2026-05-23",
+    "lift": "paused_snatch_pull",
+    "weight": 37.5,
+    "bodyweight": 82,
+    "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
+    "notes": "Good set. Cues: keep the bar tight to the body and drive through the legs with even pressure across the foot."
+  },
+  {
     "id": "v108",
     "youtubeId": "l_vMh_HeRdk",
     "vertical": true,
@@ -9,8 +71,7 @@
     "weight": 37.5,
     "bodyweight": 82,
     "tags": ["week-2-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
-    "notes": "Slight improvement. Strong tempo control. Arms staying loose through the pull — good, letting the legs and back drive.",
-    "summary": "Two sets at 37.5kg. Chest-up start the limiter (mobility). Strong tempo control and loose arms through the pull — letting the legs and back do the work."
+    "notes": "Slight improvement. Strong tempo control. Arms staying loose through the pull — good, letting the legs and back drive."
   },
   {
     "id": "v107",

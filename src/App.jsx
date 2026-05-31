@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Search, X, Calendar, ExternalLink, ChevronDown, Play } from 'lucide-react';
 import videos from './videos.json';
+import dayNotes from './dayNotes.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
@@ -500,6 +501,12 @@ export default function App() {
                   </button>
                   {!collapsed && (
                     <>
+                      {dayNotes[day.date] && (
+                        <div style={styles.dayNote}>
+                          <div style={styles.dayNoteLabel}>Session note</div>
+                          <div style={styles.dayNoteBody}>{dayNotes[day.date]}</div>
+                        </div>
+                      )}
                       {day.mainGroups.length > 0 && (
                         <div style={styles.grid}>
                           {day.mainGroups.map(g => (
@@ -1261,6 +1268,26 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: 14,
+  },
+  dayNote: {
+    background: COLORS.surfaceLift,
+    border: `1px solid ${COLORS.border}`,
+    borderLeft: `3px solid ${COLORS.accent}`,
+    borderRadius: 6,
+    padding: '12px 16px',
+  },
+  dayNoteLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    marginBottom: 6,
+  },
+  dayNoteBody: {
+    fontSize: 14,
+    color: COLORS.text,
+    lineHeight: 1.55,
   },
   dayHeader: {
     display: 'flex',
