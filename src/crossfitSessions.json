@@ -1,0 +1,89 @@
+{
+  "2026-05-27": {
+    "className": "CrossFit",
+    "time": "6:00am",
+    "week": "week-3-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "1 Snatch Balance + 2 Overhead Squat @ RPE 7/10",
+        "scheme": "Every 2:00 x 6 sets.",
+        "myWeight": "25kg (OHS load)"
+      }
+    ],
+    "metcon": {
+      "format": "5 Rounds For Time",
+      "details": "60 Double Unders (subbed 120 singles)\n15/12 Calorie Row or Bike\n10 Burpees",
+      "scoreType": "Time",
+      "timeCap": "16:00"
+    },
+    "notes": "OHS at 25kg for the snatch balance complex. Subbed 120 singles for the 60 double unders in the metcon."
+  },
+  "2026-05-29": {
+    "className": "CrossFit",
+    "time": "6:00am",
+    "week": "week-3-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Weightlifting: 2 Clean + 1 Jerk",
+        "scheme": "5 sets, ascending to heavy. Reset between cleans. Time cap 15:00.",
+        "myWeight": "40kg → 45kg (form bad on 45)"
+      }
+    ],
+    "metcon": {
+      "format": "For Time",
+      "details": "Partition work as desired:\n100/80 Calorie Machine\n80 Kettlebell Swings\n120m Kettlebell Suitcase Carry",
+      "scoreType": "Time",
+      "timeCap": "16:00"
+    },
+    "notes": "Clean & Jerk went 40 → 45kg — form was really bad on the 45kg. Kettlebells at 20kg felt light on the metcon."
+  },
+  "2026-05-31": {
+    "className": "CrossFit",
+    "time": "9:00am",
+    "week": "week-3-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Bench Press",
+        "scheme": "10-10-10-10, ascending to a moderate for the day. Rest 2:00 between sets.",
+        "myWeight": "50kg start"
+      },
+      {
+        "name": "Push Press",
+        "scheme": "Programmed within the session.",
+        "myWeight": "40kg start"
+      }
+    ],
+    "metcon": {
+      "format": "EMOM x 12",
+      "details": "Min 1: 0:45 Double Tap Burpees\nMin 2: 0:45 Strict Pull-up\nMin 3: 0:45 Plank Hold",
+      "scoreType": "Reps"
+    },
+    "notes": "Class workout slotted into Day 3 (continuation day at Altona). Bench started at 50kg, push press at 40kg."
+  },
+  "2026-06-03": {
+    "className": "CrossFit",
+    "time": "6:00am",
+    "week": "week-4-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Front Squat",
+        "scheme": "5x5 across @ 60% Best Back Squat. Rest 2:00. Time cap 16:00.",
+        "myWeight": "40kg"
+      }
+    ],
+    "metcon": {
+      "format": "AMRAP 10",
+      "details": "3-6-9-12-15...\nWall Balls\nDeadlifts",
+      "scoreType": "Rounds + Reps"
+    },
+    "notes": "Front squat at 40kg across all 5 sets. Deadlifts at 50kg in the metcon."
+  }
+}

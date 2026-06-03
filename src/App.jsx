@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Search, X, Calendar, ExternalLink, ChevronDown, Play } from 'lucide-react';
 import videos from './videos.json';
 import dayNotes from './dayNotes.json';
+import crossfitSessions from './crossfitSessions.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
@@ -225,24 +226,43 @@ export default function App() {
   // accessories so accessories can render in their own muted sub-grid
   // below the main lifts.
   const groupedByDay = useMemo(() => {
-    const result = [];
+    const buckets = new Map();
     for (const g of groupedVideos) {
       const week = g.videos[0].tags.find(t => t.startsWith('week-'));
       const dayKey = `${week || 'no-week'}|${g.date}`;
       const dayNum = week ? dayNumberByKey.get(`${week}|${g.date}`) : null;
       const isAccessory = g.videos.some(v => v.accessory);
-      let bucket = result[result.length - 1];
-      if (!bucket || bucket.dayKey !== dayKey) {
-        bucket = { dayKey, date: g.date, dayNum, week, mainGroups: [], accessoryGroups: [] };
-        result.push(bucket);
+      if (!buckets.has(dayKey)) {
+        buckets.set(dayKey, { dayKey, date: g.date, dayNum, week, mainGroups: [], accessoryGroups: [] });
       }
+      const bucket = buckets.get(dayKey);
       (isAccessory ? bucket.accessoryGroups : bucket.mainGroups).push(g);
     }
-    return result;
-  }, [groupedVideos, dayNumberByKey]);
+
+    // CrossFit-only dates: dates that have a class session but no OWL videos.
+    // Honour the active filters — lift/tag filters hide CrossFit-only days
+    // (no lifts/tags to match against). Week/cycle/location pull from the
+    // session's own fields.
+    if (selectedLifts.size === 0 && selectedTags.size === 0) {
+      for (const [date, session] of Object.entries(crossfitSessions)) {
+        if (videos.some(v => v.date === date)) continue; // already has an OWL bucket
+        const week = session.week || null;
+        if (selectedWeeks.size > 0 && (!week || !selectedWeeks.has(week))) continue;
+        if (selectedCycles.size > 0 && (!session.cycle || !selectedCycles.has(session.cycle))) continue;
+        if (selectedLocations.size > 0 && (!session.location || !selectedLocations.has(session.location))) continue;
+        const dayKey = `${week || 'no-week'}|${date}`;
+        if (!buckets.has(dayKey)) {
+          buckets.set(dayKey, { dayKey, date, dayNum: null, week, mainGroups: [], accessoryGroups: [] });
+        }
+      }
+    }
+
+    return Array.from(buckets.values()).sort((a, b) => b.date.localeCompare(a.date));
+  }, [groupedVideos, dayNumberByKey, selectedLifts, selectedTags, selectedWeeks, selectedCycles, selectedLocations]);
 
   // Bucket the day buckets by week so we can render a week separator
   // whenever multiple weeks are visible at once.
+  // (Pulled out so we can also pick up CrossFit-only dates below.)
   const groupedByWeek = useMemo(() => {
     const result = [];
     for (const day of groupedByDay) {
@@ -488,7 +508,11 @@ export default function App() {
                     {day.dayNum != null && <span style={styles.dayLabel}>Day {day.dayNum}</span>}
                     {day.dayNum != null && <span style={styles.daySep}>·</span>}
                     <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
-                    <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
+                    {totalCards > 0 ? (
+                      <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
+                    ) : (
+                      crossfitSessions[day.date] && <span style={styles.dayCount}>Class only</span>
+                    )}
                     <ChevronDown
                       size={16}
                       style={{
@@ -506,6 +530,9 @@ export default function App() {
                           <div style={styles.dayNoteLabel}>Session note</div>
                           <div style={styles.dayNoteBody}>{dayNotes[day.date]}</div>
                         </div>
+                      )}
+                      {crossfitSessions[day.date] && (
+                        <CrossfitCard session={crossfitSessions[day.date]} />
                       )}
                       {day.mainGroups.length > 0 && (
                         <div style={styles.grid}>
@@ -730,6 +757,75 @@ function Comments({ video }) {
   );
 }
 
+function CrossfitCard({ session }) {
+  const [open, setOpen] = useState(false);
+  const strengthItems = Array.isArray(session.strength) ? session.strength : (session.strength ? [session.strength] : []);
+  return (
+    <div style={styles.crossfitCard}>
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        style={styles.crossfitHeader}
+        aria-expanded={open}
+      >
+        <span style={styles.crossfitTag}>Class</span>
+        <span style={styles.crossfitTitle}>{session.className || 'CrossFit'}</span>
+        {session.time && <span style={styles.crossfitTime}>{session.time}</span>}
+        <ChevronDown
+          size={16}
+          style={{
+            marginLeft: 'auto',
+            color: COLORS.textDim,
+            transform: open ? 'none' : 'rotate(-90deg)',
+            transition: 'transform 0.18s ease',
+          }}
+        />
+      </button>
+      {open && (
+        <div style={styles.crossfitBody}>
+          {strengthItems.length > 0 && (
+            <div style={styles.crossfitSection}>
+              <div style={styles.crossfitSectionLabel}>Strength</div>
+              {strengthItems.map((s, i) => (
+                <div key={i} style={styles.crossfitStrengthRow}>
+                  <div style={styles.crossfitStrengthName}>{s.name}{s.myWeight && <span style={styles.crossfitMyWeight}> · {s.myWeight}</span>}</div>
+                  {s.scheme && <div style={styles.crossfitStrengthScheme}>{s.scheme}</div>}
+                </div>
+              ))}
+            </div>
+          )}
+          {session.metcon && (
+            <div style={styles.crossfitSection}>
+              <div style={styles.crossfitSectionLabel}>Metcon{session.metcon.format ? ` · ${session.metcon.format}` : ''}</div>
+              {session.metcon.details && <div style={styles.crossfitMetconBody}>{session.metcon.details}</div>}
+              {(session.metcon.scoreType || session.metcon.timeCap) && (
+                <div style={styles.crossfitMetconMeta}>
+                  {session.metcon.scoreType && <span>Score: {session.metcon.scoreType}</span>}
+                  {session.metcon.timeCap && <span> · Time cap: {session.metcon.timeCap}</span>}
+                </div>
+              )}
+            </div>
+          )}
+          {session.accessories && session.accessories.length > 0 && (
+            <div style={styles.crossfitSection}>
+              <div style={styles.crossfitSectionLabel}>Accessories</div>
+              <ul style={styles.crossfitAccessoryList}>
+                {session.accessories.map((a, i) => <li key={i}>{a}</li>)}
+              </ul>
+            </div>
+          )}
+          {session.notes && (
+            <div style={styles.crossfitSection}>
+              <div style={styles.crossfitSectionLabel}>Notes</div>
+              <div style={styles.crossfitNotes}>{session.notes}</div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SnatchLifter() {
   // Three failed snatch attempts to mid-thigh, then one clean overhead lock.
   // Pure CSS keyframes on the arms+bar group; cartoonish anatomy on purpose.
@@ -793,7 +889,14 @@ function formatCycle(cycleTag) {
   return `Cycle ${n}`;
 }
 
+const LOCATION_LABELS = {
+  'loc-brunswick': 'Brunswick',
+  'loc-altona': 'Altona',
+  'loc-brians': "Brian's",
+};
+
 function formatLocation(locTag) {
+  if (LOCATION_LABELS[locTag]) return LOCATION_LABELS[locTag];
   const name = locTag.slice('loc-'.length);
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
@@ -865,9 +968,15 @@ function GroupModal({ group, onClose }) {
 }
 
 function SetSection({ video, setNumber, totalSets, isFirst }) {
+  const [collapsed, setCollapsed] = useState(true);
   return (
     <section style={{ ...styles.setSection, ...(isFirst ? styles.setSectionFirst : {}) }}>
-      <div style={styles.setHeader}>
+      <button
+        type="button"
+        onClick={() => setCollapsed(c => !c)}
+        style={styles.setHeader}
+        aria-expanded={!collapsed}
+      >
         <div style={styles.setIndex}>Set {setNumber} of {totalSets}</div>
         <div style={styles.setWeight}>
           <span style={styles.setWeightNum}>{video.weight}</span>
@@ -877,42 +986,55 @@ function SetSection({ video, setNumber, totalSets, isFirst }) {
           <span style={styles.setBwPct}>{Math.round((video.weight / video.bodyweight) * 100)}% BW</span>
         )}
         <div style={styles.setTitle}>{video.title}</div>
-      </div>
-
-      <div style={video.vertical ? styles.modalVideoWrapVertical : styles.modalVideoWrap}>
-        <iframe
-          src={`https://www.youtube.com/embed/${video.youtubeId}`}
-          style={video.vertical ? styles.modalVideoVertical : styles.modalVideo}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          title={video.title}
+        <ChevronDown
+          size={16}
+          style={{
+            marginLeft: 'auto',
+            color: COLORS.textDim,
+            transform: collapsed ? 'rotate(-90deg)' : 'none',
+            transition: 'transform 0.18s ease',
+          }}
         />
-      </div>
+      </button>
 
-      {video.notes && (
-        <div style={styles.modalNotes}>
-          <div style={styles.modalNotesLabel}>Notes</div>
-          <div style={styles.modalNotesBody}>{video.notes}</div>
-        </div>
+      {!collapsed && (
+        <>
+          <div style={video.vertical ? styles.modalVideoWrapVertical : styles.modalVideoWrap}>
+            <iframe
+              src={`https://www.youtube.com/embed/${video.youtubeId}`}
+              style={video.vertical ? styles.modalVideoVertical : styles.modalVideo}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              title={video.title}
+            />
+          </div>
+
+          {video.notes && (
+            <div style={styles.modalNotes}>
+              <div style={styles.modalNotesLabel}>Notes</div>
+              <div style={styles.modalNotesBody}>{video.notes}</div>
+            </div>
+          )}
+
+          <Comments video={video} />
+
+          <div style={styles.modalTags}>
+            {video.tags.map(t => (
+              <span key={t} style={styles.modalTag}># {t}</span>
+            ))}
+          </div>
+
+          <a
+            href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+            target="_blank"
+            rel="noreferrer"
+            style={styles.modalDriveLink}
+          >
+            Open on YouTube
+            <ExternalLink size={13} />
+          </a>
+        </>
       )}
-
-      <Comments video={video} />
-
-      <div style={styles.modalTags}>
-        {video.tags.map(t => (
-          <span key={t} style={styles.modalTag}># {t}</span>
-        ))}
-      </div>
-
-      <a
-        href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-        target="_blank"
-        rel="noreferrer"
-        style={styles.modalDriveLink}
-      >
-        Open on YouTube
-        <ExternalLink size={13} />
-      </a>
     </section>
   );
 }
@@ -1276,6 +1398,109 @@ const styles = {
     borderRadius: 6,
     padding: '12px 16px',
   },
+  crossfitCard: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  crossfitHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    width: '100%',
+    padding: '12px 16px',
+    background: 'transparent',
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
+    cursor: 'pointer',
+    color: COLORS.text,
+    fontFamily: FONTS.body,
+    textAlign: 'left',
+  },
+  crossfitTag: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.14em',
+    textTransform: 'uppercase',
+    color: '#fff',
+    background: COLORS.accent,
+    padding: '3px 8px',
+    borderRadius: 4,
+  },
+  crossfitTitle: {
+    fontSize: 15,
+    fontWeight: 600,
+    color: COLORS.text,
+  },
+  crossfitTime: {
+    fontFamily: FONTS.mono,
+    fontSize: 12,
+    color: COLORS.textDim,
+  },
+  crossfitBody: {
+    padding: '4px 16px 16px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+  },
+  crossfitSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 6,
+  },
+  crossfitSectionLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+  },
+  crossfitStrengthRow: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+  },
+  crossfitStrengthName: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: COLORS.text,
+  },
+  crossfitMyWeight: {
+    fontFamily: FONTS.mono,
+    fontWeight: 400,
+    color: COLORS.accent,
+  },
+  crossfitStrengthScheme: {
+    fontSize: 13,
+    color: COLORS.textDim,
+    lineHeight: 1.5,
+  },
+  crossfitMetconBody: {
+    fontSize: 13,
+    color: COLORS.text,
+    lineHeight: 1.55,
+    whiteSpace: 'pre-wrap',
+  },
+  crossfitMetconMeta: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textMute,
+  },
+  crossfitAccessoryList: {
+    margin: 0,
+    paddingLeft: 18,
+    fontSize: 13,
+    color: COLORS.textDim,
+    lineHeight: 1.6,
+  },
+  crossfitNotes: {
+    fontSize: 13,
+    color: COLORS.textDim,
+    lineHeight: 1.55,
+  },
   dayNoteLabel: {
     fontFamily: FONTS.mono,
     fontSize: 10,
@@ -1517,10 +1742,21 @@ const styles = {
   },
   setHeader: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
     flexWrap: 'wrap',
     gap: 14,
+    width: '100%',
+    background: 'transparent',
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
+    padding: 0,
     marginBottom: 14,
+    color: COLORS.text,
+    textAlign: 'left',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
   },
   setIndex: {
     fontFamily: FONTS.mono,

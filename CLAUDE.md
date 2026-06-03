@@ -17,6 +17,7 @@ Live: https://oly-weightlifting.vercel.app/
 - `src/App.jsx` — the entire UI. Big file; use targeted `Edit`s, not `Write`.
 - `src/videos.json` — canonical lift manifest. Source of truth for cards.
 - `src/dayNotes.json` — optional per-day notes, keyed by date (`"2026-05-23": "..."`). Renders as a full-width "Session note" banner at the top of that day's content (inside the collapse). Use for whole-session context (felt off, cut short, deload, etc.) that doesn't belong to a single lift.
+- `src/crossfitSessions.json` — optional CrossFit (or any class workout) bundle for a date. Shape: `{ "YYYY-MM-DD": { className, time, week, cycle, location, strength: [{ name, scheme, myWeight }], metcon: { format, details, scoreType, timeCap }, notes } }`. The `week`/`cycle`/`location` fields (e.g. `"week-3-c2"`, `"cycle-2"`, `"loc-brunswick"`) let the day be filtered by the existing chips and slot into the right week separator. Renders as a collapsible class card at the top of the day's content. If a date appears here but not in `videos.json`, it still renders as a day section (without a "Day N" label — CrossFit-only days don't shift the OWL day numbering). **Skip the `accessories` field for CrossFit** — Sergio doesn't do the class accessory work; logging them is just noise.
 - `src/supabase.js` — Supabase client + keys.
 - `src/main.jsx`, `index.html` — Vite bootstrap.
 - `netlify.toml`, `vercel.json` — deploy configs.
