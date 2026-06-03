@@ -76,6 +76,18 @@ const LIFT_CATEGORY_LABELS = {
   accessory: 'Accessory',
 };
 
+// dayNotes entries can be a plain string (just a note) or an object
+// { note, dayLabel } where dayLabel overrides the auto-computed "Day N".
+function getDayNoteText(date) {
+  const entry = dayNotes[date];
+  if (!entry) return null;
+  return typeof entry === 'string' ? entry : entry.note || null;
+}
+function getDayLabelOverride(date) {
+  const entry = dayNotes[date];
+  return entry && typeof entry === 'object' ? entry.dayLabel || null : null;
+}
+
 export default function App() {
   const [search, setSearch] = useState('');
   const [selectedLifts, setSelectedLifts] = useState(new Set());
@@ -102,9 +114,11 @@ export default function App() {
   const [selectedCycles, setSelectedCycles] = useState(new Set());
   const [selectedLocations, setSelectedLocations] = useState(new Set());
   const [selectedTags, setSelectedTags] = useState(new Set());
+  const [selectedClasses, setSelectedClasses] = useState(new Set());
   const [activeGroup, setActiveGroup] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(true);
-  const [collapsedDays, setCollapsedDays] = useState(new Set());
+  // Days are collapsed by default; openDays tracks ones the user has opened.
+  const [openDays, setOpenDays] = useState(new Set());
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -231,9 +245,10 @@ export default function App() {
       const week = g.videos[0].tags.find(t => t.startsWith('week-'));
       const dayKey = `${week || 'no-week'}|${g.date}`;
       const dayNum = week ? dayNumberByKey.get(`${week}|${g.date}`) : null;
+      const dayLabel = getDayLabelOverride(g.date) || (dayNum != null ? String(dayNum) : null);
       const isAccessory = g.videos.some(v => v.accessory);
       if (!buckets.has(dayKey)) {
-        buckets.set(dayKey, { dayKey, date: g.date, dayNum, week, mainGroups: [], accessoryGroups: [] });
+        buckets.set(dayKey, { dayKey, date: g.date, dayLabel, week, mainGroups: [], accessoryGroups: [] });
       }
       const bucket = buckets.get(dayKey);
       (isAccessory ? bucket.accessoryGroups : bucket.mainGroups).push(g);
@@ -252,13 +267,25 @@ export default function App() {
         if (selectedLocations.size > 0 && (!session.location || !selectedLocations.has(session.location))) continue;
         const dayKey = `${week || 'no-week'}|${date}`;
         if (!buckets.has(dayKey)) {
-          buckets.set(dayKey, { dayKey, date, dayNum: null, week, mainGroups: [], accessoryGroups: [] });
+          buckets.set(dayKey, { dayKey, date, dayLabel: getDayLabelOverride(date), week, mainGroups: [], accessoryGroups: [] });
         }
       }
     }
 
-    return Array.from(buckets.values()).sort((a, b) => b.date.localeCompare(a.date));
-  }, [groupedVideos, dayNumberByKey, selectedLifts, selectedTags, selectedWeeks, selectedCycles, selectedLocations]);
+    // Class filter: when active, only keep days whose date has a session of
+    // any selected class type. (We only model CrossFit today.)
+    let result = Array.from(buckets.values());
+    if (selectedClasses.size > 0) {
+      result = result.filter(d => {
+        const session = crossfitSessions[d.date];
+        if (!session) return false;
+        const className = (session.className || '').toLowerCase().replace(/\s+/g, '');
+        return selectedClasses.has(className);
+      });
+    }
+
+    return result.sort((a, b) => b.date.localeCompare(a.date));
+  }, [groupedVideos, dayNumberByKey, selectedLifts, selectedTags, selectedWeeks, selectedCycles, selectedLocations, selectedClasses]);
 
   // Bucket the day buckets by week so we can render a week separator
   // whenever multiple weeks are visible at once.
@@ -290,9 +317,10 @@ export default function App() {
     setSelectedCycles(new Set());
     setSelectedLocations(new Set());
     setSelectedTags(new Set());
+    setSelectedClasses(new Set());
   };
 
-  const hasActiveFilters = search || selectedLifts.size > 0 || selectedWeeks.size > 0 || selectedCycles.size > 0 || selectedLocations.size > 0 || selectedTags.size > 0;
+  const hasActiveFilters = search || selectedLifts.size > 0 || selectedWeeks.size > 0 || selectedCycles.size > 0 || selectedLocations.size > 0 || selectedTags.size > 0 || selectedClasses.size > 0;
 
   return (
     <div style={styles.root}>
@@ -446,6 +474,21 @@ export default function App() {
           </div>
 
           <div style={styles.filterGroup}>
+            <div style={styles.filterLabel}>Class</div>
+            <div style={styles.chipRow}>
+              <button
+                onClick={() => toggle(selectedClasses, 'crossfit', setSelectedClasses)}
+                style={{
+                  ...styles.chip,
+                  ...(selectedClasses.has('crossfit') ? styles.chipActive : {}),
+                }}
+              >
+                CrossFit
+              </button>
+            </div>
+          </div>
+
+          <div style={styles.filterGroup}>
             <div style={styles.filterLabel}>Tag</div>
             <div style={styles.chipRow}>
               {allTags.map(tag => (
@@ -488,14 +531,16 @@ export default function App() {
                 )}
                 <div style={styles.days}>
                   {weekBucket.days.map(day => {
-              const collapsed = collapsedDays.has(day.dayKey);
+              const collapsed = !openDays.has(day.dayKey);
               const totalCards = day.mainGroups.length + day.accessoryGroups.length;
+              const noteText = getDayNoteText(day.date);
               return (
                 <section key={day.dayKey} style={styles.daySection}>
                   <button
                     type="button"
+                    className="day-header"
                     onClick={() => {
-                      setCollapsedDays(prev => {
+                      setOpenDays(prev => {
                         const next = new Set(prev);
                         if (next.has(day.dayKey)) next.delete(day.dayKey);
                         else next.add(day.dayKey);
@@ -505,8 +550,8 @@ export default function App() {
                     style={styles.dayHeader}
                     aria-expanded={!collapsed}
                   >
-                    {day.dayNum != null && <span style={styles.dayLabel}>Day {day.dayNum}</span>}
-                    {day.dayNum != null && <span style={styles.daySep}>·</span>}
+                    {day.dayLabel != null && <span style={styles.dayLabel}>Day {day.dayLabel}</span>}
+                    {day.dayLabel != null && <span style={styles.daySep}>·</span>}
                     <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
                     {totalCards > 0 ? (
                       <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
@@ -515,20 +560,21 @@ export default function App() {
                     )}
                     <ChevronDown
                       size={16}
+                      className="day-chevron"
                       style={{
                         marginLeft: 'auto',
                         color: COLORS.textDim,
                         transform: collapsed ? 'rotate(-90deg)' : 'none',
-                        transition: 'transform 0.18s ease',
+                        transition: 'transform 0.18s ease, color 0.15s ease',
                       }}
                     />
                   </button>
                   {!collapsed && (
                     <>
-                      {dayNotes[day.date] && (
+                      {noteText && (
                         <div style={styles.dayNote}>
                           <div style={styles.dayNoteLabel}>Session note</div>
-                          <div style={styles.dayNoteBody}>{dayNotes[day.date]}</div>
+                          <div style={styles.dayNoteBody}>{noteText}</div>
                         </div>
                       )}
                       {crossfitSessions[day.date] && (
@@ -1066,6 +1112,8 @@ const globalCss = `
   .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; }
   .lift-card-accessory:hover { border-color: ${COLORS.accent}; background: #221c18; }
   .lift-card:active { transform: scale(0.99); }
+  .day-header:hover { background: ${COLORS.surface}; }
+  .day-header:hover .day-chevron { color: ${COLORS.accent}; }
   button:focus-visible { outline: 2px solid ${COLORS.accent}; outline-offset: 2px; }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: ${COLORS.bg}; }
@@ -1153,7 +1201,7 @@ const styles = {
   },
   header: {
     borderBottom: `1px solid ${COLORS.border}`,
-    padding: '32px 24px 24px',
+    padding: '44px 24px 32px',
   },
   titleRow: {
     display: 'flex',
@@ -1224,9 +1272,9 @@ const styles = {
   filterBar: {
     maxWidth: 1200,
     margin: '0 auto',
-    padding: '20px 24px 12px',
+    padding: '28px 24px 14px',
     display: 'flex',
-    gap: 12,
+    gap: 14,
     alignItems: 'center',
     flexWrap: 'wrap',
   },
@@ -1292,23 +1340,23 @@ const styles = {
   filterPanel: {
     maxWidth: 1200,
     margin: '0 auto',
-    padding: '4px 24px 16px',
+    padding: '8px 24px 24px',
   },
   filterGroup: {
-    marginBottom: 16,
+    marginBottom: 22,
   },
   filterLabel: {
     fontFamily: FONTS.mono,
     fontSize: 10,
-    letterSpacing: '0.12em',
+    letterSpacing: '0.14em',
     textTransform: 'uppercase',
     color: COLORS.textMute,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   chipRow: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: 6,
+    gap: 8,
   },
   liftCategories: {
     display: 'flex',
@@ -1332,10 +1380,10 @@ const styles = {
     background: 'transparent',
     border: `1px solid ${COLORS.border}`,
     color: COLORS.textDim,
-    padding: '6px 12px',
+    padding: '7px 14px',
     borderRadius: 999,
     fontFamily: FONTS.body,
-    fontSize: 12,
+    fontSize: 12.5,
     cursor: 'pointer',
     transition: 'all 0.15s ease',
   },
@@ -1343,38 +1391,39 @@ const styles = {
     background: COLORS.accent,
     borderColor: COLORS.accent,
     color: '#fff',
+    boxShadow: '0 4px 14px rgba(233, 78, 27, 0.28)',
   },
   main: {
     maxWidth: 1200,
     margin: '0 auto',
-    padding: '20px 24px 0',
+    padding: '32px 24px 0',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-    gap: 14,
+    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+    gap: 18,
   },
   days: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 32,
+    gap: 44,
   },
   weekSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 18,
+    gap: 24,
   },
   weekDivider: {
     display: 'flex',
     alignItems: 'center',
-    gap: 14,
-    marginTop: 12,
-    marginBottom: 4,
+    gap: 18,
+    marginTop: 16,
+    marginBottom: 6,
   },
   weekDividerLabel: {
     fontFamily: FONTS.mono,
     fontSize: 12,
-    letterSpacing: '0.16em',
+    letterSpacing: '0.22em',
     textTransform: 'uppercase',
     color: COLORS.accent,
     fontWeight: 700,
@@ -1382,14 +1431,13 @@ const styles = {
   },
   weekDividerLine: {
     flex: 1,
-    height: 2,
-    background: COLORS.accent,
-    opacity: 0.7,
+    height: 1,
+    background: `linear-gradient(90deg, ${COLORS.accent} 0%, ${COLORS.border} 70%, transparent 100%)`,
   },
   daySection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 14,
+    gap: 18,
   },
   dayNote: {
     background: COLORS.surfaceLift,
@@ -1516,46 +1564,51 @@ const styles = {
   },
   dayHeader: {
     display: 'flex',
-    alignItems: 'center',
-    gap: 12,
+    alignItems: 'baseline',
+    gap: 14,
     width: '100%',
-    paddingLeft: 14,
-    paddingRight: 12,
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingLeft: 18,
+    paddingRight: 14,
+    paddingTop: 14,
+    paddingBottom: 14,
     background: 'transparent',
     borderTop: 'none',
     borderRight: 'none',
     borderBottom: 'none',
-    borderLeft: `4px solid ${COLORS.accent}`,
-    borderTopRightRadius: 4,
-    borderBottomRightRadius: 4,
+    borderLeft: `3px solid ${COLORS.accent}`,
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6,
     cursor: 'pointer',
     color: COLORS.text,
-    fontFamily: FONTS.mono,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
+    fontFamily: FONTS.body,
     textAlign: 'left',
-    transition: 'background 0.15s ease',
+    transition: 'background 0.15s ease, border-color 0.15s ease',
   },
   dayCount: {
+    fontFamily: FONTS.mono,
     color: COLORS.textMute,
     fontSize: 10,
-    letterSpacing: '0.1em',
+    letterSpacing: '0.14em',
+    textTransform: 'uppercase',
   },
   dayLabel: {
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 26,
+    letterSpacing: '-0.01em',
+    lineHeight: 1,
     color: COLORS.text,
-    fontWeight: 600,
-    fontSize: 16,
   },
   daySep: {
     color: COLORS.textMute,
-    opacity: 0.5,
+    opacity: 0.4,
     fontSize: 14,
   },
   dayDate: {
+    fontFamily: FONTS.mono,
     color: COLORS.textDim,
     fontSize: 12,
+    letterSpacing: '0.04em',
   },
   groups: {
     display: 'flex',
@@ -1601,14 +1654,14 @@ const styles = {
     textAlign: 'left',
     background: COLORS.surface,
     border: `1px solid ${COLORS.border}`,
-    borderRadius: 8,
-    padding: 18,
+    borderRadius: 10,
+    padding: 20,
     cursor: 'pointer',
     color: COLORS.text,
     fontFamily: FONTS.body,
     display: 'flex',
     flexDirection: 'column',
-    gap: 10,
+    gap: 12,
   },
   cardTop: {
     display: 'flex',
@@ -1710,20 +1763,20 @@ const styles = {
     color: COLORS.textMute,
   },
   accessoryBlock: {
-    marginTop: 8,
+    marginTop: 14,
   },
   accessoryLabel: {
     fontFamily: FONTS.mono,
     fontSize: 10,
-    letterSpacing: '0.12em',
+    letterSpacing: '0.14em',
     textTransform: 'uppercase',
     color: COLORS.textMute,
-    marginBottom: 8,
+    marginBottom: 12,
   },
   accessoryGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gap: 10,
+    gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+    gap: 14,
   },
   setList: {
     display: 'flex',

@@ -1,5 +1,11 @@
 {
   "2026-05-23": "Session cut short here — was feeling about 55%, so didn't finish the prescribed reps or the accessory block.",
-  "2026-05-30": "Day 3 session cut short — gym closed early. Only got through the BTN Strict Press primer; the rest moved to the next day.",
-  "2026-05-31": "Continuation from Day 3 (which was cut short Saturday at Brunswick). Picked up the pulls / squats / accessories at Altona on Sunday. Skipped the last accessory (single-leg glute bridge)."
+  "2026-05-30": {
+    "note": "Day 3 session cut short — gym closed early. Only got through the BTN Strict Press primer; the rest moved to the next day.",
+    "dayLabel": "3.1"
+  },
+  "2026-05-31": {
+    "note": "Continuation from Day 3 (which was cut short Saturday at Brunswick). Picked up the pulls / squats / accessories at Altona on Sunday. Skipped the last accessory (single-leg glute bridge).",
+    "dayLabel": "3.2"
+  }
 }
