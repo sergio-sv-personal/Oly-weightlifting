@@ -117,6 +117,7 @@ export default function App() {
   const [selectedClasses, setSelectedClasses] = useState(new Set());
   const [activeGroup, setActiveGroup] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(true);
+  const [liftFilterOpen, setLiftFilterOpen] = useState(false);
   // Days are collapsed by default; openDays tracks ones the user has opened.
   const [openDays, setOpenDays] = useState(new Set());
 
@@ -174,9 +175,11 @@ export default function App() {
   }, []);
 
   const allLifts = useMemo(() => {
-    const lifts = new Set();
-    videos.forEach(v => lifts.add(v.lift));
-    return Array.from(lifts);
+    const counts = new Map();
+    videos.forEach(v => counts.set(v.lift, (counts.get(v.lift) || 0) + 1));
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([lift]) => lift);
   }, []);
 
   const visibleVideos = useMemo(() => {
@@ -272,15 +275,17 @@ export default function App() {
       }
     }
 
-    // Class filter: when active, only keep days whose date has a session of
-    // any selected class type. (We only model CrossFit today.)
+    // Class filter: when active, only keep days that match one of the
+    // selected class types. 'oly' = day has OWL videos; 'crossfit' = day
+    // has a CrossFit class session. Everything that isn't a class is Oly.
     let result = Array.from(buckets.values());
     if (selectedClasses.size > 0) {
       result = result.filter(d => {
-        const session = crossfitSessions[d.date];
-        if (!session) return false;
-        const className = (session.className || '').toLowerCase().replace(/\s+/g, '');
-        return selectedClasses.has(className);
+        const hasOly = d.mainGroups.length + d.accessoryGroups.length > 0;
+        const hasCrossfit = !!crossfitSessions[d.date];
+        if (selectedClasses.has('oly') && hasOly) return true;
+        if (selectedClasses.has('crossfit') && hasCrossfit) return true;
+        return false;
       });
     }
 
@@ -445,47 +450,82 @@ export default function App() {
           )}
 
           <div style={styles.filterGroup}>
-            <div style={styles.filterLabel}>Lift</div>
-            <div style={styles.liftCategories}>
-              {LIFT_CATEGORY_ORDER.map(cat => {
-                const liftsInCat = allLifts.filter(l => (LIFT_CATEGORIES[l] || 'accessory') === cat);
-                if (liftsInCat.length === 0) return null;
+            <div style={styles.filterLabel}>Class</div>
+            <div style={styles.chipRow}>
+              {[
+                { key: 'oly', label: 'Oly', color: COLORS.accent },
+                { key: 'crossfit', label: 'CrossFit', color: COLORS.accentCool },
+              ].map(({ key, label, color }) => {
+                const active = selectedClasses.has(key);
                 return (
-                  <div key={cat} style={styles.liftCategory}>
-                    <div style={styles.liftCategoryLabel}>{LIFT_CATEGORY_LABELS[cat]}</div>
-                    <div style={styles.chipRow}>
-                      {liftsInCat.map(lift => (
-                        <button
-                          key={lift}
-                          onClick={() => toggle(selectedLifts, lift, setSelectedLifts)}
-                          style={{
-                            ...styles.chip,
-                            ...(selectedLifts.has(lift) ? styles.chipActive : {}),
-                          }}
-                        >
-                          {LIFT_LABELS[lift] || lift}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  <button
+                    key={key}
+                    onClick={() => toggle(selectedClasses, key, setSelectedClasses)}
+                    style={{
+                      ...styles.chip,
+                      ...(active ? {
+                        background: color,
+                        borderColor: color,
+                        color: '#fff',
+                        boxShadow: `0 4px 14px ${color}45`,
+                      } : {}),
+                    }}
+                  >
+                    {label}
+                  </button>
                 );
               })}
             </div>
           </div>
 
           <div style={styles.filterGroup}>
-            <div style={styles.filterLabel}>Class</div>
-            <div style={styles.chipRow}>
-              <button
-                onClick={() => toggle(selectedClasses, 'crossfit', setSelectedClasses)}
+            <button
+              type="button"
+              onClick={() => setLiftFilterOpen(o => !o)}
+              style={styles.filterSectionToggle}
+              aria-expanded={liftFilterOpen}
+            >
+              <span style={{ ...styles.filterLabel, marginBottom: 0 }}>Lift</span>
+              {selectedLifts.size > 0 && (
+                <span style={{ ...styles.filterSectionCount, marginBottom: 0 }}>{selectedLifts.size} selected</span>
+              )}
+              <ChevronDown
+                size={12}
                 style={{
-                  ...styles.chip,
-                  ...(selectedClasses.has('crossfit') ? styles.chipActive : {}),
+                  color: COLORS.textMute,
+                  transform: liftFilterOpen ? 'none' : 'rotate(-90deg)',
+                  transition: 'transform 0.18s ease',
+                  marginLeft: 'auto',
                 }}
-              >
-                CrossFit
-              </button>
-            </div>
+              />
+            </button>
+            {liftFilterOpen && (
+              <div style={{ ...styles.liftCategories, marginTop: 12 }}>
+                {LIFT_CATEGORY_ORDER.map(cat => {
+                  const liftsInCat = allLifts.filter(l => (LIFT_CATEGORIES[l] || 'accessory') === cat);
+                  if (liftsInCat.length === 0) return null;
+                  return (
+                    <div key={cat} style={styles.liftCategory}>
+                      <div style={styles.liftCategoryLabel}>{LIFT_CATEGORY_LABELS[cat]}</div>
+                      <div style={styles.chipRow}>
+                        {liftsInCat.map(lift => (
+                          <button
+                            key={lift}
+                            onClick={() => toggle(selectedLifts, lift, setSelectedLifts)}
+                            style={{
+                              ...styles.chip,
+                              ...(selectedLifts.has(lift) ? styles.chipActive : {}),
+                            }}
+                          >
+                            {LIFT_LABELS[lift] || lift}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div style={styles.filterGroup}>
@@ -534,6 +574,7 @@ export default function App() {
               const collapsed = !openDays.has(day.dayKey);
               const totalCards = day.mainGroups.length + day.accessoryGroups.length;
               const noteText = getDayNoteText(day.date);
+              const isCrossfitOnly = totalCards === 0 && !!crossfitSessions[day.date];
               return (
                 <section key={day.dayKey} style={styles.daySection}>
                   <button
@@ -547,7 +588,10 @@ export default function App() {
                         return next;
                       });
                     }}
-                    style={styles.dayHeader}
+                    style={{
+                      ...styles.dayHeader,
+                      borderLeftColor: isCrossfitOnly ? COLORS.accentCool : COLORS.accent,
+                    }}
                     aria-expanded={!collapsed}
                   >
                     {day.dayLabel != null && <span style={styles.dayLabel}>Day {day.dayLabel}</span>}
@@ -556,7 +600,9 @@ export default function App() {
                     {totalCards > 0 ? (
                       <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
                     ) : (
-                      crossfitSessions[day.date] && <span style={styles.dayCount}>Class only</span>
+                      crossfitSessions[day.date] && (
+                        <span style={{ ...styles.dayCount, color: COLORS.accentCool }}>Class only</span>
+                      )
                     )}
                     <ChevronDown
                       size={16}
@@ -1096,6 +1142,9 @@ const COLORS = {
   textMute: '#6B6660',
   accent: '#E94E1B',
   accentDim: '#7A2A0E',
+  // Cool complement to the warm orange accent; used for CrossFit / class
+  // workout surfaces so they read as a distinct concept from OWL lifts.
+  accentCool: '#2DB6C4',
 };
 
 const FONTS = {
@@ -1353,6 +1402,26 @@ const styles = {
     color: COLORS.textMute,
     marginBottom: 10,
   },
+  filterSectionToggle: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    width: '100%',
+    background: 'transparent',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    textAlign: 'left',
+    color: COLORS.text,
+  },
+  filterSectionCount: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: COLORS.accent,
+    marginBottom: 10,
+  },
   chipRow: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -1449,6 +1518,7 @@ const styles = {
   crossfitCard: {
     background: COLORS.surface,
     border: `1px solid ${COLORS.border}`,
+    borderLeft: `3px solid ${COLORS.accentCool}`,
     borderRadius: 8,
     overflow: 'hidden',
   },
@@ -1474,7 +1544,7 @@ const styles = {
     letterSpacing: '0.14em',
     textTransform: 'uppercase',
     color: '#fff',
-    background: COLORS.accent,
+    background: COLORS.accentCool,
     padding: '3px 8px',
     borderRadius: 4,
   },
@@ -1519,7 +1589,7 @@ const styles = {
   crossfitMyWeight: {
     fontFamily: FONTS.mono,
     fontWeight: 400,
-    color: COLORS.accent,
+    color: COLORS.accentCool,
   },
   crossfitStrengthScheme: {
     fontSize: 13,

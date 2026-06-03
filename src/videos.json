@@ -1,5 +1,115 @@
 [
   {
+    "id": "v170",
+    "youtubeId": "fLGs1zPW2FE",
+    "vertical": true,
+    "title": "Drop Snatch, set 3",
+    "date": "2026-06-02",
+    "lift": "drop_snatch",
+    "weight": 20,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "primer", "cycle-2", "loc-altona"],
+    "notes": "Drop snatch primer at 20kg.",
+    "summary": "Three primer sets of drop snatch at 20kg. Pull-under speed is trending faster than recent weeks — programming feels like it's working — but still not snappy enough into the receiving position."
+  },
+  {
+    "id": "v169",
+    "youtubeId": "k0wEzF5aNEM",
+    "vertical": true,
+    "title": "Drop Snatch, set 2",
+    "date": "2026-06-02",
+    "lift": "drop_snatch",
+    "weight": 20,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "primer", "cycle-2", "loc-altona"],
+    "notes": "Drop snatch primer at 20kg."
+  },
+  {
+    "id": "v168",
+    "youtubeId": "doftsw6C2OA",
+    "vertical": true,
+    "title": "Drop Snatch, set 1",
+    "date": "2026-06-02",
+    "lift": "drop_snatch",
+    "weight": 20,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "primer", "cycle-2", "loc-altona"],
+    "notes": "Drop snatch primer at 20kg."
+  },
+  {
+    "id": "v176",
+    "youtubeId": "E2_j5lEjagU",
+    "vertical": true,
+    "title": "Floating Snatch, set 6",
+    "date": "2026-06-02",
+    "lift": "floating_snatch",
+    "weight": 30,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "Continued improvement at 30kg — load is ready to come up next session.",
+    "summary": "Six sets of floating snatch progressing 25 → 27 → 27 → 30 → 30 → 30kg. Speed continues to improve across the build-up. At 27kg the receive drifts forward; coach flagged the bar scratching the knee pads — chest pull rotating the bar inward rather than driving vertical. The 30kg sets felt strong with a sustained overhead punch from the moment of catch; load is ready to come up next session."
+  },
+  {
+    "id": "v175",
+    "youtubeId": "jg6vop9-NTA",
+    "vertical": true,
+    "title": "Floating Snatch, set 5",
+    "date": "2026-06-02",
+    "lift": "floating_snatch",
+    "weight": 30,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona", "technique"],
+    "notes": "Improvement visible. The overhead punch needs to be strong from the moment of catch — sustained lockout pressure all the way through to stabilize the receive."
+  },
+  {
+    "id": "v174",
+    "youtubeId": "U_ifzHT9NwI",
+    "vertical": true,
+    "title": "Floating Snatch, set 4",
+    "date": "2026-06-02",
+    "lift": "floating_snatch",
+    "weight": 30,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "Strong set at 30kg — fast pull and clean receive."
+  },
+  {
+    "id": "v173",
+    "youtubeId": "wv1KopM7XdE",
+    "vertical": true,
+    "title": "Floating Snatch, set 3",
+    "date": "2026-06-02",
+    "lift": "floating_snatch",
+    "weight": 27,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona", "technique"],
+    "notes": "Coach: bar scratching the knee pads on the way up — chest pull is rotating the bar inward toward the body rather than driving it vertically. Keep the bar path vertical, close to the body without dragging the thigh."
+  },
+  {
+    "id": "v172",
+    "youtubeId": "pJE_WDmBNC8",
+    "vertical": true,
+    "title": "Floating Snatch, set 2",
+    "date": "2026-06-02",
+    "lift": "floating_snatch",
+    "weight": 27,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "Receive drifts forward — landing forward of midfoot."
+  },
+  {
+    "id": "v171",
+    "youtubeId": "-rmEKwlwr7g",
+    "vertical": true,
+    "title": "Floating Snatch, set 1",
+    "date": "2026-06-02",
+    "lift": "floating_snatch",
+    "weight": 25,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "Speed continues to improve at the lighter load."
+  },
+  {
     "id": "v167",
     "youtubeId": "p2gc0PEit-w",
     "vertical": true,
@@ -10,7 +120,7 @@
     "weight": 8,
     "reps": 10,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "accessory", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "accessory", "cycle-2", "loc-brunswick"],
     "notes": "8kg bar, 10 reps each side.",
     "summary": "Three accessory sets of Bulgarian split squats at 8kg, 10 reps each side. Dropped from the 20kg bar used last week — form didn't feel right at that load, so lighter to clean up the movement."
   },
@@ -25,7 +135,7 @@
     "weight": 8,
     "reps": 10,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "accessory", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "accessory", "cycle-2", "loc-brunswick"],
     "notes": "8kg bar, 10 reps each side."
   },
   {
@@ -39,7 +149,7 @@
     "weight": 8,
     "reps": 10,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "accessory", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "accessory", "cycle-2", "loc-brunswick"],
     "notes": "Switched to an 8kg bar — the 20kg from last week didn't feel right. Lighter load to clean up the form."
   },
   {
@@ -51,7 +161,7 @@
     "lift": "bb_bent_over_row_supinated",
     "weight": 40,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Dropped back to 40kg at RPE 7 — form cleaner at this load."
   },
   {
@@ -63,7 +173,7 @@
     "lift": "bb_bent_over_row_supinated",
     "weight": 40,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Dropped back to 40kg at RPE 7 — form cleaner at this load."
   },
   {
@@ -75,7 +185,7 @@
     "lift": "bb_bent_over_row_supinated",
     "weight": 40,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Dropped back to 40kg at RPE 7 after set 1 at 50kg felt off."
   },
   {
@@ -87,7 +197,7 @@
     "lift": "bb_bent_over_row_supinated",
     "weight": 50,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Bumped to 50kg from 40kg last week — form didn't feel right at this load. Dropped back to 40kg for the remaining sets.",
     "summary": "Four bent-over row sets. Started at 50kg — form felt off (too heavy). Dropped to 40kg at RPE 7 for sets 2–4; form cleaned up at the lighter weight."
   },
@@ -100,7 +210,7 @@
     "lift": "front_squat",
     "weight": 57,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "New brace cue (inflate the ribcage, 360°) helped a lot — stacked position held.",
     "summary": "Four front squat sets at 57kg. New brace cue (inflate the ribcage, 360°) made a big difference — stacked position held across the working set."
   },
@@ -113,7 +223,7 @@
     "lift": "front_squat",
     "weight": 57,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "New brace cue (inflate the ribcage, 360°) helped a lot — stacked position held."
   },
   {
@@ -125,7 +235,7 @@
     "lift": "front_squat",
     "weight": 57,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "New brace cue (inflate the ribcage, 360°) helped a lot — stacked position held."
   },
   {
@@ -137,7 +247,7 @@
     "lift": "front_squat",
     "weight": 57,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "New brace cue (inflate the ribcage, 360°) helped a lot — stacked position held."
   },
   {
@@ -149,7 +259,7 @@
     "lift": "paused_snatch_pull",
     "weight": 37,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Cues to hold across the set: tall chest at the start (mobility-limited in past sessions), even foot pressure through the pull, lats engaged, arms loose.",
     "summary": "Three sets at 37kg. Continuation from Day 3 (cut short Saturday at Brunswick). Cues to check: tall chest at the start (mobility), even foot pressure, lats engaged, arms loose through the pull."
   },
@@ -162,7 +272,7 @@
     "lift": "paused_snatch_pull",
     "weight": 37,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Same cues to hold — tall chest at the start, even foot pressure, lats engaged, arms loose."
   },
   {
@@ -174,7 +284,7 @@
     "lift": "paused_snatch_pull",
     "weight": 37,
     "bodyweight": 82,
-    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-altona"],
+    "tags": ["week-3-c2", "working-set", "technique", "cycle-2", "loc-brunswick"],
     "notes": "Cues to check (since I can't watch): tall chest at the start (mobility limitation flagged in past sessions), even pressure across the foot through the pull, lats engaged the full pull, arms loose so the legs and back drive."
   },
   {
