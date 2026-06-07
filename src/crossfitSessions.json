@@ -74,16 +74,16 @@
     "location": "loc-brunswick",
     "strength": [
       {
-        "name": "Front Squat",
+        "name": "Back Squat (sub for prescribed Front Squat)",
         "scheme": "5x5 across @ 60% Best Back Squat. Rest 2:00. Time cap 16:00.",
-        "myWeight": "40kg"
+        "myWeight": "40kg (kept light to not overdo it between Oly sessions)"
       }
     ],
     "metcon": {
       "format": "AMRAP 10",
-      "details": "3-6-9-12-15...\nWall Balls\nDeadlifts",
+      "details": "3-6-9-12-15...\nWall Balls (9kg)\nDeadlifts (50kg)",
       "scoreType": "Rounds + Reps"
     },
-    "notes": "Front squat at 40kg across all 5 sets. Deadlifts at 50kg in the metcon."
+    "notes": "Subbed back squat for the prescribed front squat — kept at 40kg to stay light between Oly sessions. Metcon: deadlifts at 50kg, wall balls at 9kg. Score: 18 reps into the 3-6-9-12-15... ladder."
   }
 }

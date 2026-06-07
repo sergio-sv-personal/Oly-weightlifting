@@ -147,6 +147,31 @@
     "notes": "Torso centered between the feet; working the rear-foot 'ankle out' cue. Split shallow and a touch wide."
   },
   {
+    "id": "v184",
+    "youtubeId": "5Opwn_rGvgY",
+    "vertical": true,
+    "title": "Pause Off-Floor Clean + 2 Jerks, set 5",
+    "date": "2026-06-02",
+    "lift": "pause_off_floor_clean_jerk",
+    "weight": 50,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "complex", "split", "technique", "cycle-2", "loc-altona"],
+    "notes": "Same issues at 50kg — receive still too shallow, split footwork breaking down, torso leaning forward.",
+    "summary": "Five working sets of pause off-floor clean + 2 jerks: 40 → 45 → 45 → 47 → 50kg. Pattern is clear — at 40kg the trunk loses vertical at the bottom. At 45kg the vertical position holds but the receive is too shallow; second 45kg attempt improved the depth. At 47kg and 50kg the same issues compound: depth still shallow, split footwork breaks down, and the torso leans forward in the receive."
+  },
+  {
+    "id": "v183",
+    "youtubeId": "WMtWJncqzBg",
+    "vertical": true,
+    "title": "Pause Off-Floor Clean + 2 Jerks, set 4",
+    "date": "2026-06-02",
+    "lift": "pause_off_floor_clean_jerk",
+    "weight": 47,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "complex", "split", "technique", "cycle-2", "loc-altona"],
+    "notes": "Still not catching deep enough. Split footwork breaks down — feet landing wrong. Torso leans forward in the receive (vertical that held at 45kg is gone)."
+  },
+  {
     "id": "v182",
     "youtubeId": "IfH-CV3Oocc",
     "vertical": true,
@@ -156,8 +181,7 @@
     "weight": 45,
     "bodyweight": 82,
     "tags": ["week-4-c2", "working-set", "complex", "split", "technique", "cycle-2", "loc-altona"],
-    "notes": "Improvement on depth — moving in the right direction but still not catching low enough.",
-    "summary": "Three working sets of pause off-floor clean + 2 jerks: 40kg, then two at 45kg. At 40kg the trunk loses vertical at the bottom of the clean. At 45kg the vertical position holds (good) but the receive is too shallow. The second 45kg set shows improvement on depth — heading the right way but still not catching low enough."
+    "notes": "Improvement on depth — moving in the right direction but still not catching low enough."
   },
   {
     "id": "v181",
@@ -182,6 +206,55 @@
     "bodyweight": 82,
     "tags": ["week-4-c2", "working-set", "complex", "split", "technique", "cycle-2", "loc-altona"],
     "notes": "Hips and core not engaging through the bottom of the clean — losing the vertical torso in the deep receive and leaning forward. Need to brace the trunk before driving out of the catch."
+  },
+  {
+    "id": "v188",
+    "youtubeId": "5fxU1CbS_z8",
+    "vertical": true,
+    "title": "Back Squat, set 4",
+    "date": "2026-06-02",
+    "lift": "back_squat",
+    "weight": 75,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "Final set at 75kg — bracing felt solid, no back pain.",
+    "summary": "Four sets of back squat at 75kg. The lower-back pain that's been bothering me is gone after adjusting the bracing position before initiating the squat."
+  },
+  {
+    "id": "v187",
+    "youtubeId": "OHDTuY_amg0",
+    "vertical": true,
+    "title": "Back Squat, set 3",
+    "date": "2026-06-02",
+    "lift": "back_squat",
+    "weight": 75,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "75kg — bracing position holding through the descent."
+  },
+  {
+    "id": "v186",
+    "youtubeId": "dIzRvFL7zrQ",
+    "vertical": true,
+    "title": "Back Squat, set 2",
+    "date": "2026-06-02",
+    "lift": "back_squat",
+    "weight": 75,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "75kg — second set, bracing setup feels right."
+  },
+  {
+    "id": "v185",
+    "youtubeId": "iUlARp2zWuU",
+    "vertical": true,
+    "title": "Back Squat, set 1",
+    "date": "2026-06-02",
+    "lift": "back_squat",
+    "weight": 75,
+    "bodyweight": 82,
+    "tags": ["week-4-c2", "working-set", "cycle-2", "loc-altona"],
+    "notes": "75kg first set — adjusted the bracing position before unracking; no back pain on the descent."
   },
   {
     "id": "v167",
