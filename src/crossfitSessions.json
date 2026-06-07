@@ -85,5 +85,19 @@
       "scoreType": "Rounds + Reps"
     },
     "notes": "Subbed back squat for the prescribed front squat — kept at 40kg to stay light between Oly sessions. Metcon: deadlifts at 50kg, wall balls at 9kg. Score: 18 reps into the 3-6-9-12-15... ladder."
+  },
+  "2026-06-07": {
+    "className": "CrossFit (11/20)",
+    "time": "9:00am",
+    "week": "week-4-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "AMRAP 7 x 3 (rest 1:30 between sets)",
+      "details": "12/10 Calorie Bike\n10 Dumbbell Goblet Lunges (22.5kg DB)\n8 Feet-Elevated Ring Rows\n(athletes pick up where they left off)",
+      "scoreType": "Rounds + Reps"
+    },
+    "notes": "Goblet lunges at 22.5kg dumbbell. Finisher (Tabata L-hang / L-tuck hang, 8 rounds 0:20 on / 0:10 off) — couldn't do it at all."
   }
 }
