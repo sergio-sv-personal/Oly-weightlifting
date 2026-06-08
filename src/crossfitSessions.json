@@ -86,6 +86,27 @@
     },
     "notes": "Subbed back squat for the prescribed front squat — kept at 40kg to stay light between Oly sessions. Metcon: deadlifts at 50kg, wall balls at 9kg. Score: 18 reps into the 3-6-9-12-15... ladder."
   },
+  "2026-06-05": {
+    "className": "CrossFit",
+    "time": "6:00am",
+    "week": "week-4-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "3 Position Snatch",
+        "scheme": "5x1 @ RPE 7/10. Rest 2:00-2:30 between sets. Time cap 15:00.",
+        "myWeight": "30kg (kept light, felt really good)"
+      }
+    ],
+    "metcon": {
+      "format": "For Time — 'Snatching Gwen'",
+      "details": "15-12-9\nPower Snatches (30kg)",
+      "scoreType": "Time",
+      "timeCap": "12:00"
+    },
+    "notes": "Snatches at 30kg felt really good. Need to learn how to cycle the snatch — the starting position between cycled reps is different from a regular snatch."
+  },
   "2026-06-07": {
     "className": "CrossFit (11/20)",
     "time": "9:00am",
