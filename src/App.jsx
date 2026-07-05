@@ -3,6 +3,7 @@ import { Search, X, Calendar, ExternalLink, ChevronDown, Play } from 'lucide-rea
 import videos from './videos.json';
 import dayNotes from './dayNotes.json';
 import crossfitSessions from './crossfitSessions.json';
+import whoopDays from './whoopDays.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
@@ -88,6 +89,21 @@ function getDayNoteText(date) {
 function getDayLabelOverride(date) {
   const entry = dayNotes[date];
   return entry && typeof entry === 'object' ? entry.dayLabel || null : null;
+}
+
+// Whoop recovery color bands (matches Whoop's own convention).
+function recoveryColor(score) {
+  if (score == null) return null;
+  if (score >= 67) return '#3FBF7F';
+  if (score >= 34) return '#E8B84B';
+  return '#E4574F';
+}
+
+function formatSleep(min) {
+  if (min == null) return null;
+  const h = Math.floor(min / 60);
+  const m = Math.round(min % 60);
+  return `${h}h ${String(m).padStart(2, '0')}m`;
 }
 
 export default function App() {
@@ -551,6 +567,7 @@ export default function App() {
       )}
 
       <main style={styles.main}>
+        <TrendsPanel />
         {visibleVideos.length === 0 ? (
           <div style={styles.empty}>
             <div style={styles.emptyTitle}>No lifts match.</div>
@@ -561,13 +578,39 @@ export default function App() {
           </div>
         ) : (
           <div style={styles.days}>
-            {groupedByWeek.map((weekBucket, wi) => (
+            {groupedByWeek.map((weekBucket, wi) => {
+              // Per-week rollup for the header: Oly days, classes, sets, top lift.
+              let sets = 0;
+              let top = null;
+              let olyDays = 0;
+              let classDays = 0;
+              for (const d of weekBucket.days) {
+                const groups = [...d.mainGroups, ...d.accessoryGroups];
+                if (groups.length > 0) olyDays += 1;
+                if (crossfitSessions[d.date]) classDays += 1;
+                for (const g of groups) {
+                  sets += g.videos.length;
+                  for (const v of g.videos) {
+                    if (!v.accessory && (!top || v.weight > top.weight)) top = v;
+                  }
+                }
+              }
+              const statParts = [
+                olyDays > 0 && `${olyDays} oly ${olyDays === 1 ? 'day' : 'days'}`,
+                classDays > 0 && `${classDays} ${classDays === 1 ? 'class' : 'classes'}`,
+                sets > 0 && `${sets} sets`,
+                top && `top ${top.weight}kg ${(LIFT_LABELS[top.lift] || top.lift).toLowerCase()}`,
+              ].filter(Boolean);
+              return (
               <div key={weekBucket.weekKey} style={styles.weekSection}>
-                {groupedByWeek.length > 1 && (
+                {(weekBucket.week || groupedByWeek.length > 1) && (
                   <div style={styles.weekDivider}>
                     <span style={styles.weekDividerLabel}>
                       {weekBucket.week ? formatWeek(weekBucket.week) : 'No week'}
                     </span>
+                    {statParts.length > 0 && (
+                      <span style={styles.weekStats}>{statParts.join(' · ')}</span>
+                    )}
                     <span style={styles.weekDividerLine} />
                   </div>
                 )}
@@ -577,6 +620,7 @@ export default function App() {
               const totalCards = day.mainGroups.length + day.accessoryGroups.length;
               const noteText = getDayNoteText(day.date);
               const isCrossfitOnly = totalCards === 0 && !!crossfitSessions[day.date];
+              const whoop = whoopDays[day.date];
               return (
                 <section key={day.dayKey} style={styles.daySection}>
                   <button
@@ -606,6 +650,12 @@ export default function App() {
                         <span style={{ ...styles.dayCount, color: COLORS.accentCool }}>Class only</span>
                       )
                     )}
+                    {whoop && whoop.recovery != null && (
+                      <span style={styles.recoveryPill}>
+                        <span style={{ ...styles.recoveryDot, background: recoveryColor(whoop.recovery) }} />
+                        {whoop.recovery}%
+                      </span>
+                    )}
                     <ChevronDown
                       size={16}
                       className="day-chevron"
@@ -619,6 +669,7 @@ export default function App() {
                   </button>
                   {!collapsed && (
                     <>
+                      {whoop && <WhoopStrip data={whoop} />}
                       {noteText && (
                         <div style={styles.dayNote}>
                           <div style={styles.dayNoteLabel}>Session note</div>
@@ -652,7 +703,8 @@ export default function App() {
             })}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </main>
@@ -848,6 +900,200 @@ function Comments({ video }) {
         </button>
       </form>
     </div>
+  );
+}
+
+// Compact per-day readiness strip from Whoop (src/whoopDays.json).
+// Shows the signals a coach cares about: recovery, HRV, RHR, sleep, strain.
+function WhoopStrip({ data }) {
+  const stats = [
+    data.recovery != null && {
+      label: 'Recovery',
+      value: `${data.recovery}%`,
+      color: recoveryColor(data.recovery),
+    },
+    data.hrv != null && { label: 'HRV', value: `${data.hrv} ms` },
+    data.rhr != null && { label: 'RHR', value: `${data.rhr} bpm` },
+    data.sleepMin != null && {
+      label: 'Sleep',
+      value: formatSleep(data.sleepMin),
+      sub: data.sleepPerf != null ? `${data.sleepPerf}%` : null,
+    },
+    data.strain != null && { label: 'Strain', value: data.strain.toFixed(1) },
+  ].filter(Boolean);
+  if (stats.length === 0) return null;
+  return (
+    <div style={styles.whoopStrip}>
+      <span style={styles.whoopTag}>Whoop</span>
+      {stats.map(s => (
+        <span key={s.label} style={styles.whoopStat}>
+          <span style={styles.whoopStatLabel}>{s.label}</span>
+          <span style={{ ...styles.whoopStatValue, ...(s.color ? { color: s.color } : {}) }}>
+            {s.value}
+            {s.sub && <span style={styles.whoopStatSub}> · {s.sub}</span>}
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// Single-series sparkline (inline SVG, no library). 2px line, 10% area
+// wash, end-dot with a surface ring, crosshair + tooltip on hover.
+function Sparkline({ points, color, unit }) {
+  const [hoverI, setHoverI] = useState(null);
+  const W = 260, H = 64, PAD = 8;
+  const vals = points.map(p => p.value);
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  const range = max - min || 1;
+  const x = i => PAD + (points.length === 1 ? (W - 2 * PAD) / 2 : (i / (points.length - 1)) * (W - 2 * PAD));
+  const y = v => H - PAD - ((v - min) / range) * (H - 2 * PAD);
+  const path = points.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
+  const area = `${path} L${x(points.length - 1).toFixed(1)},${H - 2} L${x(0).toFixed(1)},${H - 2} Z`;
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) * (W / rect.width);
+    let best = 0, bd = Infinity;
+    points.forEach((p, i) => { const d = Math.abs(x(i) - px); if (d < bd) { bd = d; best = i; } });
+    setHoverI(best);
+  };
+  const hi = hoverI;
+  const lastI = points.length - 1;
+  return (
+    <div style={{ position: 'relative' }}>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
+        onMouseMove={onMove}
+        onMouseLeave={() => setHoverI(null)}
+      >
+        <line x1={PAD} y1={H - 2} x2={W - PAD} y2={H - 2} stroke={COLORS.border} strokeWidth="1" />
+        <path d={area} fill={color} opacity="0.1" />
+        <path d={path} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        {hi != null && (
+          <line x1={x(hi)} y1={PAD} x2={x(hi)} y2={H - 2} stroke={COLORS.borderStrong} strokeWidth="1" />
+        )}
+        <circle
+          cx={x(hi != null ? hi : lastI)}
+          cy={y(points[hi != null ? hi : lastI].value)}
+          r="4"
+          fill={color}
+          stroke={COLORS.surface}
+          strokeWidth="2"
+        />
+      </svg>
+      {hi != null && (
+        <div
+          style={{
+            ...styles.sparkTooltip,
+            left: `${(x(hi) / W) * 100}%`,
+            transform: x(hi) > W * 0.6 ? 'translateX(-100%)' : 'none',
+          }}
+        >
+          {formatDayDate(points[hi].date)} · {points[hi].value}{unit}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Small-multiples trend panel: top set per session for the most-trained
+// lifts, plus the Whoop recovery line. Computed from the FULL data set
+// (ignores active filters) so the trend is always the whole story.
+function TrendsPanel() {
+  const [open, setOpen] = useState(true);
+  const liftSeries = useMemo(() => {
+    const byLift = new Map();
+    for (const v of videos) {
+      if (v.accessory || !v.weight) continue;
+      if (!byLift.has(v.lift)) byLift.set(v.lift, new Map());
+      const m = byLift.get(v.lift);
+      m.set(v.date, Math.max(m.get(v.date) || 0, v.weight));
+    }
+    return Array.from(byLift.entries())
+      .map(([lift, m]) => ({
+        lift,
+        points: Array.from(m.entries())
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([date, value]) => ({ date, value })),
+      }))
+      .filter(s => s.points.length >= 3)
+      .sort((a, b) => b.points.length - a.points.length)
+      .slice(0, 6);
+  }, []);
+  const recoverySeries = useMemo(() => (
+    Object.entries(whoopDays)
+      .filter(([, d]) => d.recovery != null)
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([date, d]) => ({ date, value: d.recovery }))
+  ), []);
+
+  const cells = [
+    ...liftSeries.map(s => ({
+      key: s.lift,
+      label: LIFT_LABELS[s.lift] || s.lift,
+      points: s.points,
+      color: COLORS.accent,
+      unit: 'kg',
+    })),
+    recoverySeries.length >= 3 && {
+      key: 'whoop-recovery',
+      label: 'Whoop Recovery',
+      points: recoverySeries,
+      color: COLORS.accentCool,
+      unit: '%',
+    },
+  ].filter(Boolean);
+
+  if (cells.length === 0) return null;
+
+  return (
+    <section style={styles.trendsPanel}>
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        style={styles.filterSectionToggle}
+        aria-expanded={open}
+      >
+        <span style={{ ...styles.filterLabel, marginBottom: 0 }}>Trends</span>
+        <span style={styles.trendsSub}>top set per session</span>
+        <ChevronDown
+          size={12}
+          style={{
+            color: COLORS.textMute,
+            transform: open ? 'none' : 'rotate(-90deg)',
+            transition: 'transform 0.18s ease',
+            marginLeft: 'auto',
+          }}
+        />
+      </button>
+      {open && (
+        <div style={styles.trendsGrid}>
+          {cells.map(cell => {
+            const first = cell.points[0].value;
+            const last = cell.points[cell.points.length - 1].value;
+            const delta = Math.round((last - first) * 10) / 10;
+            return (
+              <div key={cell.key} style={styles.trendCell}>
+                <div style={styles.trendCellHead}>
+                  <span style={styles.trendCellLabel}>{cell.label}</span>
+                  <span style={styles.trendCellValue}>
+                    {last}{cell.unit}
+                    {delta !== 0 && (
+                      <span style={{ ...styles.trendDelta, color: delta > 0 ? '#3FBF7F' : '#E4574F' }}>
+                        {delta > 0 ? '+' : ''}{delta}
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <Sparkline points={cell.points} color={cell.color} unit={cell.unit} />
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -1159,8 +1405,8 @@ const globalCss = `
   * { box-sizing: border-box; }
   html { scrollbar-gutter: stable; }
   body { margin: 0; }
-  .lift-card { transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease; }
-  .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; }
+  .lift-card { transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+  .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
   .lift-card-accessory:hover { border-color: ${COLORS.accent}; background: #221c18; }
   .lift-card:active { transform: scale(0.99); }
   .day-header:hover { background: ${COLORS.surface}; }
@@ -1492,12 +1738,20 @@ const styles = {
     marginBottom: 6,
   },
   weekDividerLabel: {
-    fontFamily: FONTS.mono,
-    fontSize: 12,
-    letterSpacing: '0.22em',
+    fontFamily: FONTS.display,
+    fontSize: 22,
+    letterSpacing: '0.04em',
     textTransform: 'uppercase',
     color: COLORS.accent,
-    fontWeight: 700,
+    fontWeight: 800,
+    lineHeight: 1,
+    whiteSpace: 'nowrap',
+  },
+  weekStats: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    letterSpacing: '0.04em',
+    color: COLORS.textDim,
     whiteSpace: 'nowrap',
   },
   weekDividerLine: {
@@ -1516,6 +1770,132 @@ const styles = {
     borderLeft: `3px solid ${COLORS.accent}`,
     borderRadius: 6,
     padding: '12px 16px',
+  },
+  recoveryPill: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textDim,
+    letterSpacing: '0.04em',
+    whiteSpace: 'nowrap',
+  },
+  recoveryDot: {
+    width: 7,
+    height: 7,
+    borderRadius: '50%',
+    display: 'inline-block',
+    flexShrink: 0,
+  },
+  whoopStrip: {
+    display: 'flex',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+    gap: '10px 22px',
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 8,
+    padding: '12px 16px',
+  },
+  whoopTag: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.14em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    marginRight: 4,
+  },
+  whoopStat: {
+    display: 'inline-flex',
+    alignItems: 'baseline',
+    gap: 7,
+    whiteSpace: 'nowrap',
+  },
+  whoopStatLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+  },
+  whoopStatValue: {
+    fontFamily: FONTS.mono,
+    fontSize: 13,
+    fontWeight: 600,
+    color: COLORS.text,
+  },
+  whoopStatSub: {
+    fontWeight: 400,
+    fontSize: 11,
+    color: COLORS.textDim,
+  },
+  trendsPanel: {
+    marginBottom: 36,
+  },
+  trendsSub: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.06em',
+    color: COLORS.textMute,
+    textTransform: 'lowercase',
+  },
+  trendsGrid: {
+    marginTop: 14,
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+    gap: 14,
+  },
+  trendCell: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '14px 16px 10px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+  },
+  trendCellHead: {
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  trendCellLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  trendCellValue: {
+    fontFamily: FONTS.mono,
+    fontSize: 14,
+    fontWeight: 600,
+    color: COLORS.text,
+    whiteSpace: 'nowrap',
+  },
+  trendDelta: {
+    fontSize: 11,
+    fontWeight: 500,
+    marginLeft: 6,
+  },
+  sparkTooltip: {
+    position: 'absolute',
+    top: -6,
+    background: COLORS.surfaceLift,
+    border: `1px solid ${COLORS.borderStrong}`,
+    borderRadius: 5,
+    padding: '3px 8px',
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    color: COLORS.text,
+    whiteSpace: 'nowrap',
+    pointerEvents: 'none',
+    zIndex: 2,
   },
   crossfitCard: {
     background: COLORS.surface,

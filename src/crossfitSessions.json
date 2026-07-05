@@ -199,5 +199,41 @@
     "cycle": "cycle-2",
     "strength": [],
     "notes": "Travelling for work — Wednesday CrossFit skipped. Swam 250m in the hotel pool instead."
+  },
+  "2026-06-19": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-6-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Strict Pull Ups (Wide Grip)",
+        "scheme": "Every 2:00 x 4 — 10 strict pull ups, wide grip.",
+        "myWeight": "Bodyweight"
+      }
+    ],
+    "metcon": {
+      "format": "For Time",
+      "details": "21-15-9\nCleans (53kg — power clean, hips a bit higher)\nRun 400m",
+      "scoreType": "Time",
+      "timeCap": "12:00"
+    },
+    "notes": "Cleans in the metcon at 53kg — used a power clean variation with hips a bit higher. Finished within the 12:00 cap."
+  },
+  "2026-06-20": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-6-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Super Saturday — For Time",
+      "details": "50/40 Calorie Row\n50 Push Ups\n40/30 Cal Row\n40 Dumbbell Step Overs @ x2 DB (17.5kg)\n30/20 Calorie Row\n30 Toes to Bar\n20/16 Calorie Row\n20 Dumbbell Squats @ x2 DB (17.5kg)\n10/8 Calorie Row\n10 Devil's Press @ x2 DB (17.5kg)",
+      "scoreType": "Time",
+      "timeCap": "26:00"
+    },
+    "notes": "Super Saturday chipper with double 17.5kg dumbbells on all DB movements."
   }
 }

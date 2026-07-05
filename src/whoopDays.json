@@ -1,0 +1,530 @@
+{
+  "2026-05-01": {
+    "recovery": 73,
+    "rhr": 66,
+    "hrv": 50,
+    "sleepPerf": 78,
+    "sleepMin": 355,
+    "strain": 16.5
+  },
+  "2026-05-02": {
+    "recovery": 66,
+    "rhr": 64,
+    "hrv": 48,
+    "sleepPerf": 64,
+    "sleepMin": 465,
+    "strain": 11.5
+  },
+  "2026-05-03": {
+    "recovery": 54,
+    "rhr": 68,
+    "hrv": 43,
+    "sleepPerf": 80,
+    "sleepMin": 442,
+    "strain": 12.8
+  },
+  "2026-05-04": {
+    "recovery": 68,
+    "rhr": 65,
+    "hrv": 48,
+    "sleepPerf": 84,
+    "sleepMin": 453,
+    "strain": 4.5
+  },
+  "2026-05-05": {
+    "recovery": 74,
+    "rhr": 65,
+    "hrv": 49,
+    "sleepPerf": 88,
+    "sleepMin": 464,
+    "strain": 12.6
+  },
+  "2026-05-06": {
+    "recovery": 55,
+    "rhr": 67,
+    "hrv": 43,
+    "sleepPerf": 81,
+    "sleepMin": 362,
+    "strain": 15.8
+  },
+  "2026-05-07": {
+    "recovery": 50,
+    "rhr": 65,
+    "hrv": 41,
+    "sleepPerf": 84,
+    "sleepMin": 416,
+    "strain": 15.4
+  },
+  "2026-05-08": {
+    "recovery": 1,
+    "rhr": 72,
+    "hrv": 37,
+    "sleepPerf": 23,
+    "sleepMin": 71,
+    "strain": 13.9
+  },
+  "2026-05-09": {
+    "recovery": 44,
+    "rhr": 68,
+    "hrv": 39,
+    "sleepPerf": 64,
+    "sleepMin": 439,
+    "strain": 10.3
+  },
+  "2026-05-10": {
+    "recovery": 74,
+    "rhr": 66,
+    "hrv": 45,
+    "sleepPerf": 79,
+    "sleepMin": 445,
+    "strain": 14.8
+  },
+  "2026-05-11": {
+    "recovery": 42,
+    "rhr": 68,
+    "hrv": 38,
+    "sleepPerf": 80,
+    "sleepMin": 432,
+    "strain": 4.8
+  },
+  "2026-05-12": {
+    "recovery": 79,
+    "rhr": 64,
+    "hrv": 47,
+    "sleepPerf": 78,
+    "sleepMin": 409,
+    "strain": 4.5
+  },
+  "2026-05-13": {
+    "recovery": 35,
+    "rhr": 71,
+    "hrv": 33,
+    "sleepPerf": 84,
+    "sleepMin": 479,
+    "strain": 6
+  },
+  "2026-05-14": {
+    "recovery": 89,
+    "rhr": 62,
+    "hrv": 50,
+    "sleepPerf": 86,
+    "sleepMin": 420,
+    "strain": 12.3
+  },
+  "2026-05-15": {
+    "recovery": 65,
+    "rhr": 64,
+    "hrv": 44,
+    "sleepPerf": 89,
+    "sleepMin": 452,
+    "strain": 7.5
+  },
+  "2026-05-16": {
+    "recovery": 51,
+    "rhr": 67,
+    "hrv": 40,
+    "sleepPerf": 83,
+    "sleepMin": 357,
+    "strain": 11.8
+  },
+  "2026-05-17": {
+    "recovery": 71,
+    "rhr": 65,
+    "hrv": 46,
+    "sleepPerf": 85,
+    "sleepMin": 519,
+    "strain": 16.7
+  },
+  "2026-05-18": {
+    "recovery": 41,
+    "rhr": 67,
+    "hrv": 36,
+    "sleepPerf": 85,
+    "sleepMin": 450,
+    "strain": 5.1
+  },
+  "2026-05-19": {
+    "recovery": 78,
+    "rhr": 64,
+    "hrv": 49,
+    "sleepPerf": 84,
+    "sleepMin": 382,
+    "strain": 11.7
+  },
+  "2026-05-20": {
+    "recovery": 37,
+    "rhr": 69,
+    "hrv": 37,
+    "sleepPerf": 71,
+    "sleepMin": 315,
+    "strain": 4.7
+  },
+  "2026-05-21": {
+    "recovery": 58,
+    "rhr": 65,
+    "hrv": 42,
+    "sleepPerf": 81,
+    "sleepMin": 464,
+    "strain": 11.5
+  },
+  "2026-05-22": {
+    "recovery": 89,
+    "rhr": 61,
+    "hrv": 51,
+    "sleepPerf": 82,
+    "sleepMin": 389,
+    "strain": 6
+  },
+  "2026-05-23": {
+    "recovery": 34,
+    "rhr": 72,
+    "hrv": 36,
+    "sleepPerf": 67,
+    "sleepMin": 300,
+    "strain": 9.5
+  },
+  "2026-05-24": {
+    "recovery": 63,
+    "rhr": 68,
+    "hrv": 42,
+    "sleepPerf": 82,
+    "sleepMin": 523,
+    "strain": 4.9
+  },
+  "2026-05-25": {
+    "recovery": 65,
+    "rhr": 68,
+    "hrv": 42,
+    "sleepPerf": 87,
+    "sleepMin": 454,
+    "strain": 5
+  },
+  "2026-05-26": {
+    "recovery": 73,
+    "rhr": 66,
+    "hrv": 44,
+    "sleepPerf": 91,
+    "sleepMin": 456,
+    "strain": 14
+  },
+  "2026-05-27": {
+    "recovery": 37,
+    "rhr": 70,
+    "hrv": 34,
+    "sleepPerf": 79,
+    "sleepMin": 369,
+    "strain": 17.1
+  },
+  "2026-05-28": {
+    "recovery": 63,
+    "rhr": 67,
+    "hrv": 41,
+    "sleepPerf": 85,
+    "sleepMin": 470,
+    "strain": 13.6
+  },
+  "2026-05-29": {
+    "recovery": 44,
+    "rhr": 71,
+    "hrv": 35,
+    "sleepPerf": 85,
+    "sleepMin": 463,
+    "strain": 15.5
+  },
+  "2026-05-30": {
+    "recovery": 29,
+    "rhr": 74,
+    "hrv": 30,
+    "sleepPerf": 83,
+    "sleepMin": 397,
+    "strain": 7.6
+  },
+  "2026-05-31": {
+    "recovery": 59,
+    "rhr": 69,
+    "hrv": 39,
+    "sleepPerf": 87,
+    "sleepMin": 501,
+    "strain": 14.8
+  },
+  "2026-06-01": {
+    "recovery": 52,
+    "rhr": 70,
+    "hrv": 35,
+    "sleepPerf": 87,
+    "sleepMin": 457,
+    "strain": 5.4
+  },
+  "2026-06-02": {
+    "recovery": 57,
+    "rhr": 68,
+    "hrv": 34,
+    "sleepPerf": 93,
+    "sleepMin": 467,
+    "strain": 13.6
+  },
+  "2026-06-03": {
+    "recovery": 65,
+    "rhr": 70,
+    "hrv": 37,
+    "sleepPerf": 83,
+    "sleepMin": 363,
+    "strain": 15.7
+  },
+  "2026-06-04": {
+    "recovery": 92,
+    "rhr": 64,
+    "hrv": 47,
+    "sleepPerf": 88,
+    "sleepMin": 453,
+    "strain": 12.8
+  },
+  "2026-06-05": {
+    "recovery": 82,
+    "rhr": 67,
+    "hrv": 44,
+    "sleepPerf": 83,
+    "sleepMin": 383,
+    "strain": 14.7
+  },
+  "2026-06-06": {
+    "recovery": 81,
+    "rhr": 66,
+    "hrv": 46,
+    "sleepPerf": 80,
+    "sleepMin": 363,
+    "strain": 17
+  },
+  "2026-06-07": {
+    "recovery": 73,
+    "rhr": 68,
+    "hrv": 42,
+    "sleepPerf": 77,
+    "sleepMin": 463,
+    "strain": 15.6
+  },
+  "2026-06-08": {
+    "recovery": 26,
+    "rhr": 74,
+    "hrv": 26,
+    "sleepPerf": 79,
+    "sleepMin": 471,
+    "strain": 4.2
+  },
+  "2026-06-09": {
+    "recovery": 54,
+    "rhr": 70,
+    "hrv": 37,
+    "sleepPerf": 85,
+    "sleepMin": 493,
+    "strain": 13
+  },
+  "2026-06-10": {
+    "recovery": 71,
+    "rhr": 68,
+    "hrv": 43,
+    "sleepPerf": 79,
+    "sleepMin": 381,
+    "strain": 16.1
+  },
+  "2026-06-11": {
+    "recovery": 74,
+    "rhr": 66,
+    "hrv": 44,
+    "sleepPerf": 81,
+    "sleepMin": 391,
+    "strain": 6.3
+  },
+  "2026-06-12": {
+    "recovery": 69,
+    "rhr": 68,
+    "hrv": 43,
+    "sleepPerf": 82,
+    "sleepMin": 369,
+    "strain": 15.9
+  },
+  "2026-06-13": {
+    "recovery": 68,
+    "rhr": 67,
+    "hrv": 43,
+    "sleepPerf": 80,
+    "sleepMin": 401,
+    "strain": 18.7
+  },
+  "2026-06-14": {
+    "recovery": 46,
+    "rhr": 72,
+    "hrv": 36,
+    "sleepPerf": 84,
+    "sleepMin": 471,
+    "strain": 13.2
+  },
+  "2026-06-15": {
+    "recovery": 52,
+    "rhr": 70,
+    "hrv": 37,
+    "sleepPerf": 89,
+    "sleepMin": 496,
+    "strain": 5.8
+  },
+  "2026-06-16": {
+    "recovery": 54,
+    "rhr": 68,
+    "hrv": 39,
+    "sleepPerf": 82,
+    "sleepMin": 376,
+    "strain": 14.5
+  },
+  "2026-06-17": {
+    "recovery": 80,
+    "rhr": 66,
+    "hrv": 45,
+    "sleepPerf": 77,
+    "sleepMin": 353,
+    "strain": 11.9
+  },
+  "2026-06-18": {
+    "recovery": 93,
+    "rhr": 65,
+    "hrv": 50,
+    "sleepPerf": 84,
+    "sleepMin": 414,
+    "strain": 13
+  },
+  "2026-06-19": {
+    "recovery": 83,
+    "rhr": 66,
+    "hrv": 49,
+    "sleepPerf": 77,
+    "sleepMin": 353,
+    "strain": 14.9
+  },
+  "2026-06-20": {
+    "recovery": 68,
+    "rhr": 69,
+    "hrv": 43,
+    "sleepPerf": 83,
+    "sleepMin": 431,
+    "strain": 18.2
+  },
+  "2026-06-21": {
+    "recovery": 47,
+    "rhr": 70,
+    "hrv": 38,
+    "sleepPerf": 70,
+    "sleepMin": 384,
+    "strain": 16.1
+  },
+  "2026-06-22": {
+    "recovery": 58,
+    "rhr": 69,
+    "hrv": 40,
+    "sleepPerf": 82,
+    "sleepMin": 454,
+    "strain": 6
+  },
+  "2026-06-23": {
+    "recovery": 74,
+    "rhr": 69,
+    "hrv": 45,
+    "sleepPerf": 79,
+    "sleepMin": 356,
+    "strain": 13.5
+  },
+  "2026-06-24": {
+    "recovery": 41,
+    "rhr": 70,
+    "hrv": 36,
+    "sleepPerf": 74,
+    "sleepMin": 344,
+    "strain": 15.2
+  },
+  "2026-06-25": {
+    "recovery": 70,
+    "rhr": 67,
+    "hrv": 42,
+    "sleepPerf": 78,
+    "sleepMin": 408,
+    "strain": 10.7
+  },
+  "2026-06-26": {
+    "recovery": 67,
+    "rhr": 67,
+    "hrv": 42,
+    "sleepPerf": 76,
+    "sleepMin": 354,
+    "strain": 14.1
+  },
+  "2026-06-27": {
+    "recovery": 68,
+    "rhr": 67,
+    "hrv": 42,
+    "sleepPerf": 83,
+    "sleepMin": 446,
+    "strain": 18.1
+  },
+  "2026-06-28": {
+    "recovery": 1,
+    "rhr": 83,
+    "hrv": 25,
+    "sleepPerf": 10,
+    "sleepMin": 63,
+    "strain": 13.7
+  },
+  "2026-06-29": {
+    "recovery": 46,
+    "rhr": 73,
+    "hrv": 36,
+    "sleepPerf": 71,
+    "sleepMin": 435,
+    "strain": 5.3
+  },
+  "2026-06-30": {
+    "recovery": 52,
+    "rhr": 70,
+    "hrv": 38,
+    "sleepPerf": 83,
+    "sleepMin": 417,
+    "strain": 13.6
+  },
+  "2026-07-01": {
+    "recovery": 46,
+    "rhr": 69,
+    "hrv": 36,
+    "sleepPerf": 83,
+    "sleepMin": 376,
+    "strain": 16
+  },
+  "2026-07-02": {
+    "recovery": 56,
+    "rhr": 68,
+    "hrv": 37,
+    "sleepPerf": 80,
+    "sleepMin": 382,
+    "strain": 12.6
+  },
+  "2026-07-03": {
+    "recovery": 70,
+    "rhr": 69,
+    "hrv": 41,
+    "sleepPerf": 76,
+    "sleepMin": 358,
+    "strain": 15.4
+  },
+  "2026-07-04": {
+    "recovery": 63,
+    "rhr": 71,
+    "hrv": 37,
+    "sleepPerf": 83,
+    "sleepMin": 459,
+    "strain": 17.4
+  },
+  "2026-07-05": {
+    "recovery": 64,
+    "rhr": 71,
+    "hrv": 37,
+    "sleepPerf": 77,
+    "sleepMin": 431,
+    "strain": null
+  }
+}
