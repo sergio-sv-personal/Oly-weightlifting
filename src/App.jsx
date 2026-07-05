@@ -32,6 +32,7 @@ const LIFT_LABELS = {
   single_leg_glute_bridge: 'Single-Leg Glute Bridge',
   deadlift: 'Deadlift',
   bb_bent_over_row_supinated: 'BB Bent-Over Row, Supinated',
+  snatch_grip_rdl: 'Snatch-Grip RDL',
   dips: 'Dips',
   pull_ups: 'Pull-Ups',
 };
@@ -66,6 +67,7 @@ const LIFT_CATEGORIES = {
   pull_ups: 'accessory',
   bulgarian_split_squat: 'accessory',
   single_leg_glute_bridge: 'accessory',
+  snatch_grip_rdl: 'accessory',
 };
 
 const LIFT_CATEGORY_ORDER = ['snatch', 'clean_jerk', 'squat_pull', 'accessory'];

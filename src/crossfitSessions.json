@@ -120,5 +120,84 @@
       "scoreType": "Rounds + Reps"
     },
     "notes": "Goblet lunges at 22.5kg dumbbell. Finisher (Tabata L-hang / L-tuck hang, 8 rounds 0:20 on / 0:10 off) — couldn't do it at all."
+  },
+  "2026-06-10": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-5-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Strict Chin Ups",
+        "scheme": "5 sets, max reps with 2 RIR each set. Rest 2:00. Time cap 13:00.",
+        "myWeight": "Bodyweight"
+      }
+    ],
+    "metcon": {
+      "format": "Every 2:00 x 8",
+      "details": "12/10 Cal Row\n5 Renegade Rows (15kg DBs)",
+      "scoreType": "Notes",
+      "timeCap": "16:00"
+    },
+    "notes": "Renegade rows at 15kg dumbbells."
+  },
+  "2026-06-12": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-5-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Push Press",
+        "scheme": "Every 2:00 x 8 — 1 Push Press. Working up to a max for the day.",
+        "myWeight": "40kg max"
+      }
+    ],
+    "metcon": {
+      "format": "For Time",
+      "details": "21-15-9\nOverhead Squat (30kg)\nToes to Bar",
+      "scoreType": "Time",
+      "timeCap": "9:00"
+    },
+    "notes": "Push Press worked up to a 40kg max. OHS at 30kg in the metcon."
+  },
+  "2026-06-13": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-5-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Partner WOD — In Pairs, For Time",
+      "details": "1000m Run\n150 Dumbbell Snatch (17.5kg)\n800m Run\n150 Burpees Over Dumbbell\n400m Run\n150 Plank Dumbbell Drag Through\n200m Run",
+      "scoreType": "Time",
+      "timeCap": "35:00"
+    },
+    "notes": "Partner WOD with 17.5kg dumbbells. Finished within the time cap."
+  },
+  "2026-06-14": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-5-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "5 Rounds for Reps",
+      "details": "1:00 V-ups\n1:00 Carry (32kg)\n1:00 Deadlifts (85kg)",
+      "scoreType": "Total Reps",
+      "timeCap": "15:00"
+    },
+    "notes": "Carry at 32kg, deadlift at 85kg in the metcon."
+  },
+  "2026-06-17": {
+    "className": "Swim (travel)",
+    "week": "week-6-c2",
+    "cycle": "cycle-2",
+    "strength": [],
+    "notes": "Travelling for work — Wednesday CrossFit skipped. Swam 250m in the hotel pool instead."
   }
 }
