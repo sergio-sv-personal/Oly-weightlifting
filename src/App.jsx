@@ -4,6 +4,7 @@ import videos from './videos.json';
 import dayNotes from './dayNotes.json';
 import crossfitSessions from './crossfitSessions.json';
 import whoopDays from './whoopDays.json';
+import program from './program.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
@@ -136,6 +137,7 @@ export default function App() {
   const [activeGroup, setActiveGroup] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [liftFilterOpen, setLiftFilterOpen] = useState(false);
+  const [view, setView] = useState('log');
   // Days are collapsed by default; openDays tracks ones the user has opened.
   const [openDays, setOpenDays] = useState(new Set());
 
@@ -374,6 +376,26 @@ export default function App() {
         </div>
       </header>
 
+      <nav style={styles.viewTabs}>
+        {[
+          { key: 'log', label: 'Training log' },
+          { key: 'coach', label: 'Coach summary' },
+        ].map(t => (
+          <button
+            key={t.key}
+            type="button"
+            onClick={() => setView(t.key)}
+            style={{
+              ...styles.viewTab,
+              ...(view === t.key ? styles.viewTabActive : {}),
+            }}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
+
+      {view === 'log' && (
       <section style={styles.filterBar}>
         <div style={styles.searchWrap}>
           <Search size={16} style={styles.searchIcon} />
@@ -404,8 +426,9 @@ export default function App() {
           <button onClick={clearAll} style={styles.clearAll}>Reset</button>
         )}
       </section>
+      )}
 
-      {filtersOpen && (
+      {view === 'log' && filtersOpen && (
         <section style={styles.filterPanel}>
           {allWeeks.length > 0 && (
             <div style={styles.filterGroup}>
@@ -567,8 +590,9 @@ export default function App() {
       )}
 
       <main style={styles.main}>
-        <TrendsPanel />
-        {visibleVideos.length === 0 ? (
+        {view === 'coach' ? (
+          <CoachPage />
+        ) : visibleVideos.length === 0 ? (
           <div style={styles.empty}>
             <div style={styles.emptyTitle}>No lifts match.</div>
             <div style={styles.emptySub}>Try clearing a filter or different search term.</div>
@@ -938,28 +962,28 @@ function WhoopStrip({ data }) {
   );
 }
 
-// Single-series sparkline (inline SVG, no library). 2px line, 10% area
-// wash, end-dot with a surface ring, crosshair + tooltip on hover.
-function Sparkline({ points, color, unit }) {
+// Single-series bar chart (inline SVG, no library). Bars grow from a
+// zero baseline, rounded 3px at the data end, square at the base, with
+// a surface gap between bars and a per-bar hover tooltip.
+function BarChart({ points, color, colorFor, unit }) {
   const [hoverI, setHoverI] = useState(null);
-  const W = 260, H = 64, PAD = 8;
-  const vals = points.map(p => p.value);
-  const min = Math.min(...vals);
-  const max = Math.max(...vals);
-  const range = max - min || 1;
-  const x = i => PAD + (points.length === 1 ? (W - 2 * PAD) / 2 : (i / (points.length - 1)) * (W - 2 * PAD));
-  const y = v => H - PAD - ((v - min) / range) * (H - 2 * PAD);
-  const path = points.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
-  const area = `${path} L${x(points.length - 1).toFixed(1)},${H - 2} L${x(0).toFixed(1)},${H - 2} Z`;
+  const W = 260, H = 72, PAD = 6, BASE = H - 2;
+  const n = points.length;
+  const max = Math.max(...points.map(p => p.value)) || 1;
+  const slot = (W - PAD * 2) / n;
+  const bw = Math.max(1.5, Math.min(24, slot - 2));
+  const x = i => PAD + i * slot + (slot - bw) / 2;
+  const y = v => BASE - (v / max) * (H - PAD - 8);
+  const bar = (i, v) => {
+    const bx = x(i), by = y(v), r = Math.min(3, bw / 2);
+    return `M${bx},${BASE} V${(by + r).toFixed(1)} Q${bx},${by.toFixed(1)} ${(bx + r).toFixed(1)},${by.toFixed(1)} H${(bx + bw - r).toFixed(1)} Q${(bx + bw).toFixed(1)},${by.toFixed(1)} ${(bx + bw).toFixed(1)},${(by + r).toFixed(1)} V${BASE} Z`;
+  };
   const onMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) * (W / rect.width);
-    let best = 0, bd = Infinity;
-    points.forEach((p, i) => { const d = Math.abs(x(i) - px); if (d < bd) { bd = d; best = i; } });
-    setHoverI(best);
+    const i = Math.max(0, Math.min(n - 1, Math.floor((px - PAD) / slot)));
+    setHoverI(i);
   };
-  const hi = hoverI;
-  const lastI = points.length - 1;
   return (
     <div style={{ position: 'relative' }}>
       <svg
@@ -968,30 +992,25 @@ function Sparkline({ points, color, unit }) {
         onMouseMove={onMove}
         onMouseLeave={() => setHoverI(null)}
       >
-        <line x1={PAD} y1={H - 2} x2={W - PAD} y2={H - 2} stroke={COLORS.border} strokeWidth="1" />
-        <path d={area} fill={color} opacity="0.1" />
-        <path d={path} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        {hi != null && (
-          <line x1={x(hi)} y1={PAD} x2={x(hi)} y2={H - 2} stroke={COLORS.borderStrong} strokeWidth="1" />
-        )}
-        <circle
-          cx={x(hi != null ? hi : lastI)}
-          cy={y(points[hi != null ? hi : lastI].value)}
-          r="4"
-          fill={color}
-          stroke={COLORS.surface}
-          strokeWidth="2"
-        />
+        <line x1={PAD} y1={BASE} x2={W - PAD} y2={BASE} stroke={COLORS.border} strokeWidth="1" />
+        {points.map((p, i) => (
+          <path
+            key={i}
+            d={bar(i, p.value)}
+            fill={colorFor ? colorFor(p.value) : color}
+            opacity={hoverI == null || hoverI === i ? 1 : 0.45}
+          />
+        ))}
       </svg>
-      {hi != null && (
+      {hoverI != null && (
         <div
           style={{
             ...styles.sparkTooltip,
-            left: `${(x(hi) / W) * 100}%`,
-            transform: x(hi) > W * 0.6 ? 'translateX(-100%)' : 'none',
+            left: `${((x(hoverI) + bw / 2) / W) * 100}%`,
+            transform: x(hoverI) > W * 0.6 ? 'translateX(-100%)' : 'none',
           }}
         >
-          {formatDayDate(points[hi].date)} · {points[hi].value}{unit}
+          {formatDayDate(points[hoverI].date)} · {points[hoverI].value}{unit}
         </div>
       )}
     </div>
@@ -999,10 +1018,9 @@ function Sparkline({ points, color, unit }) {
 }
 
 // Small-multiples trend panel: top set per session for the most-trained
-// lifts, plus the Whoop recovery line. Computed from the FULL data set
-// (ignores active filters) so the trend is always the whole story.
+// lifts, plus the Whoop recovery bars. Computed from the FULL data set
+// (ignores filters) so the trend is always the whole story.
 function TrendsPanel() {
-  const [open, setOpen] = useState(true);
   const liftSeries = useMemo(() => {
     const byLift = new Map();
     for (const v of videos) {
@@ -1027,6 +1045,7 @@ function TrendsPanel() {
       .filter(([, d]) => d.recovery != null)
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([date, d]) => ({ date, value: d.recovery }))
+      .slice(-30)
   ), []);
 
   const cells = [
@@ -1039,9 +1058,9 @@ function TrendsPanel() {
     })),
     recoverySeries.length >= 3 && {
       key: 'whoop-recovery',
-      label: 'Whoop Recovery',
+      label: 'Whoop Recovery (30d)',
       points: recoverySeries,
-      color: COLORS.accentCool,
+      colorFor: recoveryColor,
       unit: '%',
     },
   ].filter(Boolean);
@@ -1050,52 +1069,118 @@ function TrendsPanel() {
 
   return (
     <section style={styles.trendsPanel}>
-      <button
-        type="button"
-        onClick={() => setOpen(o => !o)}
-        style={styles.filterSectionToggle}
-        aria-expanded={open}
-      >
-        <span style={{ ...styles.filterLabel, marginBottom: 0 }}>Trends</span>
+      <div style={styles.coachSectionHead}>
+        <span style={styles.filterLabel}>Trends</span>
         <span style={styles.trendsSub}>top set per session</span>
-        <ChevronDown
-          size={12}
-          style={{
-            color: COLORS.textMute,
-            transform: open ? 'none' : 'rotate(-90deg)',
-            transition: 'transform 0.18s ease',
-            marginLeft: 'auto',
-          }}
-        />
-      </button>
-      {open && (
-        <div style={styles.trendsGrid}>
-          {cells.map(cell => {
-            const first = cell.points[0].value;
-            const last = cell.points[cell.points.length - 1].value;
-            const delta = Math.round((last - first) * 10) / 10;
-            return (
-              <div key={cell.key} style={styles.trendCell}>
-                <div style={styles.trendCellHead}>
-                  <span style={styles.trendCellLabel}>{cell.label}</span>
-                  <span style={styles.trendCellValue}>
-                    {last}{cell.unit}
-                    {delta !== 0 && (
-                      <span style={{ ...styles.trendDelta, color: delta > 0 ? '#3FBF7F' : '#E4574F' }}>
-                        {delta > 0 ? '+' : ''}{delta}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                <Sparkline points={cell.points} color={cell.color} unit={cell.unit} />
+      </div>
+      <div style={styles.trendsGrid}>
+        {cells.map(cell => {
+          const first = cell.points[0].value;
+          const last = cell.points[cell.points.length - 1].value;
+          const delta = Math.round((last - first) * 10) / 10;
+          return (
+            <div key={cell.key} style={styles.trendCell}>
+              <div style={styles.trendCellHead}>
+                <span style={styles.trendCellLabel}>{cell.label}</span>
+                <span style={styles.trendCellValue}>
+                  {last}{cell.unit}
+                  {delta !== 0 && (
+                    <span style={{ ...styles.trendDelta, color: delta > 0 ? '#3FBF7F' : '#E4574F' }}>
+                      {delta > 0 ? '+' : ''}{delta}
+                    </span>
+                  )}
+                </span>
               </div>
-            );
-          })}
+              <BarChart points={cell.points} color={cell.color} colorFor={cell.colorFor} unit={cell.unit} />
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// Condense a program exercise's set list into "2×3 @ 25.2kg (63%)" runs.
+function condenseSets(sets) {
+  const runs = [];
+  for (const s of sets) {
+    const key = `${s.pct}|${s.kg}|${s.reps}`;
+    const last = runs[runs.length - 1];
+    if (last && last.key === key) last.count += 1;
+    else runs.push({ key, count: 1, s });
+  }
+  return runs.map(({ count, s }) => {
+    const reps = s.reps != null ? `${count}×${s.reps}` : `${count} sets`;
+    const load = s.kg != null ? ` @ ${s.kg}kg` : '';
+    const pct = typeof s.pct === 'number' ? ` (${s.pct}%)` : (typeof s.pct === 'string' && !s.kg ? ` ${s.pct}` : '');
+    return `${reps}${load}${pct}`;
+  }).join(' · ');
+}
+
+// The prescribed program (src/program.json, extracted from the coach's
+// spreadsheet). Week chips select a week; each day lists its exercises.
+function ProgramPanel() {
+  const [week, setWeek] = useState(program.weeks[program.weeks.length - 1].week);
+  const current = program.weeks.find(w => w.week === week);
+  return (
+    <section style={styles.programPanel}>
+      <div style={styles.coachSectionHead}>
+        <span style={styles.filterLabel}>Program</span>
+        <span style={styles.trendsSub}>{program.label} — {program.focus.toLowerCase()}</span>
+      </div>
+      <div style={{ ...styles.chipRow, marginBottom: 18 }}>
+        {program.weeks.map(w => (
+          <button
+            key={w.week}
+            onClick={() => setWeek(w.week)}
+            style={{
+              ...styles.chip,
+              ...(week === w.week ? styles.chipActive : {}),
+            }}
+          >
+            Week {w.week}
+          </button>
+        ))}
+      </div>
+      {current && (
+        <div style={styles.programGrid}>
+          {current.days.map(d => (
+            <div key={d.day} style={styles.programDay}>
+              <div style={styles.programDayLabel}>Day {d.day}</div>
+              {d.exercises.map((ex, i) => (
+                <div key={i} style={styles.programExercise}>
+                  <div style={styles.programExerciseName}>{ex.name}</div>
+                  <div style={styles.programExerciseSets}>{condenseSets(ex.sets)}</div>
+                  {ex.note && <div style={styles.programExerciseNote}>{ex.note}</div>}
+                </div>
+              ))}
+              {d.accessories.length > 0 && (
+                <div style={styles.programExercise}>
+                  <div style={styles.programExerciseName}>Accessories</div>
+                  {d.accessories.map((a, i) => (
+                    <div key={i} style={styles.programExerciseSets}>{a.scheme} — {a.name}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </section>
   );
 }
+
+// Coach summary view: trends + the prescribed program. The training
+// feed stays clean; this page is the birds-eye read for Seb.
+function CoachPage() {
+  return (
+    <div>
+      <TrendsPanel />
+      <ProgramPanel />
+    </div>
+  );
+}
+
 
 function CrossfitCard({ session }) {
   const [open, setOpen] = useState(false);
@@ -1830,8 +1915,87 @@ const styles = {
     fontSize: 11,
     color: COLORS.textDim,
   },
+  viewTabs: {
+    maxWidth: 1200,
+    margin: '0 auto',
+    padding: '18px 24px 0',
+    display: 'flex',
+    gap: 4,
+    borderBottom: `1px solid ${COLORS.border}`,
+  },
+  viewTab: {
+    background: 'transparent',
+    border: 'none',
+    borderBottom: '2px solid transparent',
+    color: COLORS.textDim,
+    padding: '10px 14px',
+    fontFamily: FONTS.mono,
+    fontSize: 12,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    cursor: 'pointer',
+    marginBottom: -1,
+  },
+  viewTabActive: {
+    color: COLORS.text,
+    borderBottomColor: COLORS.accent,
+  },
+  coachSectionHead: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 12,
+    marginBottom: 14,
+  },
   trendsPanel: {
-    marginBottom: 36,
+    marginBottom: 44,
+  },
+  programPanel: {
+    marginBottom: 44,
+  },
+  programGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+    gap: 18,
+    alignItems: 'start',
+  },
+  programDay: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '16px 18px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+  },
+  programDayLabel: {
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 20,
+    letterSpacing: '0.02em',
+    textTransform: 'uppercase',
+    color: COLORS.accent,
+    lineHeight: 1,
+  },
+  programExercise: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 3,
+  },
+  programExerciseName: {
+    fontSize: 13.5,
+    fontWeight: 600,
+    color: COLORS.text,
+  },
+  programExerciseSets: {
+    fontFamily: FONTS.mono,
+    fontSize: 11.5,
+    color: COLORS.textDim,
+    lineHeight: 1.6,
+  },
+  programExerciseNote: {
+    fontSize: 12,
+    color: COLORS.textMute,
+    fontStyle: 'italic',
   },
   trendsSub: {
     fontFamily: FONTS.mono,

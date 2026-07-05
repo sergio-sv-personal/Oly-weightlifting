@@ -1,0 +1,1847 @@
+{
+  "label": "Cycle 2 \u2014 from 11 May 2026",
+  "focus": "Working on building general strength.",
+  "startDate": "2026-05-11",
+  "weeks": [
+    {
+      "week": 1,
+      "days": [
+        {
+          "day": 1,
+          "exercises": [
+            {
+              "name": "Drop Snatch",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ]
+            },
+            {
+              "name": "Floating Snatch",
+              "sets": [
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 3
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Push Jerk In Split",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "Pause 1 Inch Off The Floor Clean + 2 Jerk",
+              "sets": [
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0,
+              "note": "pause for 2 seconds"
+            },
+            {
+              "name": "Paused Back Squat",
+              "sets": [
+                {
+                  "pct": 60,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 60,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 60,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 60,
+                  "kg": 60,
+                  "reps": 4
+                }
+              ],
+              "refMax": 100.0,
+              "note": "Pause in the bottom for 3 seconds"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 8",
+              "name": "Snatch Grip RDL"
+            },
+            {
+              "scheme": "3 x 16",
+              "name": "Alt Incline Chest- Supported Row"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Behind The Neck Jerk",
+              "sets": [
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "2 Hip Power Snatch + 2 Overhead Squat",
+              "sets": [
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in the bottom for 3 seconds"
+            },
+            {
+              "name": "Pause Above Knee Clean",
+              "sets": [
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0,
+              "note": "Pause for 3 seconds"
+            },
+            {
+              "name": "Tempo Clean Grip Deadlift",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 5
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 5
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 5
+                }
+              ],
+              "refMax": 60.0,
+              "note": "4 seconds down"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 5",
+              "name": "Strict Pull-up"
+            },
+            {
+              "scheme": "3 x 8",
+              "name": "Dips"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "exercises": [
+            {
+              "name": "Behind The Neck Snatch Grip Strict Press",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Paused Below Knee + Above Knee Snatch Pull",
+              "sets": [
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in each position for 3 seconds"
+            },
+            {
+              "name": "Front Squat",
+              "sets": [
+                {
+                  "pct": 63,
+                  "kg": 50.4,
+                  "reps": 5
+                },
+                {
+                  "pct": 63,
+                  "kg": 50.4,
+                  "reps": 5
+                },
+                {
+                  "pct": 63,
+                  "kg": 50.4,
+                  "reps": 5
+                },
+                {
+                  "pct": 63,
+                  "kg": 50.4,
+                  "reps": 5
+                }
+              ],
+              "refMax": 80.0
+            },
+            {
+              "name": "Barbell Bent Over Row (supinated Grip)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                }
+              ],
+              "refMax": 80.0
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 10 e/s",
+              "name": "Bulgarian Split Squat"
+            },
+            {
+              "scheme": "3 x 8 e/s",
+              "name": "Single Leg Glute Bridge"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "days": [
+        {
+          "day": 1,
+          "exercises": [
+            {
+              "name": "Drop Snatch",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ]
+            },
+            {
+              "name": "Floating Snatch",
+              "sets": [
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Push Jerk In Split",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "Pause 1 Inch Off The Floor Clean + 2 Jerk",
+              "sets": [
+                {
+                  "pct": 72,
+                  "kg": 43.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 72,
+                  "kg": 43.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 72,
+                  "kg": 43.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 72,
+                  "kg": 43.2,
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0,
+              "note": "pause for 2 seconds"
+            },
+            {
+              "name": "Paused Back Squat",
+              "sets": [
+                {
+                  "pct": 65,
+                  "kg": 65,
+                  "reps": 4
+                },
+                {
+                  "pct": 65,
+                  "kg": 65,
+                  "reps": 4
+                },
+                {
+                  "pct": 65,
+                  "kg": 65,
+                  "reps": 4
+                },
+                {
+                  "pct": 65,
+                  "kg": 65,
+                  "reps": 4
+                }
+              ],
+              "refMax": 100.0,
+              "note": "Pause in the bottom for 3 seconds"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 8",
+              "name": "Snatch Grip RDL"
+            },
+            {
+              "scheme": "3 x 16",
+              "name": "Alt Incline Chest- Supported Row"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Behind The Neck Jerk",
+              "sets": [
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "2 Hip Power Snatch + 2 Overhead Squat",
+              "sets": [
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in the bottom for 3 seconds"
+            },
+            {
+              "name": "Pause Above Knee Clean",
+              "sets": [
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                },
+                {
+                  "pct": 66,
+                  "kg": 40,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0,
+              "note": "Pause for 3 seconds"
+            },
+            {
+              "name": "Tempo Clean Grip Deadlift",
+              "sets": [
+                {
+                  "pct": 78,
+                  "kg": 46.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 78,
+                  "kg": 46.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 78,
+                  "kg": 46.8,
+                  "reps": 5
+                }
+              ],
+              "refMax": 60.0,
+              "note": "4 seconds down"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 5",
+              "name": "Strict Pull-up"
+            },
+            {
+              "scheme": "3 x 8",
+              "name": "Dips"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "exercises": [
+            {
+              "name": "Behind The Neck Snatch Grip Strict Press",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Paused Below Knee + Above Knee Snatch Pull",
+              "sets": [
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 84,
+                  "kg": 33.6,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in each position for 3 seconds"
+            },
+            {
+              "name": "Front Squat",
+              "sets": [
+                {
+                  "pct": 68,
+                  "kg": 54.4,
+                  "reps": 5
+                },
+                {
+                  "pct": 68,
+                  "kg": 54.4,
+                  "reps": 5
+                },
+                {
+                  "pct": 68,
+                  "kg": 54.4,
+                  "reps": 5
+                },
+                {
+                  "pct": 68,
+                  "kg": 54.4,
+                  "reps": 5
+                }
+              ],
+              "refMax": 80.0
+            },
+            {
+              "name": "Barbell Bent Over Row (supinated Grip)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                }
+              ],
+              "refMax": 80.0
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 10 e/s",
+              "name": "Bulgarian Split Squat"
+            },
+            {
+              "scheme": "3 x 8 e/s",
+              "name": "Single Leg Glute Bridge"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "days": [
+        {
+          "day": 1,
+          "exercises": [
+            {
+              "name": "Drop Snatch",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ]
+            },
+            {
+              "name": "Floating Snatch",
+              "sets": [
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Push Jerk In Split",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "Pause 1 Inch Off The Floor Clean + 2 Jerk",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0,
+              "note": "pause for 2 seconds"
+            },
+            {
+              "name": "Paused Back Squat",
+              "sets": [
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 4
+                },
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 4
+                },
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 4
+                },
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 4
+                }
+              ],
+              "refMax": 100.0,
+              "note": "Pause in the bottom for 3 seconds"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 8",
+              "name": "Snatch Grip RDL"
+            },
+            {
+              "scheme": "3 x 16",
+              "name": "Alt Incline Chest- Supported Row"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Behind The Neck Jerk",
+              "sets": [
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "2 Hip Power Snatch + 2 Overhead Squat",
+              "sets": [
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25,
+                  "reps": 4
+                },
+                {
+                  "pct": 63,
+                  "kg": 25,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in the bottom for 3 seconds"
+            },
+            {
+              "name": "Pause Above Knee Clean",
+              "sets": [
+                {
+                  "pct": 73,
+                  "kg": 44,
+                  "reps": 2
+                },
+                {
+                  "pct": 73,
+                  "kg": 44,
+                  "reps": 2
+                },
+                {
+                  "pct": 73,
+                  "kg": 44,
+                  "reps": 2
+                },
+                {
+                  "pct": 73,
+                  "kg": 44,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0,
+              "note": "Pause for 3 seconds"
+            },
+            {
+              "name": "Tempo Clean Grip Deadlift",
+              "sets": [
+                {
+                  "pct": 83,
+                  "kg": 49.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 83,
+                  "kg": 49.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 83,
+                  "kg": 49.8,
+                  "reps": 5
+                }
+              ],
+              "refMax": 60.0,
+              "note": "4 seconds down"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 5",
+              "name": "Strict Pull-up"
+            },
+            {
+              "scheme": "3 x 8",
+              "name": "Dips"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "exercises": [
+            {
+              "name": "Behind The Neck Snatch Grip Strict Press",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Paused Below Knee + Above Knee Snatch Pull",
+              "sets": [
+                {
+                  "pct": 93,
+                  "kg": 37.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 93,
+                  "kg": 37.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 93,
+                  "kg": 37.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 93,
+                  "kg": 37.2,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in each position for 3 seconds"
+            },
+            {
+              "name": "Front Squat",
+              "sets": [
+                {
+                  "pct": 71,
+                  "kg": 56.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 71,
+                  "kg": 56.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 71,
+                  "kg": 56.8,
+                  "reps": 5
+                },
+                {
+                  "pct": 71,
+                  "kg": 56.8,
+                  "reps": 5
+                }
+              ],
+              "refMax": 80.0
+            },
+            {
+              "name": "Barbell Bent Over Row (supinated Grip)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 10
+                }
+              ],
+              "refMax": 80.0
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 10 e/s",
+              "name": "Bulgarian Split Squat"
+            },
+            {
+              "scheme": "3 x 8 e/s",
+              "name": "Single Leg Glute Bridge"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "days": [
+        {
+          "day": 1,
+          "exercises": [
+            {
+              "name": "Drop Snatch",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ]
+            },
+            {
+              "name": "Floating Snatch",
+              "sets": [
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 2
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Push Jerk In Split",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "Pause 1 Inch Off The Floor Clean + 2 Jerk",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 78,
+                  "kg": 46.8,
+                  "reps": 3
+                },
+                {
+                  "pct": 83,
+                  "kg": 49.8,
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0,
+              "note": "pause for 2 seconds"
+            },
+            {
+              "name": "Paused Back Squat",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 4
+                }
+              ],
+              "refMax": 100.0,
+              "note": "Pause in the bottom for 3 seconds"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 8",
+              "name": "Snatch Grip RDL"
+            },
+            {
+              "scheme": "3 x 16",
+              "name": "Alt Incline Chest- Supported Row"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Behind The Neck Jerk",
+              "sets": [
+                {
+                  "pct": 59,
+                  "kg": 35.4,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "2 Hip Power Snatch + 2 Overhead Squat",
+              "sets": [
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 4
+                },
+                {
+                  "pct": 68,
+                  "kg": 27,
+                  "reps": 4
+                },
+                {
+                  "pct": 68,
+                  "kg": 27,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in the bottom for 3 seconds"
+            },
+            {
+              "name": "Pause Above Knee Clean",
+              "sets": [
+                {
+                  "pct": 73,
+                  "kg": 44,
+                  "reps": 2
+                },
+                {
+                  "pct": 73,
+                  "kg": 44,
+                  "reps": 2
+                },
+                {
+                  "pct": 78,
+                  "kg": 47,
+                  "reps": 2
+                },
+                {
+                  "pct": 78,
+                  "kg": 47,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0,
+              "note": "Pause for 3 seconds"
+            },
+            {
+              "name": "Tempo Clean Grip Deadlift",
+              "sets": [
+                {
+                  "pct": 91,
+                  "kg": 54.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 91,
+                  "kg": 54.6,
+                  "reps": 4
+                },
+                {
+                  "pct": 91,
+                  "kg": 54.6,
+                  "reps": 4
+                }
+              ],
+              "refMax": 60.0,
+              "note": "4 seconds down"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 5",
+              "name": "Strict Pull-up"
+            },
+            {
+              "scheme": "3 x 8",
+              "name": "Dips"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "exercises": [
+            {
+              "name": "Behind The Neck Snatch Grip Strict Press",
+              "sets": [
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Paused Below Knee + Above Knee Snatch Pull",
+              "sets": [
+                {
+                  "pct": 100,
+                  "kg": 40,
+                  "reps": 4
+                },
+                {
+                  "pct": 100,
+                  "kg": 40,
+                  "reps": 4
+                },
+                {
+                  "pct": 100,
+                  "kg": 40,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in each position for 3 seconds"
+            },
+            {
+              "name": "Front Squat",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 60,
+                  "reps": 4
+                }
+              ],
+              "refMax": 80.0
+            },
+            {
+              "name": "Barbell Bent Over Row (supinated Grip)",
+              "sets": [
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 10
+                }
+              ],
+              "refMax": 80.0
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 10 e/s",
+              "name": "Bulgarian Split Squat"
+            },
+            {
+              "scheme": "3 x 8 e/s",
+              "name": "Single Leg Glute Bridge"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "days": [
+        {
+          "day": 1,
+          "exercises": [
+            {
+              "name": "Drop Snatch",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ]
+            },
+            {
+              "name": "Floating Snatch",
+              "sets": [
+                {
+                  "pct": 68,
+                  "kg": 27.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 3
+                },
+                {
+                  "pct": 83,
+                  "kg": 33.2,
+                  "reps": 2
+                },
+                {
+                  "pct": 83,
+                  "kg": 33.2,
+                  "reps": 2
+                },
+                {
+                  "pct": 83,
+                  "kg": 33.2,
+                  "reps": 2
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Push Jerk In Split",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "Pause 1 Inch Off The Floor Clean + 2 Jerk",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 3
+                },
+                {
+                  "pct": 83,
+                  "kg": 49.8,
+                  "reps": 3
+                },
+                {
+                  "pct": 83,
+                  "kg": 49.8,
+                  "reps": 3
+                }
+              ],
+              "refMax": 60.0,
+              "note": "pause for 2 seconds"
+            },
+            {
+              "name": "Paused Back Squat",
+              "sets": [
+                {
+                  "pct": 80,
+                  "kg": 80,
+                  "reps": 4
+                },
+                {
+                  "pct": 80,
+                  "kg": 80,
+                  "reps": 4
+                },
+                {
+                  "pct": 80,
+                  "kg": 80,
+                  "reps": 4
+                }
+              ],
+              "refMax": 100.0,
+              "note": "Pause in the bottom for 3 seconds"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 8",
+              "name": "Snatch Grip RDL"
+            },
+            {
+              "scheme": "3 x 16",
+              "name": "Alt Incline Chest- Supported Row"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Behind The Neck Jerk",
+              "sets": [
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 39.6,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0
+            },
+            {
+              "name": "2 Hip Power Snatch + 2 Overhead Squat",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 4
+                },
+                {
+                  "pct": 75,
+                  "kg": 30,
+                  "reps": 4
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in the bottom for 3 seconds"
+            },
+            {
+              "name": "Pause Above Knee Clean",
+              "sets": [
+                {
+                  "pct": 67,
+                  "kg": 40,
+                  "reps": 3
+                },
+                {
+                  "pct": 75,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 83,
+                  "kg": 50,
+                  "reps": 2
+                },
+                {
+                  "pct": 83,
+                  "kg": 50,
+                  "reps": 2
+                }
+              ],
+              "refMax": 60.0,
+              "note": "Pause for 3 seconds"
+            },
+            {
+              "name": "Tempo Clean Grip Deadlift",
+              "sets": [
+                {
+                  "pct": 100,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 100,
+                  "kg": 60,
+                  "reps": 4
+                },
+                {
+                  "pct": 100,
+                  "kg": 60,
+                  "reps": 4
+                }
+              ],
+              "refMax": 60.0,
+              "note": "4 seconds down"
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 5",
+              "name": "Strict Pull-up"
+            },
+            {
+              "scheme": "3 x 8",
+              "name": "Dips"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "exercises": [
+            {
+              "name": "Behind The Neck Snatch Grip Strict Press",
+              "sets": [
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                }
+              ],
+              "refMax": 40.0
+            },
+            {
+              "name": "Paused Below Knee + Above Knee Snatch Pull",
+              "sets": [
+                {
+                  "pct": 108,
+                  "kg": 43.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 108,
+                  "kg": 43.2,
+                  "reps": 3
+                },
+                {
+                  "pct": 108,
+                  "kg": 43.2,
+                  "reps": 3
+                }
+              ],
+              "refMax": 40.0,
+              "note": "Pause in each position for 3 seconds"
+            },
+            {
+              "name": "Front Squat",
+              "sets": [
+                {
+                  "pct": 81,
+                  "kg": 64.8,
+                  "reps": 3
+                },
+                {
+                  "pct": 81,
+                  "kg": 64.8,
+                  "reps": 3
+                },
+                {
+                  "pct": 81,
+                  "kg": 64.8,
+                  "reps": 3
+                },
+                {
+                  "pct": 81,
+                  "kg": 64.8,
+                  "reps": 3
+                }
+              ],
+              "refMax": 80.0
+            },
+            {
+              "name": "Barbell Bent Over Row (supinated Grip)",
+              "sets": [
+                {
+                  "pct": "RPE 8",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 8",
+                  "reps": 10
+                },
+                {
+                  "pct": "RPE 8",
+                  "reps": 10
+                }
+              ],
+              "refMax": 80.0
+            }
+          ],
+          "accessories": [
+            {
+              "scheme": "3 x 10 e/s",
+              "name": "Bulgarian Split Squat"
+            },
+            {
+              "scheme": "3 x 8 e/s",
+              "name": "Single Leg Glute Bridge"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
