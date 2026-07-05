@@ -1424,15 +1424,19 @@ function SetSection({ video, setNumber, totalSets, isFirst }) {
 
       {!collapsed && (
         <>
-          <div style={video.vertical ? styles.modalVideoWrapVertical : styles.modalVideoWrap}>
-            <iframe
-              src={`https://www.youtube.com/embed/${video.youtubeId}`}
-              style={video.vertical ? styles.modalVideoVertical : styles.modalVideo}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              title={video.title}
-            />
-          </div>
+          {video.youtubeId ? (
+            <div style={video.vertical ? styles.modalVideoWrapVertical : styles.modalVideoWrap}>
+              <iframe
+                src={`https://www.youtube.com/embed/${video.youtubeId}`}
+                style={video.vertical ? styles.modalVideoVertical : styles.modalVideo}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                title={video.title}
+              />
+            </div>
+          ) : (
+            <div style={styles.modalNoVideo}>Logged · no video for this set</div>
+          )}
 
           {video.notes && (
             <div style={styles.modalNotes}>
@@ -1441,7 +1445,7 @@ function SetSection({ video, setNumber, totalSets, isFirst }) {
             </div>
           )}
 
-          <Comments video={video} />
+          {video.youtubeId && <Comments video={video} />}
 
           <div style={styles.modalTags}>
             {video.tags.map(t => (
@@ -1449,15 +1453,17 @@ function SetSection({ video, setNumber, totalSets, isFirst }) {
             ))}
           </div>
 
-          <a
-            href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-            target="_blank"
-            rel="noreferrer"
-            style={styles.modalDriveLink}
-          >
-            Open on YouTube
-            <ExternalLink size={13} />
-          </a>
+          {video.youtubeId && (
+            <a
+              href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+              target="_blank"
+              rel="noreferrer"
+              style={styles.modalDriveLink}
+            >
+              Open on YouTube
+              <ExternalLink size={13} />
+            </a>
+          )}
         </>
       )}
     </section>
@@ -1489,7 +1495,7 @@ const FONTS = {
 const globalCss = `
   * { box-sizing: border-box; }
   html { scrollbar-gutter: stable; }
-  body { margin: 0; }
+  body { margin: 0; overflow-x: hidden; }
   .lift-card { transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
   .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
   .lift-card-accessory:hover { border-color: ${COLORS.accent}; background: #221c18; }
@@ -1818,7 +1824,8 @@ const styles = {
   weekDivider: {
     display: 'flex',
     alignItems: 'center',
-    gap: 18,
+    flexWrap: 'wrap',
+    gap: '8px 18px',
     marginTop: 16,
     marginBottom: 6,
   },
@@ -1837,10 +1844,11 @@ const styles = {
     fontSize: 11,
     letterSpacing: '0.04em',
     color: COLORS.textDim,
-    whiteSpace: 'nowrap',
+    minWidth: 0,
   },
   weekDividerLine: {
     flex: 1,
+    minWidth: 60,
     height: 1,
     background: `linear-gradient(90deg, ${COLORS.accent} 0%, ${COLORS.border} 70%, transparent 100%)`,
   },
@@ -2542,7 +2550,7 @@ const styles = {
     background: COLORS.surface,
     border: `1px solid ${COLORS.border}`,
     borderRadius: 10,
-    padding: 32,
+    padding: 'clamp(18px, 4vw, 32px)',
     margin: 'auto',
   },
   modalClose: {
@@ -2634,6 +2642,18 @@ const styles = {
     aspectRatio: '9 / 16',
     border: 'none',
     display: 'block',
+  },
+  modalNoVideo: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    border: `1px dashed ${COLORS.border}`,
+    borderRadius: 6,
+    padding: '14px 16px',
+    marginBottom: 16,
+    textAlign: 'center',
   },
   modalNotes: {
     background: COLORS.surfaceLift,
