@@ -16,6 +16,7 @@ const LIFT_LABELS = {
   floating_snatch: 'Floating Snatch',
   clean_and_jerk: 'Clean & Jerk',
   pause_off_floor_clean_jerk: 'Pause Off-Floor Clean + 2 Jerks',
+  clean_2_jerks: 'Clean + 2 Jerks',
   clean: 'Clean',
   pause_above_knee_clean: 'Pause Above-Knee Clean',
   tempo_clean: 'Tempo Clean',
@@ -24,6 +25,7 @@ const LIFT_LABELS = {
   jerk: 'Jerk',
   behind_neck_jerk: 'Behind-the-Neck Jerk',
   btn_strict_press_snatch_grip: 'BTN Strict Press, Snatch Grip',
+  btn_push_press: 'BTN Push Press',
   press_in_split: 'Press in Split',
   push_jerk_in_split: 'Push Jerk in Split',
   raised_snatch_deadlift: 'Raised Snatch Deadlift',
@@ -49,10 +51,12 @@ const LIFT_CATEGORIES = {
   floating_snatch: 'snatch',
   hip_power_snatch_ohs: 'snatch',
   btn_strict_press_snatch_grip: 'snatch',
+  btn_push_press: 'snatch',
   paused_snatch_pull: 'snatch',
   raised_snatch_deadlift: 'snatch',
   clean_and_jerk: 'clean_jerk',
   pause_off_floor_clean_jerk: 'clean_jerk',
+  clean_2_jerks: 'clean_jerk',
   clean: 'clean_jerk',
   power_clean: 'clean_jerk',
   hang_power_clean_push_press: 'clean_jerk',
@@ -140,6 +144,8 @@ export default function App() {
   const [activeGroup, setActiveGroup] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [liftFilterOpen, setLiftFilterOpen] = useState(false);
+  const [tagFilterOpen, setTagFilterOpen] = useState(false);
+  const [weeksExpanded, setWeeksExpanded] = useState(false);
   const [view, setView] = useState('log');
   // Days are open by default; collapsedDays tracks ones the user has folded.
   const [collapsedDays, setCollapsedDays] = useState(new Set());
@@ -434,25 +440,40 @@ export default function App() {
 
       {view === 'log' && filtersOpen && (
         <section style={styles.filterPanel}>
-          {allWeeks.length > 0 && (
-            <div style={styles.filterGroup}>
-              <div style={styles.filterLabel}>Week</div>
-              <div style={styles.chipRow}>
-                {allWeeks.map(week => (
-                  <button
-                    key={week}
-                    onClick={() => toggle(selectedWeeks, week, setSelectedWeeks)}
-                    style={{
-                      ...styles.chip,
-                      ...(selectedWeeks.has(week) ? styles.chipActive : {}),
-                    }}
-                  >
-                    {formatWeek(week)}
-                  </button>
-                ))}
+          {allWeeks.length > 0 && (() => {
+            // Latest 3 weeks (plus any selected outside that window) unless expanded.
+            const visibleWeeks = weeksExpanded
+              ? allWeeks
+              : allWeeks.filter((w, i) => i < 3 || selectedWeeks.has(w));
+            const hiddenCount = allWeeks.length - visibleWeeks.length;
+            return (
+              <div style={styles.filterGroup}>
+                <div style={styles.filterLabel}>Week</div>
+                <div style={styles.chipRow}>
+                  {visibleWeeks.map(week => (
+                    <button
+                      key={week}
+                      onClick={() => toggle(selectedWeeks, week, setSelectedWeeks)}
+                      style={{
+                        ...styles.chip,
+                        ...(selectedWeeks.has(week) ? styles.chipActive : {}),
+                      }}
+                    >
+                      {formatWeek(week)}
+                    </button>
+                  ))}
+                  {(hiddenCount > 0 || weeksExpanded) && (
+                    <button
+                      onClick={() => setWeeksExpanded(e => !e)}
+                      style={{ ...styles.chip, color: COLORS.textMute, borderStyle: 'dashed' }}
+                    >
+                      {weeksExpanded ? 'less' : `+${hiddenCount} more`}
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {allCycles.length > 0 && (
             <div style={styles.filterGroup}>
@@ -574,21 +595,42 @@ export default function App() {
           </div>
 
           <div style={styles.filterGroup}>
-            <div style={styles.filterLabel}>Tag</div>
-            <div style={styles.chipRow}>
-              {allTags.map(tag => (
-                <button
-                  key={tag}
-                  onClick={() => toggle(selectedTags, tag, setSelectedTags)}
-                  style={{
-                    ...styles.chip,
-                    ...(selectedTags.has(tag) ? styles.chipActive : {}),
-                  }}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
+            <button
+              type="button"
+              onClick={() => setTagFilterOpen(o => !o)}
+              style={styles.filterSectionToggle}
+              aria-expanded={tagFilterOpen}
+            >
+              <span style={{ ...styles.filterLabel, marginBottom: 0 }}>Tag</span>
+              {selectedTags.size > 0 && (
+                <span style={{ ...styles.filterSectionCount, marginBottom: 0 }}>{selectedTags.size} selected</span>
+              )}
+              <ChevronDown
+                size={12}
+                style={{
+                  color: COLORS.textMute,
+                  transform: tagFilterOpen ? 'none' : 'rotate(-90deg)',
+                  transition: 'transform 0.18s ease',
+                  marginLeft: 'auto',
+                }}
+              />
+            </button>
+            {tagFilterOpen && (
+              <div style={{ ...styles.chipRow, marginTop: 12 }}>
+                {allTags.map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => toggle(selectedTags, tag, setSelectedTags)}
+                    style={{
+                      ...styles.chip,
+                      ...(selectedTags.has(tag) ? styles.chipActive : {}),
+                    }}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}

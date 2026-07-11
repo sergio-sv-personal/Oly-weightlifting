@@ -387,5 +387,60 @@
       "scoreType": "Each set for time"
     },
     "notes": "Back rack standing march at 80kg. Rowed 500m per interval."
+  },
+  "2026-07-08": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-9-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Power intervals",
+        "scheme": "5 sets — 0:20 ski or bike + 0:15 max rep shoulder press (light band), rest 1:00."
+      }
+    ],
+    "metcon": {
+      "format": "10 Rounds For Time (rest 0:30)",
+      "details": "4 Toes to Bar (subbed: hanging leg raises, legs as extended and high as possible)\n8 Wall Balls\n30 Double Unders (subbed: higher single unders)",
+      "scoreType": "Time",
+      "timeCap": "16:00"
+    },
+    "notes": "Scaled the gymnastics: no double unders yet, so higher single unders; no toes-to-bar yet, so hanging leg raises with legs extended as high as possible."
+  },
+  "2026-07-10": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-9-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Push Press 1RM Test",
+        "scheme": "15:00 to work up to a 1RM — 1 push press every 1:30-2:00 until failure, starting @ 50%.",
+        "myWeight": "60kg — new 1RM (up from 50 eight weeks ago)"
+      }
+    ],
+    "metcon": {
+      "format": "AMRAP 10:00",
+      "details": "Max Rep Strict Pull Ups (2-3 RIR)\n400m Bike, Recovery",
+      "scoreType": "Reps"
+    },
+    "notes": "Push press 1RM test day: hit 60kg, +10 on the 50 from the start of the cycle. Pull ups at 4-5 reps per round."
+  },
+  "2026-07-11": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-9-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Partner WOD — In Pairs, 10 Rounds For Time",
+      "details": "200m Run, together holding band\n12 Alternating Dumbbell Hang Clean & Jerk, synchro (22.5kg)\n6 Dumbbell Plank Drag Throughs, together\n6 Burpee Over Box, you go I go @ 30/24\"",
+      "scoreType": "Time",
+      "timeCap": "35:00"
+    },
+    "notes": "Not a good session — shoulders were fatigued (day after the push press 1RM test, plus the morning's Day 3 work). Dumbbell reps at 22.5kg."
   }
 }
