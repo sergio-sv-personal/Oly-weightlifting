@@ -1,0 +1,25 @@
+{
+  "back_squat": {
+    "label": "Back Squat",
+    "history": [{ "date": "2026-05-11", "kg": 100, "ref": true }]
+  },
+  "front_squat": {
+    "label": "Front Squat",
+    "history": [{ "date": "2026-05-11", "kg": 80, "ref": true }]
+  },
+  "clean_and_jerk": {
+    "label": "Clean & Jerk",
+    "history": [{ "date": "2026-05-11", "kg": 60, "ref": true }]
+  },
+  "push_press": {
+    "label": "Push Press",
+    "history": [
+      { "date": "2026-05-11", "kg": 50 },
+      { "date": "2026-07-10", "kg": 60 }
+    ]
+  },
+  "snatch": {
+    "label": "Snatch",
+    "history": [{ "date": "2026-04-20", "kg": 40 }]
+  }
+}

@@ -5,6 +5,7 @@ import dayNotes from './dayNotes.json';
 import crossfitSessions from './crossfitSessions.json';
 import whoopDays from './whoopDays.json';
 import program from './program.json';
+import maxes from './maxes.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
@@ -17,6 +18,7 @@ const LIFT_LABELS = {
   pause_off_floor_clean_jerk: 'Pause Off-Floor Clean + 2 Jerks',
   clean: 'Clean',
   pause_above_knee_clean: 'Pause Above-Knee Clean',
+  tempo_clean: 'Tempo Clean',
   power_clean: 'Power Clean',
   hang_power_clean_push_press: 'Below-the-Knee HPC + PP',
   jerk: 'Jerk',
@@ -55,6 +57,7 @@ const LIFT_CATEGORIES = {
   power_clean: 'clean_jerk',
   hang_power_clean_push_press: 'clean_jerk',
   pause_above_knee_clean: 'clean_jerk',
+  tempo_clean: 'clean_jerk',
   tempo_clean_grip_deadlift: 'clean_jerk',
   jerk: 'clean_jerk',
   behind_neck_jerk: 'clean_jerk',
@@ -379,6 +382,7 @@ export default function App() {
       <nav style={styles.viewTabs}>
         {[
           { key: 'log', label: 'Training log' },
+          { key: 'feed', label: 'Feed' },
           { key: 'coach', label: 'Coach summary' },
         ].map(t => (
           <button
@@ -592,6 +596,8 @@ export default function App() {
       <main style={styles.main}>
         {view === 'coach' ? (
           <CoachPage />
+        ) : view === 'feed' ? (
+          <FeedPage />
         ) : visibleVideos.length === 0 ? (
           <div style={styles.empty}>
             <div style={styles.emptyTitle}>No lifts match.</div>
@@ -1017,29 +1023,60 @@ function BarChart({ points, color, colorFor, unit }) {
   );
 }
 
-// Small-multiples trend panel: top set per session for the most-trained
-// lifts, plus the Whoop recovery bars. Computed from the FULL data set
-// (ignores filters) so the trend is always the whole story.
-function TrendsPanel() {
-  const liftSeries = useMemo(() => {
-    const byLift = new Map();
-    for (const v of videos) {
-      if (v.accessory || !v.weight) continue;
-      if (!byLift.has(v.lift)) byLift.set(v.lift, new Map());
-      const m = byLift.get(v.lift);
-      m.set(v.date, Math.max(m.get(v.date) || 0, v.weight));
-    }
-    return Array.from(byLift.entries())
-      .map(([lift, m]) => ({
-        lift,
-        points: Array.from(m.entries())
-          .sort((a, b) => a[0].localeCompare(b[0]))
-          .map(([date, value]) => ({ date, value })),
-      }))
-      .filter(s => s.points.length >= 3)
-      .sort((a, b) => b.points.length - a.points.length)
-      .slice(0, 6);
-  }, []);
+// 1RM board: every main lift on one screen — current max, a bar scaled
+// against the heaviest lift, the previous max as a tick, and the delta.
+// Data lives in src/maxes.json; append to a lift's history on a new test.
+function MaxBoard() {
+  const entries = Object.entries(maxes)
+    .map(([key, m]) => {
+      const hist = m.history.slice().sort((a, b) => a.date.localeCompare(b.date));
+      const cur = hist[hist.length - 1];
+      const prev = hist.length > 1 ? hist[hist.length - 2] : null;
+      return { key, label: m.label, cur, prev };
+    })
+    .sort((a, b) => b.cur.kg - a.cur.kg);
+  if (entries.length === 0) return null;
+  const maxKg = Math.max(...entries.map(e => e.cur.kg));
+  return (
+    <section style={styles.trendsPanel}>
+      <div style={styles.coachSectionHead}>
+        <span style={styles.filterLabel}>Max lifts</span>
+        <span style={styles.trendsSub}>1RM — bar scale is relative to the heaviest lift</span>
+      </div>
+      <div style={styles.maxBoard}>
+        {entries.map(e => {
+          const delta = e.prev ? e.cur.kg - e.prev.kg : 0;
+          return (
+            <div key={e.key} style={styles.maxRow}>
+              <div style={styles.maxRowHead}>
+                <span style={styles.maxRowLabel}>{e.label}</span>
+                <span style={styles.maxRowMeta}>
+                  {e.cur.ref ? 'program ref' : `tested ${formatDayDate(e.cur.date)}`}
+                </span>
+                <span style={styles.maxRowValue}>
+                  {e.prev && <span style={styles.maxRowPrev}>{e.prev.kg} → </span>}
+                  {e.cur.kg}<span style={styles.maxRowUnit}>kg</span>
+                  {delta > 0 && (
+                    <span style={{ ...styles.trendDelta, color: '#3FBF7F' }}>+{delta}</span>
+                  )}
+                </span>
+              </div>
+              <div style={styles.maxTrack}>
+                <div style={{ ...styles.maxFill, width: `${(e.cur.kg / maxKg) * 100}%` }} />
+                {e.prev && (
+                  <div style={{ ...styles.maxPrevTick, left: `${(e.prev.kg / maxKg) * 100}%` }} />
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// Whoop recovery, last 30 days, as one compact band-colored bar chart.
+function RecoveryPanel() {
   const recoverySeries = useMemo(() => (
     Object.entries(whoopDays)
       .filter(([, d]) => d.recovery != null)
@@ -1047,54 +1084,20 @@ function TrendsPanel() {
       .map(([date, d]) => ({ date, value: d.recovery }))
       .slice(-30)
   ), []);
-
-  const cells = [
-    ...liftSeries.map(s => ({
-      key: s.lift,
-      label: LIFT_LABELS[s.lift] || s.lift,
-      points: s.points,
-      color: COLORS.accent,
-      unit: 'kg',
-    })),
-    recoverySeries.length >= 3 && {
-      key: 'whoop-recovery',
-      label: 'Whoop Recovery (30d)',
-      points: recoverySeries,
-      colorFor: recoveryColor,
-      unit: '%',
-    },
-  ].filter(Boolean);
-
-  if (cells.length === 0) return null;
-
+  if (recoverySeries.length < 3) return null;
+  const last = recoverySeries[recoverySeries.length - 1].value;
   return (
     <section style={styles.trendsPanel}>
       <div style={styles.coachSectionHead}>
-        <span style={styles.filterLabel}>Trends</span>
-        <span style={styles.trendsSub}>top set per session</span>
+        <span style={styles.filterLabel}>Recovery</span>
+        <span style={styles.trendsSub}>whoop, last 30 days</span>
       </div>
-      <div style={styles.trendsGrid}>
-        {cells.map(cell => {
-          const first = cell.points[0].value;
-          const last = cell.points[cell.points.length - 1].value;
-          const delta = Math.round((last - first) * 10) / 10;
-          return (
-            <div key={cell.key} style={styles.trendCell}>
-              <div style={styles.trendCellHead}>
-                <span style={styles.trendCellLabel}>{cell.label}</span>
-                <span style={styles.trendCellValue}>
-                  {last}{cell.unit}
-                  {delta !== 0 && (
-                    <span style={{ ...styles.trendDelta, color: delta > 0 ? '#3FBF7F' : '#E4574F' }}>
-                      {delta > 0 ? '+' : ''}{delta}
-                    </span>
-                  )}
-                </span>
-              </div>
-              <BarChart points={cell.points} color={cell.color} colorFor={cell.colorFor} unit={cell.unit} />
-            </div>
-          );
-        })}
+      <div style={{ ...styles.trendCell, maxWidth: 560 }}>
+        <div style={styles.trendCellHead}>
+          <span style={styles.trendCellLabel}>Daily recovery</span>
+          <span style={styles.trendCellValue}>{last}%</span>
+        </div>
+        <BarChart points={recoverySeries} colorFor={recoveryColor} unit="%" />
       </div>
     </section>
   );
@@ -1175,12 +1178,109 @@ function ProgramPanel() {
 function CoachPage() {
   return (
     <div>
-      <TrendsPanel />
+      <MaxBoard />
+      <RecoveryPanel />
       <ProgramPanel />
     </div>
   );
 }
 
+// Instagram-style feed: a tight grid of video thumbnails (newest first);
+// tapping a tile opens a single-set post view with caption + comments.
+function FeedPage() {
+  const [activePost, setActivePost] = useState(null);
+  const posts = useMemo(() => (
+    videos
+      .filter(v => v.youtubeId)
+      .slice()
+      .sort((a, b) => b.date.localeCompare(a.date))
+  ), []);
+  useEffect(() => {
+    document.body.style.overflow = activePost ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [activePost]);
+  return (
+    <div>
+      <div style={styles.feedGrid}>
+        {posts.map(v => (
+          <button
+            key={v.id}
+            type="button"
+            style={styles.feedTile}
+            onClick={() => setActivePost(v)}
+            aria-label={v.title}
+          >
+            <img
+              src={`https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
+              alt=""
+              style={styles.feedTileImg}
+              loading="lazy"
+              onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
+            />
+            <span style={styles.feedTileOverlay}>
+              <span style={styles.feedTileWeight}>{v.weight}kg</span>
+              <span style={styles.feedTileLift}>{LIFT_LABELS[v.lift] || v.lift}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+      {activePost && <PostModal video={activePost} onClose={() => setActivePost(null)} />}
+    </div>
+  );
+}
+
+function PostModal({ video, onClose }) {
+  useEffect(() => {
+    const handler = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [onClose]);
+  return (
+    <div style={styles.modalBackdrop} onClick={onClose}>
+      <div style={{ ...styles.modal, maxWidth: 560 }} onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} style={styles.modalClose} aria-label="Close">
+          <X size={18} />
+        </button>
+        <div style={styles.postHead}>
+          <span style={styles.cardLift}>{LIFT_LABELS[video.lift] || video.lift}</span>
+          <span style={styles.postDate}>{formatDayDate(video.date)}</span>
+        </div>
+        <div style={styles.postWeightRow}>
+          <span style={styles.postWeightNum}>{video.weight}</span>
+          <span style={styles.postWeightUnit}>kg</span>
+          {video.bodyweight && (
+            <span style={styles.postBwPct}>{Math.round((video.weight / video.bodyweight) * 100)}% BW</span>
+          )}
+        </div>
+        <div style={video.vertical ? styles.modalVideoWrapVertical : styles.modalVideoWrap}>
+          <iframe
+            src={`https://www.youtube.com/embed/${video.youtubeId}`}
+            style={video.vertical ? styles.modalVideoVertical : styles.modalVideo}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            title={video.title}
+          />
+        </div>
+        {video.notes && <p style={styles.postCaption}>{video.notes}</p>}
+        <div style={styles.modalTags}>
+          {video.tags.map(t => (
+            <span key={t} style={styles.modalTag}># {t}</span>
+          ))}
+        </div>
+        <Comments video={video} />
+        <a
+          href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+          target="_blank"
+          rel="noreferrer"
+          style={styles.modalDriveLink}
+        >
+          Open on YouTube
+          <ExternalLink size={13} />
+        </a>
+      </div>
+    </div>
+  );
+}
 
 function CrossfitCard({ session }) {
   const [open, setOpen] = useState(false);
@@ -2004,6 +2104,175 @@ const styles = {
     fontSize: 12,
     color: COLORS.textMute,
     fontStyle: 'italic',
+  },
+  maxBoard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 18,
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '18px 20px',
+    maxWidth: 720,
+  },
+  maxRow: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 7,
+  },
+  maxRowHead: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 10,
+    flexWrap: 'wrap',
+  },
+  maxRowLabel: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: COLORS.text,
+  },
+  maxRowMeta: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.06em',
+    color: COLORS.textMute,
+  },
+  maxRowValue: {
+    marginLeft: 'auto',
+    fontFamily: FONTS.mono,
+    fontSize: 15,
+    fontWeight: 600,
+    color: COLORS.text,
+    whiteSpace: 'nowrap',
+  },
+  maxRowPrev: {
+    fontWeight: 400,
+    fontSize: 12,
+    color: COLORS.textMute,
+  },
+  maxRowUnit: {
+    fontWeight: 400,
+    fontSize: 11,
+    color: COLORS.textDim,
+    marginLeft: 2,
+  },
+  maxTrack: {
+    position: 'relative',
+    height: 10,
+    borderRadius: 5,
+    background: COLORS.surfaceLift,
+    border: `1px solid ${COLORS.border}`,
+    overflow: 'hidden',
+  },
+  maxFill: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    background: `linear-gradient(90deg, ${COLORS.accentDim}, ${COLORS.accent})`,
+    borderRadius: 5,
+  },
+  maxPrevTick: {
+    position: 'absolute',
+    top: -1,
+    bottom: -1,
+    width: 2,
+    background: COLORS.text,
+    opacity: 0.55,
+  },
+  feedGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+    gap: 4,
+  },
+  feedTile: {
+    position: 'relative',
+    padding: 0,
+    border: 'none',
+    background: COLORS.surface,
+    aspectRatio: '3 / 4',
+    overflow: 'hidden',
+    borderRadius: 4,
+    cursor: 'pointer',
+    display: 'block',
+  },
+  feedTileImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
+  },
+  feedTileOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: '20px 8px 7px',
+    background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.8))',
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 6,
+    textAlign: 'left',
+    minWidth: 0,
+  },
+  feedTileWeight: {
+    fontFamily: FONTS.mono,
+    fontSize: 12,
+    fontWeight: 600,
+    color: '#fff',
+    flexShrink: 0,
+  },
+  feedTileLift: {
+    fontFamily: FONTS.mono,
+    fontSize: 9.5,
+    letterSpacing: '0.04em',
+    color: 'rgba(255, 255, 255, 0.75)',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  postHead: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 10,
+    marginBottom: 10,
+    paddingRight: 44,
+  },
+  postDate: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textMute,
+  },
+  postWeightRow: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 6,
+    marginBottom: 14,
+  },
+  postWeightNum: {
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 44,
+    lineHeight: 0.9,
+    letterSpacing: '-0.02em',
+    color: COLORS.text,
+  },
+  postWeightUnit: {
+    fontFamily: FONTS.mono,
+    fontSize: 14,
+    color: COLORS.textDim,
+  },
+  postBwPct: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textMute,
+    marginLeft: 6,
+  },
+  postCaption: {
+    margin: '0 0 14px',
+    fontSize: 14,
+    lineHeight: 1.55,
+    color: COLORS.text,
   },
   trendsSub: {
     fontFamily: FONTS.mono,

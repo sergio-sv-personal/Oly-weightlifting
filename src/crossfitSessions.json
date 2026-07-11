@@ -235,5 +235,26 @@
       "timeCap": "26:00"
     },
     "notes": "Super Saturday chipper with double 17.5kg dumbbells on all DB movements."
+  },
+  "2026-06-24": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-7-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Push Press",
+        "scheme": "Every 2:20 x 6 — 5 Push Press @ 80%.",
+        "myWeight": "40kg"
+      }
+    ],
+    "metcon": {
+      "format": "3 Rounds For Time",
+      "details": "21 Toes to Bar\n21 Wall Balls",
+      "scoreType": "Time",
+      "timeCap": "11:00"
+    },
+    "notes": "Push press at 40kg for all six EMOM sets."
   }
 }
