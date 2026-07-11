@@ -762,6 +762,11 @@ function GroupCard({ group, onClick, accessory }) {
   const isBodyweight = accessory && (top.weight == null || top.weight === 0);
   const hasVideo = group.videos.some(v => v.youtubeId);
 
+  // Hybrid card: main lift cards with video lead with a thumbnail hero
+  // (feed-style), keeping the log's day structure around them.
+  const heroVideo = group.videos.find(v => v.youtubeId);
+  const showHero = hasVideo && !accessory && heroVideo;
+
   return (
     <button
       onClick={hasVideo ? onClick : undefined}
@@ -772,29 +777,59 @@ function GroupCard({ group, onClick, accessory }) {
       }}
       className={accessory ? 'lift-card lift-card-accessory' : 'lift-card'}
     >
+      {showHero && (
+        <div style={styles.cardHero}>
+          <img
+            src={`https://i.ytimg.com/vi/${heroVideo.youtubeId}/hqdefault.jpg`}
+            alt=""
+            style={styles.cardHeroImg}
+            loading="lazy"
+            onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
+          />
+          <div style={styles.cardHeroShade} />
+          <div style={styles.cardHeroWeight}>
+            {isBodyweight ? (
+              <>{setCount}×{reps || '?'}<span style={styles.cardHeroUnit}>BW</span></>
+            ) : (
+              <>
+                {top.weight}<span style={styles.cardHeroUnit}>kg</span>
+                {top.bodyweight && top.weight > 0 && (
+                  <span style={styles.cardHeroBw}>{Math.round((top.weight / top.bodyweight) * 100)}% BW</span>
+                )}
+              </>
+            )}
+          </div>
+          <div style={styles.cardHeroSets}>
+            <Play size={10} fill="currentColor" />
+            {setCount} {setCount === 1 ? 'set' : 'sets'}
+          </div>
+        </div>
+      )}
       <div style={styles.cardTop}>
         <div style={{ ...styles.cardLift, ...(accessory ? styles.cardLiftAccessory : {}) }}>
           {LIFT_LABELS[group.lift] || group.lift}
         </div>
         <div style={styles.cardDate}>{dateStr}</div>
       </div>
-      {isBodyweight ? (
-        <div style={styles.cardWeight}>
-          <span style={styles.cardWeightAccessoryNum}>{setCount}×{reps || '?'}</span>
-          <span style={styles.cardWeightUnit}>BW</span>
-        </div>
-      ) : (
-        <>
+      {!showHero && (
+        isBodyweight ? (
           <div style={styles.cardWeight}>
-            <span style={{ ...styles.cardWeightNum, ...(accessory ? styles.cardWeightAccessoryNum : {}) }}>{top.weight}</span>
-            <span style={styles.cardWeightUnit}>kg</span>
+            <span style={styles.cardWeightAccessoryNum}>{setCount}×{reps || '?'}</span>
+            <span style={styles.cardWeightUnit}>BW</span>
           </div>
-          {top.bodyweight && top.weight > 0 && (
-            <div style={styles.cardBwPct}>
-              {Math.round((top.weight / top.bodyweight) * 100)}% BW
+        ) : (
+          <>
+            <div style={styles.cardWeight}>
+              <span style={{ ...styles.cardWeightNum, ...(accessory ? styles.cardWeightAccessoryNum : {}) }}>{top.weight}</span>
+              <span style={styles.cardWeightUnit}>kg</span>
             </div>
-          )}
-        </>
+            {top.bodyweight && top.weight > 0 && (
+              <div style={styles.cardBwPct}>
+                {Math.round((top.weight / top.bodyweight) * 100)}% BW
+              </div>
+            )}
+          </>
+        )
       )}
       <div style={styles.cardSetMeta}>
         <span>{setCount} {setCount === 1 ? 'set' : 'sets'}{reps && !isBodyweight ? ` × ${reps}` : ''}</span>
@@ -811,10 +846,12 @@ function GroupCard({ group, onClick, accessory }) {
         ))}
       </div>
       {hasVideo ? (
-        <div style={{ ...styles.cardFooter, ...(accessory ? styles.cardFooterAccessory : {}) }}>
-          <Play size={11} style={{ marginRight: 6 }} fill="currentColor" />
-          Play {setCount} {setCount === 1 ? 'set' : 'sets'}
-        </div>
+        !showHero && (
+          <div style={{ ...styles.cardFooter, ...(accessory ? styles.cardFooterAccessory : {}) }}>
+            <Play size={11} style={{ marginRight: 6 }} fill="currentColor" />
+            Play {setCount} {setCount === 1 ? 'set' : 'sets'}
+          </div>
+        )
       ) : (
         <div style={styles.cardLoggedFooter}>Logged · no video</div>
       )}
@@ -2560,6 +2597,70 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  cardHero: {
+    position: 'relative',
+    margin: '-20px -20px 0',
+    height: 160,
+    background: '#000',
+    overflow: 'hidden',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  cardHeroImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
+    opacity: 0.92,
+  },
+  cardHeroShade: {
+    position: 'absolute',
+    inset: 0,
+    background: 'linear-gradient(transparent 30%, rgba(0, 0, 0, 0.85))',
+  },
+  cardHeroWeight: {
+    position: 'absolute',
+    left: 14,
+    bottom: 10,
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 4,
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 40,
+    lineHeight: 1,
+    letterSpacing: '-0.02em',
+    color: '#fff',
+  },
+  cardHeroUnit: {
+    fontFamily: FONTS.mono,
+    fontSize: 13,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  cardHeroBw: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.06em',
+    color: 'rgba(255, 255, 255, 0.65)',
+    marginLeft: 6,
+  },
+  cardHeroSets: {
+    position: 'absolute',
+    right: 12,
+    bottom: 12,
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 5,
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: '#fff',
+    background: 'rgba(0, 0, 0, 0.55)',
+    border: '1px solid rgba(255, 255, 255, 0.25)',
+    padding: '4px 9px',
+    borderRadius: 999,
   },
   cardLift: {
     fontFamily: FONTS.mono,
