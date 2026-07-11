@@ -141,8 +141,8 @@ export default function App() {
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [liftFilterOpen, setLiftFilterOpen] = useState(false);
   const [view, setView] = useState('log');
-  // Days are collapsed by default; openDays tracks ones the user has opened.
-  const [openDays, setOpenDays] = useState(new Set());
+  // Days are open by default; collapsedDays tracks ones the user has folded.
+  const [collapsedDays, setCollapsedDays] = useState(new Set());
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -646,7 +646,7 @@ export default function App() {
                 )}
                 <div style={styles.days}>
                   {weekBucket.days.map(day => {
-              const collapsed = !openDays.has(day.dayKey);
+              const collapsed = collapsedDays.has(day.dayKey);
               const totalCards = day.mainGroups.length + day.accessoryGroups.length;
               const noteText = getDayNoteText(day.date);
               const isCrossfitOnly = totalCards === 0 && !!crossfitSessions[day.date];
@@ -657,7 +657,7 @@ export default function App() {
                     type="button"
                     className="day-header"
                     onClick={() => {
-                      setOpenDays(prev => {
+                      setCollapsedDays(prev => {
                         const next = new Set(prev);
                         if (next.has(day.dayKey)) next.delete(day.dayKey);
                         else next.add(day.dayKey);
@@ -787,16 +787,17 @@ function GroupCard({ group, onClick, accessory }) {
             onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
           />
           <div style={styles.cardHeroShade} />
-          <div style={styles.cardHeroWeight}>
-            {isBodyweight ? (
-              <>{setCount}×{reps || '?'}<span style={styles.cardHeroUnit}>BW</span></>
-            ) : (
-              <>
-                {top.weight}<span style={styles.cardHeroUnit}>kg</span>
-                {top.bodyweight && top.weight > 0 && (
-                  <span style={styles.cardHeroBw}>{Math.round((top.weight / top.bodyweight) * 100)}% BW</span>
-                )}
-              </>
+          <div style={styles.cardHeroText}>
+            <div style={styles.cardHeroName}>{LIFT_LABELS[group.lift] || group.lift}</div>
+            <div style={styles.cardHeroWeight}>
+              {isBodyweight ? (
+                <>{setCount}×{reps || '?'}<span style={styles.cardHeroUnit}>BW</span></>
+              ) : (
+                <>{top.weight}<span style={styles.cardHeroUnit}>kg</span></>
+              )}
+            </div>
+            {!isBodyweight && top.bodyweight && top.weight > 0 && (
+              <div style={styles.cardHeroBwLine}>{Math.round((top.weight / top.bodyweight) * 100)}% bodyweight</div>
             )}
           </div>
           <div style={styles.cardHeroSets}>
@@ -805,12 +806,14 @@ function GroupCard({ group, onClick, accessory }) {
           </div>
         </div>
       )}
-      <div style={styles.cardTop}>
-        <div style={{ ...styles.cardLift, ...(accessory ? styles.cardLiftAccessory : {}) }}>
-          {LIFT_LABELS[group.lift] || group.lift}
+      {!showHero && (
+        <div style={styles.cardTop}>
+          <div style={{ ...styles.cardLift, ...(accessory ? styles.cardLiftAccessory : {}) }}>
+            {LIFT_LABELS[group.lift] || group.lift}
+          </div>
+          <div style={styles.cardDate}>{dateStr}</div>
         </div>
-        <div style={styles.cardDate}>{dateStr}</div>
-      </div>
+      )}
       {!showHero && (
         isBodyweight ? (
           <div style={styles.cardWeight}>
@@ -832,6 +835,7 @@ function GroupCard({ group, onClick, accessory }) {
         )
       )}
       <div style={styles.cardSetMeta}>
+        {showHero && <span>{dateStr} · </span>}
         <span>{setCount} {setCount === 1 ? 'set' : 'sets'}{reps && !isBodyweight ? ` × ${reps}` : ''}</span>
         {otherWeights.length > 0 && (
           <span style={styles.cardSetMetaSecondary}> · also {otherWeights.join(', ')}kg</span>
@@ -2601,7 +2605,7 @@ const styles = {
   cardHero: {
     position: 'relative',
     margin: '-20px -20px 0',
-    height: 160,
+    height: 190,
     background: '#000',
     overflow: 'hidden',
     borderTopLeftRadius: 10,
@@ -2617,12 +2621,26 @@ const styles = {
   cardHeroShade: {
     position: 'absolute',
     inset: 0,
-    background: 'linear-gradient(transparent 30%, rgba(0, 0, 0, 0.85))',
+    background: 'linear-gradient(rgba(0, 0, 0, 0.15), transparent 25%, transparent 40%, rgba(0, 0, 0, 0.88))',
   },
-  cardHeroWeight: {
+  cardHeroText: {
     position: 'absolute',
     left: 14,
-    bottom: 10,
+    right: 14,
+    bottom: 12,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4,
+  },
+  cardHeroName: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    lineHeight: 1.5,
+    color: 'rgba(255, 255, 255, 0.85)',
+  },
+  cardHeroWeight: {
     display: 'flex',
     alignItems: 'baseline',
     gap: 4,
@@ -2638,17 +2656,16 @@ const styles = {
     fontSize: 13,
     color: 'rgba(255, 255, 255, 0.8)',
   },
-  cardHeroBw: {
+  cardHeroBwLine: {
     fontFamily: FONTS.mono,
     fontSize: 10,
     letterSpacing: '0.06em',
     color: 'rgba(255, 255, 255, 0.65)',
-    marginLeft: 6,
   },
   cardHeroSets: {
     position: 'absolute',
     right: 12,
-    bottom: 12,
+    top: 12,
     display: 'inline-flex',
     alignItems: 'center',
     gap: 5,
