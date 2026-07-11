@@ -844,11 +844,13 @@ function GroupCard({ group, onClick, accessory }) {
       {(top.summary || top.notes) && (
         <div style={styles.cardNotes}>{top.summary || top.notes}</div>
       )}
-      <div style={styles.cardTags}>
-        {allTags.map(t => (
-          <span key={t} style={styles.cardTag}>{t}</span>
-        ))}
-      </div>
+      {!showHero && (
+        <div style={styles.cardTags}>
+          {allTags.map(t => (
+            <span key={t} style={styles.cardTag}>{t}</span>
+          ))}
+        </div>
+      )}
       {hasVideo ? (
         !showHero && (
           <div style={{ ...styles.cardFooter, ...(accessory ? styles.cardFooterAccessory : {}) }}>
@@ -1949,8 +1951,8 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    gap: 18,
+    gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))',
+    gap: 8,
   },
   days: {
     display: 'flex',
@@ -2588,14 +2590,14 @@ const styles = {
     textAlign: 'left',
     background: COLORS.surface,
     border: `1px solid ${COLORS.border}`,
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: 8,
+    padding: 12,
     cursor: 'pointer',
     color: COLORS.text,
     fontFamily: FONTS.body,
     display: 'flex',
     flexDirection: 'column',
-    gap: 12,
+    gap: 8,
   },
   cardTop: {
     display: 'flex',
@@ -2604,8 +2606,8 @@ const styles = {
   },
   cardHero: {
     position: 'relative',
-    margin: '-20px -20px 0',
-    height: 190,
+    margin: '-12px -12px 0',
+    height: 150,
     background: '#000',
     overflow: 'hidden',
     borderTopLeftRadius: 10,
@@ -2625,16 +2627,16 @@ const styles = {
   },
   cardHeroText: {
     position: 'absolute',
-    left: 14,
-    right: 14,
-    bottom: 12,
+    left: 10,
+    right: 10,
+    bottom: 9,
     display: 'flex',
     flexDirection: 'column',
-    gap: 4,
+    gap: 3,
   },
   cardHeroName: {
     fontFamily: FONTS.mono,
-    fontSize: 10.5,
+    fontSize: 9.5,
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
     lineHeight: 1.5,
@@ -2646,26 +2648,26 @@ const styles = {
     gap: 4,
     fontFamily: FONTS.display,
     fontWeight: 800,
-    fontSize: 40,
+    fontSize: 30,
     lineHeight: 1,
     letterSpacing: '-0.02em',
     color: '#fff',
   },
   cardHeroUnit: {
     fontFamily: FONTS.mono,
-    fontSize: 13,
+    fontSize: 11,
     color: 'rgba(255, 255, 255, 0.8)',
   },
   cardHeroBwLine: {
     fontFamily: FONTS.mono,
-    fontSize: 10,
+    fontSize: 9,
     letterSpacing: '0.06em',
     color: 'rgba(255, 255, 255, 0.65)',
   },
   cardHeroSets: {
     position: 'absolute',
-    right: 12,
-    top: 12,
+    right: 8,
+    top: 8,
     display: 'inline-flex',
     alignItems: 'center',
     gap: 5,
@@ -2676,7 +2678,7 @@ const styles = {
     color: '#fff',
     background: 'rgba(0, 0, 0, 0.55)',
     border: '1px solid rgba(255, 255, 255, 0.25)',
-    padding: '4px 9px',
+    padding: '3px 7px',
     borderRadius: 999,
   },
   cardLift: {
@@ -2725,7 +2727,7 @@ const styles = {
   },
   cardSetMeta: {
     fontFamily: FONTS.mono,
-    fontSize: 11,
+    fontSize: 10,
     color: COLORS.textDim,
     letterSpacing: '0.04em',
   },
@@ -2745,8 +2747,8 @@ const styles = {
     color: COLORS.accent,
   },
   cardAccessory: {
-    padding: 14,
-    gap: 8,
+    padding: 12,
+    gap: 7,
     background: COLORS.surfaceLift,
     borderColor: COLORS.borderStrong,
   },
@@ -2786,8 +2788,8 @@ const styles = {
   },
   accessoryGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-    gap: 14,
+    gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+    gap: 8,
   },
   setList: {
     display: 'flex',
@@ -2859,7 +2861,7 @@ const styles = {
     color: COLORS.text,
   },
   cardNotes: {
-    fontSize: 12,
+    fontSize: 11,
     color: COLORS.textDim,
     lineHeight: 1.5,
     display: '-webkit-box',
