@@ -256,5 +256,136 @@
       "timeCap": "11:00"
     },
     "notes": "Push press at 40kg for all six EMOM sets."
+  },
+  "2026-06-26": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-7-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "1¼ Bench Press",
+        "scheme": "6 sets every 2:00 — 1¼ bench press @ RPE 6/10, hold the ¼ position 4 seconds.",
+        "myWeight": "45kg"
+      }
+    ],
+    "metcon": {
+      "format": "5 Rounds For Time",
+      "details": "12 Burpees\n12 Hang Dumbbell Snatch (17.5kg)\n12 Overhead Walking Lunge Steps (17.5kg)",
+      "scoreType": "Time",
+      "timeCap": "13:00"
+    },
+    "notes": "Bench at 45kg for all six sets. Dumbbell work at 17.5kg — completed under the 13:00 cap."
+  },
+  "2026-06-27": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-7-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Partner WOD — In Pairs, 6 Rounds For Time",
+      "details": "10 Synchro Single Arm Russian Kettlebell Swings (17.5kg)\n20 Medicine Ball Pass Ab Mat Sit Ups\n10 Synchro Single Arm Russian Kettlebell Swings (17.5kg)\n400m Partner Run, Holding Band",
+      "scoreType": "Time",
+      "timeCap": "28:00"
+    },
+    "notes": "Jumped into the class after the Day 3 Oly work. Kettlebell at 17.5kg; finished within the 28:00 cap."
+  },
+  "2026-06-28": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-7-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Pause Back Squat",
+        "scheme": "4 x 3 @ 80%, 4-second pause in the bottom. Time cap 13:00.",
+        "myWeight": "80kg — felt really good and deep"
+      }
+    ],
+    "metcon": {
+      "format": "EMOM 15",
+      "details": "Min 1: 25 Air Squats\nMin 2: 12/10 Calorie Machine\nMin 3: Rest",
+      "scoreType": "Unscored"
+    },
+    "notes": "Pause back squats at 80kg felt really good — hitting depth comfortably."
+  },
+  "2026-07-01": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-8-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Alternating Back Rack Reverse Lunge",
+        "scheme": "Every 2:00 x 5 — 6 reps @ RPE 8/10, across all sets.",
+        "myWeight": "60kg"
+      }
+    ],
+    "metcon": {
+      "format": "For Time",
+      "details": "21-15-9 Front Squats + Calorie Machine\n— into —\n21-15-9 Wall Balls + Calorie Machine",
+      "scoreType": "Time",
+      "timeCap": "15:00"
+    },
+    "notes": "Back rack reverse lunges at 60kg across all five sets."
+  },
+  "2026-07-03": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-8-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Strict Chin Ups",
+        "scheme": "Muscle endurance: 5 x 5, rest 1:30-2:00 between sets, weight as needed. Time cap 12:00.",
+        "myWeight": "Bodyweight — felt really good"
+      }
+    ],
+    "metcon": {
+      "format": "AMRAP 2 x 5 sets (rest 1:00)",
+      "details": "8 Russian Kettlebell Swings (24kg)\n4/4 Single Arm Front Rack Step Ups @ 20\"\n(pick up where you left off each round)",
+      "scoreType": "Rounds + Reps"
+    },
+    "notes": "Chin ups felt really good. Kettlebell at 24kg for the metcon."
+  },
+  "2026-07-04": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-8-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Super Saturday — AMRAP 25",
+      "details": "5, 10, 15, 20... ladder:\nBurpees\nDeadlifts (85kg)\n400m Run",
+      "scoreType": "Rounds + Reps"
+    },
+    "notes": "Deadlifts at 85kg — back wasn't staying tight, lower back muscles sore afterwards. Got to the round of 30 burpees. Accessory (single-leg RDL 3-way) skipped."
+  },
+  "2026-07-05": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-8-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Back Rack Standing March",
+        "scheme": "4 sets — 1:00 march @ 75% of best back squat, rest 1:00.",
+        "myWeight": "80kg"
+      }
+    ],
+    "metcon": {
+      "format": "Every 2:30 x 6",
+      "details": "600/500m Row — did the 500m each round.",
+      "scoreType": "Each set for time"
+    },
+    "notes": "Back rack standing march at 80kg. Rowed 500m per interval."
   }
 }

@@ -1014,9 +1014,9 @@ function WhoopStrip({ data }) {
 // Single-series bar chart (inline SVG, no library). Bars grow from a
 // zero baseline, rounded 3px at the data end, square at the base, with
 // a surface gap between bars and a per-bar hover tooltip.
-function BarChart({ points, color, colorFor, unit }) {
+function BarChart({ points, color, colorFor, unit, showXLabels }) {
   const [hoverI, setHoverI] = useState(null);
-  const W = 260, H = 72, PAD = 6, BASE = H - 2;
+  const W = 260, H = showXLabels ? 84 : 72, PAD = 6, BASE = showXLabels ? H - 14 : H - 2;
   const n = points.length;
   const max = Math.max(...points.map(p => p.value)) || 1;
   const slot = (W - PAD * 2) / n;
@@ -1050,6 +1050,19 @@ function BarChart({ points, color, colorFor, unit }) {
             opacity={hoverI == null || hoverI === i ? 1 : 0.45}
           />
         ))}
+        {showXLabels && points.map((p, i) => (
+          <text
+            key={`l${i}`}
+            x={x(i) + bw / 2}
+            y={H - 3}
+            textAnchor="middle"
+            fontFamily="JetBrains Mono, monospace"
+            fontSize="8"
+            fill={COLORS.textMute}
+          >
+            {p.short || p.label || ''}
+          </text>
+        ))}
       </svg>
       {hoverI != null && (
         <div
@@ -1059,7 +1072,7 @@ function BarChart({ points, color, colorFor, unit }) {
             transform: x(hoverI) > W * 0.6 ? 'translateX(-100%)' : 'none',
           }}
         >
-          {formatDayDate(points[hoverI].date)} · {points[hoverI].value}{unit}
+          {points[hoverI].label || formatDayDate(points[hoverI].date)} · {points[hoverI].value}{unit}
         </div>
       )}
     </div>
@@ -1119,28 +1132,60 @@ function MaxBoard() {
 }
 
 // Whoop recovery, last 30 days, as one compact band-colored bar chart.
+// Whoop weekly averages, bucketed by cycle week (week 1 = 11 May 2026,
+// matching the week-N-c2 tags used across the log).
+const CYCLE2_START_MS = Date.UTC(2026, 4, 11);
 function RecoveryPanel() {
-  const recoverySeries = useMemo(() => (
-    Object.entries(whoopDays)
-      .filter(([, d]) => d.recovery != null)
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([date, d]) => ({ date, value: d.recovery }))
-      .slice(-30)
-  ), []);
-  if (recoverySeries.length < 3) return null;
-  const last = recoverySeries[recoverySeries.length - 1].value;
+  const weekly = useMemo(() => {
+    const buckets = new Map();
+    for (const [date, d] of Object.entries(whoopDays)) {
+      const [y, m, day] = date.split('-').map(Number);
+      const idx = Math.floor((Date.UTC(y, m - 1, day) - CYCLE2_START_MS) / (7 * 86400000)) + 1;
+      if (idx < 1) continue;
+      if (!buckets.has(idx)) buckets.set(idx, { rec: [], strain: [] });
+      const b = buckets.get(idx);
+      if (d.recovery != null) b.rec.push(d.recovery);
+      if (d.strain != null) b.strain.push(d.strain);
+    }
+    const weeks = Array.from(buckets.keys()).sort((a, b) => a - b);
+    const avg = arr => arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : null;
+    return {
+      recovery: weeks
+        .map(w => ({ label: `Week ${w}`, short: `W${w}`, value: avg(buckets.get(w).rec) }))
+        .filter(p => p.value != null)
+        .map(p => ({ ...p, value: Math.round(p.value) })),
+      strain: weeks
+        .map(w => ({ label: `Week ${w}`, short: `W${w}`, value: avg(buckets.get(w).strain) }))
+        .filter(p => p.value != null)
+        .map(p => ({ ...p, value: Math.round(p.value * 10) / 10 })),
+    };
+  }, []);
+  if (weekly.recovery.length < 2) return null;
+  const lastRec = weekly.recovery[weekly.recovery.length - 1];
+  const lastStrain = weekly.strain[weekly.strain.length - 1];
   return (
     <section style={styles.trendsPanel}>
       <div style={styles.coachSectionHead}>
-        <span style={styles.filterLabel}>Recovery</span>
-        <span style={styles.trendsSub}>whoop, last 30 days</span>
+        <span style={styles.filterLabel}>Whoop</span>
+        <span style={styles.trendsSub}>weekly averages, cycle 2 (week 1 = 11 may)</span>
       </div>
-      <div style={{ ...styles.trendCell, maxWidth: 560 }}>
-        <div style={styles.trendCellHead}>
-          <span style={styles.trendCellLabel}>Daily recovery</span>
-          <span style={styles.trendCellValue}>{last}%</span>
+      <div style={styles.trendsGrid}>
+        <div style={styles.trendCell}>
+          <div style={styles.trendCellHead}>
+            <span style={styles.trendCellLabel}>Avg recovery / week</span>
+            <span style={styles.trendCellValue}>{lastRec.value}%</span>
+          </div>
+          <BarChart points={weekly.recovery} colorFor={recoveryColor} unit="%" showXLabels />
         </div>
-        <BarChart points={recoverySeries} colorFor={recoveryColor} unit="%" />
+        {weekly.strain.length >= 2 && (
+          <div style={styles.trendCell}>
+            <div style={styles.trendCellHead}>
+              <span style={styles.trendCellLabel}>Avg strain / week</span>
+              <span style={styles.trendCellValue}>{lastStrain.value}</span>
+            </div>
+            <BarChart points={weekly.strain} color={COLORS.accentCool} unit="" showXLabels />
+          </div>
+        )}
       </div>
     </section>
   );
@@ -1333,21 +1378,35 @@ function CrossfitCard({ session }) {
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
-        style={styles.crossfitHeader}
+        style={styles.cfHero}
         aria-expanded={open}
       >
-        <span style={styles.crossfitTag}>Class</span>
-        <span style={styles.crossfitTitle}>{session.className || 'CrossFit'}</span>
-        {session.time && <span style={styles.crossfitTime}>{session.time}</span>}
+        <span style={styles.cfHeroPill}>Class</span>
         <ChevronDown
           size={16}
           style={{
-            marginLeft: 'auto',
-            color: COLORS.textDim,
+            position: 'absolute',
+            right: 14,
+            bottom: 14,
+            color: 'rgba(255, 255, 255, 0.7)',
             transform: open ? 'none' : 'rotate(-90deg)',
             transition: 'transform 0.18s ease',
           }}
         />
+        <div style={styles.cfHeroText}>
+          <div style={styles.cfHeroKicker}>
+            {session.className || 'CrossFit'}
+            {session.time && ` · ${session.time}`}
+          </div>
+          <div style={styles.cfHeroTitle}>
+            {(session.metcon && session.metcon.format) || 'Class workout'}
+          </div>
+          <div style={styles.cfHeroMeta}>
+            {strengthItems.length > 0
+              ? strengthItems.map(s => s.myWeight ? `${s.name} — ${s.myWeight}` : s.name).join(' · ')
+              : 'No strength block'}
+          </div>
+        </div>
       </button>
       {open && (
         <div style={styles.crossfitBody}>
@@ -1498,26 +1557,50 @@ function GroupModal({ group, onClose }) {
   const dateStr = date.toLocaleDateString('en-AU', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
   const top = group.videos[0];
   const setCount = group.videos.length;
+  const heroVideo = group.videos.find(v => v.youtubeId);
 
   return (
     <div style={styles.modalBackdrop} onClick={onClose}>
       <div style={styles.modal} onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} style={styles.modalClose} aria-label="Close">
+        <button onClick={onClose} style={{ ...styles.modalClose, zIndex: 2 }} aria-label="Close">
           <X size={18} />
         </button>
 
-        <div style={styles.modalHeader}>
-          <div style={styles.modalLift}>{LIFT_LABELS[group.lift] || group.lift}</div>
-          <div style={styles.modalWeight}>
-            <span style={styles.modalWeightNum}>{top.weight}</span>
-            <span style={styles.modalWeightUnit}>kg top</span>
+        {heroVideo ? (
+          <div style={styles.modalHero}>
+            <img
+              src={`https://i.ytimg.com/vi/${heroVideo.youtubeId}/hqdefault.jpg`}
+              alt=""
+              style={styles.cardHeroImg}
+              onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
+            />
+            <div style={styles.cardHeroShade} />
+            <div style={styles.modalHeroText}>
+              <div style={styles.modalHeroName}>{LIFT_LABELS[group.lift] || group.lift}</div>
+              <div style={styles.modalHeroWeight}>
+                {top.weight}<span style={styles.modalHeroUnit}>kg top</span>
+              </div>
+              <div style={styles.modalHeroMeta}>
+                {setCount} {setCount === 1 ? 'set' : 'sets'}
+                {top.bodyweight && top.weight > 0 && ` · ${Math.round((top.weight / top.bodyweight) * 100)}% bodyweight`}
+                {` · ${dateStr}`}
+              </div>
+            </div>
           </div>
-          <h2 style={styles.modalTitle}>{setCount} {setCount === 1 ? 'set' : 'sets'}</h2>
-          <div style={styles.modalDate}>
-            <Calendar size={13} style={{ marginRight: 6, opacity: 0.6 }} />
-            {dateStr}
+        ) : (
+          <div style={styles.modalHeader}>
+            <div style={styles.modalLift}>{LIFT_LABELS[group.lift] || group.lift}</div>
+            <div style={styles.modalWeight}>
+              <span style={styles.modalWeightNum}>{top.weight}</span>
+              <span style={styles.modalWeightUnit}>kg top</span>
+            </div>
+            <h2 style={styles.modalTitle}>{setCount} {setCount === 1 ? 'set' : 'sets'}</h2>
+            <div style={styles.modalDate}>
+              <Calendar size={13} style={{ marginRight: 6, opacity: 0.6 }} />
+              {dateStr}
+            </div>
           </div>
-        </div>
+        )}
 
         <div style={styles.setList}>
           {group.videos.map((v, i) => (
@@ -1545,15 +1628,29 @@ function SetSection({ video, setNumber, totalSets, isFirst }) {
         style={styles.setHeader}
         aria-expanded={!collapsed}
       >
-        <div style={styles.setIndex}>Set {setNumber} of {totalSets}</div>
-        <div style={styles.setWeight}>
-          <span style={styles.setWeightNum}>{video.weight}</span>
-          <span style={styles.setWeightUnit}>kg</span>
+        <div style={styles.setThumb}>
+          {video.youtubeId ? (
+            <img
+              src={`https://i.ytimg.com/vi/${video.youtubeId}/default.jpg`}
+              alt=""
+              style={styles.setThumbImg}
+              loading="lazy"
+              onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
+            />
+          ) : (
+            <Play size={14} style={{ color: COLORS.textMute, opacity: 0.5 }} />
+          )}
         </div>
-        {video.bodyweight && (
-          <span style={styles.setBwPct}>{Math.round((video.weight / video.bodyweight) * 100)}% BW</span>
-        )}
-        <div style={styles.setTitle}>{video.title}</div>
+        <div style={styles.setHeadText}>
+          <div style={styles.setIndex}>Set {setNumber} of {totalSets}</div>
+          <div style={styles.setHeadRow}>
+            <span style={styles.setWeightNum}>{video.weight}</span>
+            <span style={styles.setWeightUnit}>kg</span>
+            {video.bodyweight && (
+              <span style={styles.setBwPct}>{Math.round((video.weight / video.bodyweight) * 100)}% BW</span>
+            )}
+          </div>
+        </div>
         <ChevronDown
           size={16}
           style={{
@@ -2404,6 +2501,68 @@ const styles = {
     fontFamily: FONTS.body,
     textAlign: 'left',
   },
+  cfHero: {
+    position: 'relative',
+    display: 'block',
+    width: '100%',
+    minHeight: 110,
+    padding: '14px 16px 14px',
+    background: `
+      radial-gradient(ellipse at 85% -20%, rgba(45, 182, 196, 0.35), transparent 55%),
+      linear-gradient(135deg, #0E3A40 0%, #16282C 55%, #141210 100%)
+    `,
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
+    cursor: 'pointer',
+    textAlign: 'left',
+    color: '#fff',
+    fontFamily: FONTS.body,
+  },
+  cfHeroPill: {
+    position: 'absolute',
+    right: 12,
+    top: 12,
+    fontFamily: FONTS.mono,
+    fontSize: 9.5,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: '#fff',
+    background: 'rgba(45, 182, 196, 0.35)',
+    border: '1px solid rgba(45, 182, 196, 0.6)',
+    padding: '3px 8px',
+    borderRadius: 999,
+  },
+  cfHeroText: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
+    paddingRight: 60,
+  },
+  cfHeroKicker: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: COLORS.accentCool,
+  },
+  cfHeroTitle: {
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 26,
+    lineHeight: 1,
+    letterSpacing: '0.01em',
+    textTransform: 'uppercase',
+    color: '#fff',
+  },
+  cfHeroMeta: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.04em',
+    lineHeight: 1.6,
+    color: 'rgba(255, 255, 255, 0.65)',
+  },
   crossfitTag: {
     fontFamily: FONTS.mono,
     fontSize: 10,
@@ -2824,6 +2983,83 @@ const styles = {
     cursor: 'pointer',
     fontFamily: 'inherit',
   },
+  modalHero: {
+    position: 'relative',
+    margin: 'calc(clamp(18px, 4vw, 32px) * -1) calc(clamp(18px, 4vw, 32px) * -1) 20px',
+    height: 210,
+    background: '#000',
+    overflow: 'hidden',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  modalHeroText: {
+    position: 'absolute',
+    left: 18,
+    right: 18,
+    bottom: 14,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
+  },
+  modalHeroName: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    lineHeight: 1.5,
+    color: 'rgba(255, 255, 255, 0.85)',
+  },
+  modalHeroWeight: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 6,
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 52,
+    lineHeight: 0.95,
+    letterSpacing: '-0.02em',
+    color: '#fff',
+  },
+  modalHeroUnit: {
+    fontFamily: FONTS.mono,
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  modalHeroMeta: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    letterSpacing: '0.05em',
+    color: 'rgba(255, 255, 255, 0.65)',
+  },
+  setThumb: {
+    width: 72,
+    height: 54,
+    borderRadius: 6,
+    overflow: 'hidden',
+    background: COLORS.surfaceLift,
+    border: `1px solid ${COLORS.border}`,
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  setThumbImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
+  },
+  setHeadText: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4,
+    minWidth: 0,
+  },
+  setHeadRow: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: 5,
+  },
   setIndex: {
     fontFamily: FONTS.mono,
     fontSize: 11,
@@ -2839,7 +3075,7 @@ const styles = {
   setWeightNum: {
     fontFamily: FONTS.display,
     fontWeight: 800,
-    fontSize: 36,
+    fontSize: 26,
     lineHeight: 0.9,
     letterSpacing: '-0.02em',
     color: COLORS.text,
