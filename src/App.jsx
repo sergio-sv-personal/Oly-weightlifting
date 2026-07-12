@@ -39,7 +39,6 @@ const LIFT_LABELS = {
   deadlift: 'Deadlift',
   bb_bent_over_row_supinated: 'BB Bent-Over Row, Supinated',
   snatch_grip_rdl: 'Snatch-Grip RDL',
-  bench_press: 'Bench Press',
   dips: 'Dips',
   pull_ups: 'Pull-Ups',
 };
@@ -78,7 +77,6 @@ const LIFT_CATEGORIES = {
   bulgarian_split_squat: 'accessory',
   single_leg_glute_bridge: 'accessory',
   snatch_grip_rdl: 'accessory',
-  bench_press: 'accessory',
 };
 
 const LIFT_CATEGORY_ORDER = ['snatch', 'clean_jerk', 'squat_pull', 'accessory'];
@@ -88,6 +86,26 @@ const LIFT_CATEGORY_LABELS = {
   squat_pull: 'Squat & Pull',
   accessory: 'Accessory',
 };
+
+// Day banner gradients by session type. The teal one is the original
+// CrossFit-card treatment, promoted to the day level; Oly gets the warm
+// accent twin and hybrid days blend both hues.
+const DAY_BANNERS = {
+  oly: `
+    radial-gradient(ellipse at 85% -20%, rgba(233, 78, 27, 0.30), transparent 55%),
+    linear-gradient(135deg, #3A1A0E 0%, #261712 55%, #141210 100%)
+  `,
+  crossfit: `
+    radial-gradient(ellipse at 85% -20%, rgba(45, 182, 196, 0.35), transparent 55%),
+    linear-gradient(135deg, #0E3A40 0%, #16282C 55%, #141210 100%)
+  `,
+  hybrid: `
+    radial-gradient(ellipse at 90% -20%, rgba(45, 182, 196, 0.30), transparent 50%),
+    radial-gradient(ellipse at 15% -30%, rgba(233, 78, 27, 0.28), transparent 50%),
+    linear-gradient(135deg, #2E1911 0%, #15282C 60%, #141210 100%)
+  `,
+};
+const DAY_TYPE_LABELS = { oly: 'Oly', crossfit: 'CrossFit', hybrid: 'Hybrid' };
 
 // dayNotes entries can be a plain string (just a note) or an object
 // { note, dayLabel } where dayLabel overrides the auto-computed "Day N".
@@ -694,6 +712,7 @@ export default function App() {
               const totalCards = day.mainGroups.length + day.accessoryGroups.length;
               const noteText = getDayNoteText(day.date);
               const isCrossfitOnly = totalCards === 0 && !!crossfitSessions[day.date];
+              const dayType = isCrossfitOnly ? 'crossfit' : crossfitSessions[day.date] ? 'hybrid' : 'oly';
               const whoop = whoopDays[day.date];
               return (
                 <section key={day.dayKey} style={styles.daySection}>
@@ -710,31 +729,33 @@ export default function App() {
                     }}
                     style={{
                       ...styles.dayHeader,
-                      borderLeftColor: isCrossfitOnly ? COLORS.accentCool : COLORS.accent,
+                      background: DAY_BANNERS[dayType],
                     }}
                     aria-expanded={!collapsed}
                   >
-                    {day.dayLabel != null && <span style={styles.dayLabel}>Day {day.dayLabel}</span>}
-                    {day.dayLabel != null && <span style={styles.daySep}>·</span>}
-                    <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
-                    {totalCards > 0 ? (
-                      <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
-                    ) : (
-                      crossfitSessions[day.date] && (
-                        <span style={{ ...styles.dayCount, color: COLORS.accentCool }}>Class only</span>
-                      )
-                    )}
-                    {whoop && whoop.recovery != null && (
-                      <span style={styles.recoveryPill}>
-                        <span style={{ ...styles.recoveryDot, background: recoveryColor(whoop.recovery) }} />
-                        {whoop.recovery}%
+                    <span style={styles.dayHeaderInner}>
+                      <span style={styles.dayLabel}>
+                        {day.dayLabel != null ? `Day ${day.dayLabel} · ${DAY_TYPE_LABELS[dayType]}` : DAY_TYPE_LABELS[dayType]}
                       </span>
-                    )}
+                      <span style={styles.daySep}>·</span>
+                      <span style={styles.dayDate}>{formatDayDate(day.date)}</span>
+                      {totalCards > 0 && (
+                        <span style={styles.dayCount}>{totalCards} {totalCards === 1 ? 'lift' : 'lifts'}</span>
+                      )}
+                      {whoop && whoop.recovery != null && (
+                        <span style={styles.recoveryPill}>
+                          <span style={{ ...styles.recoveryDot, background: recoveryColor(whoop.recovery) }} />
+                          {whoop.recovery}%
+                        </span>
+                      )}
+                    </span>
                     <ChevronDown
                       size={16}
                       className="day-chevron"
                       style={{
                         marginLeft: 'auto',
+                        flexShrink: 0,
+                        alignSelf: 'center',
                         color: COLORS.textDim,
                         transform: collapsed ? 'rotate(-90deg)' : 'none',
                         transition: 'transform 0.18s ease, color 0.15s ease',
@@ -1422,34 +1443,30 @@ function CrossfitCard({ session }) {
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
-        style={styles.cfHero}
+        style={styles.cfBar}
         aria-expanded={open}
       >
-        <span style={styles.cfHeroPill}>Class</span>
-        <ChevronDown
-          size={16}
-          style={{
-            position: 'absolute',
-            right: 14,
-            bottom: 14,
-            color: 'rgba(255, 255, 255, 0.7)',
-            transform: open ? 'none' : 'rotate(-90deg)',
-            transition: 'transform 0.18s ease',
-          }}
-        />
-        <div style={styles.cfHeroText}>
-          <div style={styles.cfHeroKicker}>
-            {session.className || 'CrossFit'}
-            {session.time && ` · ${session.time}`}
-          </div>
-          <div style={styles.cfHeroTitle}>
+        <div style={styles.cfBarRow}>
+          <span style={styles.cfBarPill}>Class</span>
+          <span style={styles.cfBarTitle}>
             {(session.metcon && session.metcon.format) || 'Class workout'}
-          </div>
-          <div style={styles.cfHeroMeta}>
-            {strengthItems.length > 0
-              ? strengthItems.map(s => s.myWeight ? `${s.name} — ${s.myWeight}` : s.name).join(' · ')
-              : 'No strength block'}
-          </div>
+          </span>
+          <ChevronDown
+            size={15}
+            style={{
+              marginLeft: 'auto',
+              flexShrink: 0,
+              color: COLORS.textDim,
+              transform: open ? 'none' : 'rotate(-90deg)',
+              transition: 'transform 0.18s ease',
+            }}
+          />
+        </div>
+        <div style={styles.cfBarMeta}>
+          {session.className || 'CrossFit'}
+          {session.time && ` · ${session.time}`}
+          {strengthItems.length > 0 &&
+            ` · ${strengthItems.map(s => s.myWeight ? `${s.name} — ${s.myWeight}` : s.name).join(' · ')}`}
         </div>
       </button>
       {open && (
@@ -1784,8 +1801,8 @@ const globalCss = `
   .lift-card:hover { border-color: ${COLORS.borderStrong}; background: ${COLORS.surfaceLift}; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
   .lift-card-accessory:hover { border-color: ${COLORS.accent}; background: #221c18; }
   .lift-card:active { transform: scale(0.99); }
-  .day-header:hover { background: ${COLORS.surface}; }
-  .day-header:hover .day-chevron { color: ${COLORS.accent}; }
+  .day-header:hover { filter: brightness(1.12); }
+  .day-header:hover .day-chevron { color: #fff; }
   button:focus-visible { outline: 2px solid ${COLORS.accent}; outline-offset: 2px; }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: ${COLORS.bg}; }
@@ -2545,67 +2562,51 @@ const styles = {
     fontFamily: FONTS.body,
     textAlign: 'left',
   },
-  cfHero: {
-    position: 'relative',
-    display: 'block',
+  cfBar: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 6,
     width: '100%',
-    minHeight: 110,
-    padding: '14px 16px 14px',
-    background: `
-      radial-gradient(ellipse at 85% -20%, rgba(45, 182, 196, 0.35), transparent 55%),
-      linear-gradient(135deg, #0E3A40 0%, #16282C 55%, #141210 100%)
-    `,
-    borderTop: 'none',
-    borderRight: 'none',
-    borderBottom: 'none',
-    borderLeft: 'none',
+    padding: '12px 14px',
+    background: 'transparent',
+    border: 'none',
     cursor: 'pointer',
     textAlign: 'left',
-    color: '#fff',
+    color: COLORS.text,
     fontFamily: FONTS.body,
   },
-  cfHeroPill: {
-    position: 'absolute',
-    right: 12,
-    top: 12,
+  cfBarRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    width: '100%',
+  },
+  cfBarPill: {
+    flexShrink: 0,
     fontFamily: FONTS.mono,
     fontSize: 9.5,
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
-    color: '#fff',
-    background: 'rgba(45, 182, 196, 0.35)',
-    border: '1px solid rgba(45, 182, 196, 0.6)',
-    padding: '3px 8px',
+    color: COLORS.accentCool,
+    border: '1px solid rgba(45, 182, 196, 0.45)',
+    padding: '2px 7px',
     borderRadius: 999,
   },
-  cfHeroText: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 5,
-    paddingRight: 60,
-  },
-  cfHeroKicker: {
-    fontFamily: FONTS.mono,
-    fontSize: 10,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
-    color: COLORS.accentCool,
-  },
-  cfHeroTitle: {
+  cfBarTitle: {
     fontFamily: FONTS.display,
-    fontWeight: 800,
-    fontSize: 26,
-    lineHeight: 1,
-    letterSpacing: '0.01em',
+    fontWeight: 700,
+    fontSize: 17,
+    lineHeight: 1.15,
+    letterSpacing: '0.02em',
     textTransform: 'uppercase',
-    color: '#fff',
+    color: COLORS.text,
   },
-  cfHeroMeta: {
+  cfBarMeta: {
     fontFamily: FONTS.mono,
     fontSize: 10,
     letterSpacing: '0.04em',
     lineHeight: 1.6,
-    color: 'rgba(255, 255, 255, 0.65)',
+    color: COLORS.textMute,
   },
   crossfitTag: {
     fontFamily: FONTS.mono,
@@ -2704,24 +2705,27 @@ const styles = {
   dayHeader: {
     display: 'flex',
     alignItems: 'baseline',
-    gap: 14,
+    gap: 12,
     width: '100%',
-    paddingLeft: 18,
+    paddingLeft: 16,
     paddingRight: 14,
-    paddingTop: 14,
-    paddingBottom: 14,
-    background: 'transparent',
-    borderTop: 'none',
-    borderRight: 'none',
-    borderBottom: 'none',
-    borderLeft: `3px solid ${COLORS.accent}`,
-    borderTopRightRadius: 6,
-    borderBottomRightRadius: 6,
+    paddingTop: 15,
+    paddingBottom: 15,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
     cursor: 'pointer',
     color: COLORS.text,
     fontFamily: FONTS.body,
     textAlign: 'left',
-    transition: 'background 0.15s ease, border-color 0.15s ease',
+    transition: 'filter 0.15s ease',
+  },
+  dayHeaderInner: {
+    display: 'flex',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+    gap: '6px 12px',
+    flex: 1,
+    minWidth: 0,
   },
   dayCount: {
     fontFamily: FONTS.mono,
@@ -2733,10 +2737,11 @@ const styles = {
   dayLabel: {
     fontFamily: FONTS.display,
     fontWeight: 800,
-    fontSize: 26,
-    letterSpacing: '-0.01em',
+    fontSize: 24,
+    letterSpacing: '0.01em',
     lineHeight: 1,
-    color: COLORS.text,
+    textTransform: 'uppercase',
+    color: '#fff',
   },
   daySep: {
     color: COLORS.textMute,

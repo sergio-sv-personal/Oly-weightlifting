@@ -28,6 +28,6 @@
   },
   "bench_press": {
     "label": "Bench Press",
-    "history": [{ "date": "2026-07-11", "kg": 65, "est": true }]
+    "history": [{ "date": "2026-07-12", "kg": 65, "est": true }]
   }
 }

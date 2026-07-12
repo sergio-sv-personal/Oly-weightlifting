@@ -1,17 +1,64 @@
 [
   {
-    "id": "v416",
+    "id": "v420",
+    "youtubeId": "Ogfk3xAHzpc",
     "vertical": true,
-    "accessory": true,
-    "title": "Bench Press, 4×3 @ 60kg",
+    "title": "Front Squat, set 5",
     "date": "2026-07-11",
-    "lift": "bench_press",
-    "weight": 60,
-    "sets": 4,
-    "reps": 3,
+    "lift": "front_squat",
+    "weight": 75,
     "bodyweight": 82,
-    "tags": ["week-9-c2", "accessory", "cycle-2", "loc-brunswick"],
-    "notes": "4 sets of 3 at 60kg. Not recorded."
+    "tags": ["week-9-c2", "working-set", "cycle-2", "loc-brunswick"],
+    "notes": "75kg for a double, fifth set. Depth and back tension solid; descent could be quicker and the drive out of the hole more aggressive.",
+    "summary": "Five sets of front squats close Day 3 of week 9: 65×3, two doubles at 70, two doubles at 75. Depth is good and upper-back tension is holding; next focus is a faster, more confident descent and a more aggressive drive out of the hole."
+  },
+  {
+    "id": "v419",
+    "youtubeId": "Qh_-gDM3sRc",
+    "vertical": true,
+    "title": "Front Squat, set 4",
+    "date": "2026-07-11",
+    "lift": "front_squat",
+    "weight": 75,
+    "bodyweight": 82,
+    "tags": ["week-9-c2", "working-set", "cycle-2", "loc-brunswick"],
+    "notes": "75kg for a double, fourth set."
+  },
+  {
+    "id": "v418",
+    "youtubeId": "B0kl0qfRtcw",
+    "vertical": true,
+    "title": "Front Squat, set 3",
+    "date": "2026-07-11",
+    "lift": "front_squat",
+    "weight": 70,
+    "bodyweight": 82,
+    "tags": ["week-9-c2", "working-set", "cycle-2", "loc-brunswick"],
+    "notes": "70kg for a double, third set."
+  },
+  {
+    "id": "v417",
+    "youtubeId": "5UMzkoCkc4M",
+    "vertical": true,
+    "title": "Front Squat, set 2",
+    "date": "2026-07-11",
+    "lift": "front_squat",
+    "weight": 70,
+    "bodyweight": 82,
+    "tags": ["week-9-c2", "working-set", "cycle-2", "loc-brunswick"],
+    "notes": "70kg for a double, second set."
+  },
+  {
+    "id": "v416",
+    "youtubeId": "UjedjHV_ZuY",
+    "vertical": true,
+    "title": "Front Squat, set 1",
+    "date": "2026-07-11",
+    "lift": "front_squat",
+    "weight": 65,
+    "bodyweight": 82,
+    "tags": ["week-9-c2", "working-set", "cycle-2", "loc-brunswick"],
+    "notes": "65kg for a triple to open the working sets."
   },
   {
     "id": "v415",

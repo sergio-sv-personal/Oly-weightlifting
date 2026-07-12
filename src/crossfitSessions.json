@@ -442,5 +442,25 @@
       "timeCap": "35:00"
     },
     "notes": "Not a good session — shoulders were fatigued (day after the push press 1RM test, plus the morning's Day 3 work). Dumbbell reps at 22.5kg."
+  },
+  "2026-07-12": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-9-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Bench Press + Body Row",
+        "scheme": "4 sets — 3 Bench Press @ 75% or RPE 7/10 + max rep feet-elevated body row. Rest 1:30-2:00. Time cap 15:00.",
+        "myWeight": "60kg bench"
+      }
+    ],
+    "metcon": {
+      "format": "EMOM 15 (0:30 on / 0:30 off)",
+      "details": "Min 1: Calorie Row / Bike\nMin 2: Ab Mat Sit-ups\nMin 3: Double Unders",
+      "scoreType": "Reps"
+    },
+    "notes": "Bench press at 60kg across all four sets."
   }
 }
