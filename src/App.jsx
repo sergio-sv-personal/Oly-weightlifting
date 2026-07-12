@@ -4,8 +4,8 @@ import videos from './videos.json';
 import dayNotes from './dayNotes.json';
 import crossfitSessions from './crossfitSessions.json';
 import whoopDays from './whoopDays.json';
-import program from './program.json';
 import maxes from './maxes.json';
+import coachNotes from './coachNotes.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
@@ -1079,15 +1079,19 @@ function WhoopStrip({ data }) {
 // Single-series bar chart (inline SVG, no library). Bars grow from a
 // zero baseline, rounded 3px at the data end, square at the base, with
 // a surface gap between bars and a per-bar hover tooltip.
-function BarChart({ points, color, colorFor, unit, showXLabels }) {
+function BarChart({ points, color, colorFor, unit, showXLabels, domainMax, ticks }) {
   const [hoverI, setHoverI] = useState(null);
-  const W = 260, H = showXLabels ? 84 : 72, PAD = 6, BASE = showXLabels ? H - 14 : H - 2;
+  const W = 260, H = showXLabels ? 92 : 72, TOP = 6;
+  const PADL = ticks ? 26 : 6, PADR = 6;
+  const BASE = showXLabels ? H - 14 : H - 2;
   const n = points.length;
-  const max = Math.max(...points.map(p => p.value)) || 1;
-  const slot = (W - PAD * 2) / n;
+  // Fixed domain (0-100 for recovery %, 0-21 for Whoop strain) so bar
+  // height is honest; falls back to the data max for unbounded metrics.
+  const max = domainMax || Math.max(...points.map(p => p.value)) || 1;
+  const slot = (W - PADL - PADR) / n;
   const bw = Math.max(1.5, Math.min(24, slot - 2));
-  const x = i => PAD + i * slot + (slot - bw) / 2;
-  const y = v => BASE - (v / max) * (H - PAD - 8);
+  const x = i => PADL + i * slot + (slot - bw) / 2;
+  const y = v => BASE - (v / max) * (BASE - TOP);
   const bar = (i, v) => {
     const bx = x(i), by = y(v), r = Math.min(3, bw / 2);
     return `M${bx},${BASE} V${(by + r).toFixed(1)} Q${bx},${by.toFixed(1)} ${(bx + r).toFixed(1)},${by.toFixed(1)} H${(bx + bw - r).toFixed(1)} Q${(bx + bw).toFixed(1)},${by.toFixed(1)} ${(bx + bw).toFixed(1)},${(by + r).toFixed(1)} V${BASE} Z`;
@@ -1095,7 +1099,7 @@ function BarChart({ points, color, colorFor, unit, showXLabels }) {
   const onMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) * (W / rect.width);
-    const i = Math.max(0, Math.min(n - 1, Math.floor((px - PAD) / slot)));
+    const i = Math.max(0, Math.min(n - 1, Math.floor((px - PADL) / slot)));
     setHoverI(i);
   };
   return (
@@ -1106,7 +1110,21 @@ function BarChart({ points, color, colorFor, unit, showXLabels }) {
         onMouseMove={onMove}
         onMouseLeave={() => setHoverI(null)}
       >
-        <line x1={PAD} y1={BASE} x2={W - PAD} y2={BASE} stroke={COLORS.border} strokeWidth="1" />
+        {ticks && ticks.map(t => (
+          <g key={`t${t}`}>
+            <line
+              x1={PADL} y1={y(t)} x2={W - PADR} y2={y(t)}
+              stroke={COLORS.border} strokeWidth="1" opacity="0.55"
+            />
+            <text
+              x={PADL - 5} y={y(t) + 2.5} textAnchor="end"
+              fontFamily="JetBrains Mono, monospace" fontSize="7" fill={COLORS.textMute}
+            >
+              {t}{unit}
+            </text>
+          </g>
+        ))}
+        <line x1={PADL} y1={BASE} x2={W - PADR} y2={BASE} stroke={COLORS.border} strokeWidth="1" />
         {points.map((p, i) => (
           <path
             key={i}
@@ -1240,7 +1258,7 @@ function RecoveryPanel() {
             <span style={styles.trendCellLabel}>Avg recovery / week</span>
             <span style={styles.trendCellValue}>{lastRec.value}%</span>
           </div>
-          <BarChart points={weekly.recovery} colorFor={recoveryColor} unit="%" showXLabels />
+          <BarChart points={weekly.recovery} colorFor={recoveryColor} unit="%" showXLabels domainMax={100} ticks={[50, 100]} />
         </div>
         {weekly.strain.length >= 2 && (
           <div style={styles.trendCell}>
@@ -1248,7 +1266,7 @@ function RecoveryPanel() {
               <span style={styles.trendCellLabel}>Avg strain / week</span>
               <span style={styles.trendCellValue}>{lastStrain.value}</span>
             </div>
-            <BarChart points={weekly.strain} color={COLORS.accentCool} unit="" showXLabels />
+            <BarChart points={weekly.strain} color={COLORS.accentCool} unit="" showXLabels domainMax={21} ticks={[7, 14, 21]} />
           </div>
         )}
       </div>
@@ -1256,84 +1274,36 @@ function RecoveryPanel() {
   );
 }
 
-// Condense a program exercise's set list into "2×3 @ 25.2kg (63%)" runs.
-function condenseSets(sets) {
-  const runs = [];
-  for (const s of sets) {
-    const key = `${s.pct}|${s.kg}|${s.reps}`;
-    const last = runs[runs.length - 1];
-    if (last && last.key === key) last.count += 1;
-    else runs.push({ key, count: 1, s });
-  }
-  return runs.map(({ count, s }) => {
-    const reps = s.reps != null ? `${count}×${s.reps}` : `${count} sets`;
-    const load = s.kg != null ? ` @ ${s.kg}kg` : '';
-    const pct = typeof s.pct === 'number' ? ` (${s.pct}%)` : (typeof s.pct === 'string' && !s.kg ? ` ${s.pct}` : '');
-    return `${reps}${load}${pct}`;
-  }).join(' · ');
-}
-
-// The prescribed program (src/program.json, extracted from the coach's
-// spreadsheet). Week chips select a week; each day lists its exercises.
-function ProgramPanel() {
-  const [week, setWeek] = useState(program.weeks[program.weeks.length - 1].week);
-  const current = program.weeks.find(w => w.week === week);
+// Athlete notes (src/coachNotes.json): Sergio's own read on where each
+// main lift is at — struggles in his words, not coaching prescriptions.
+function AthleteNotes() {
+  if (!coachNotes.length) return null;
   return (
-    <section style={styles.programPanel}>
+    <section style={styles.trendsPanel}>
       <div style={styles.coachSectionHead}>
-        <span style={styles.filterLabel}>Program</span>
-        <span style={styles.trendsSub}>{program.label} — {program.focus.toLowerCase()}</span>
+        <span style={styles.filterLabel}>Athlete notes</span>
+        <span style={styles.trendsSub}>where each lift is at, in my own words</span>
       </div>
-      <div style={{ ...styles.chipRow, marginBottom: 18 }}>
-        {program.weeks.map(w => (
-          <button
-            key={w.week}
-            onClick={() => setWeek(w.week)}
-            style={{
-              ...styles.chip,
-              ...(week === w.week ? styles.chipActive : {}),
-            }}
-          >
-            Week {w.week}
-          </button>
+      <div style={styles.noteGrid}>
+        {coachNotes.map(n => (
+          <div key={n.lift} style={styles.noteCard}>
+            <div style={styles.noteLift}>{n.lift}</div>
+            <div style={styles.noteBody}>{n.body}</div>
+          </div>
         ))}
       </div>
-      {current && (
-        <div style={styles.programGrid}>
-          {current.days.map(d => (
-            <div key={d.day} style={styles.programDay}>
-              <div style={styles.programDayLabel}>Day {d.day}</div>
-              {d.exercises.map((ex, i) => (
-                <div key={i} style={styles.programExercise}>
-                  <div style={styles.programExerciseName}>{ex.name}</div>
-                  <div style={styles.programExerciseSets}>{condenseSets(ex.sets)}</div>
-                  {ex.note && <div style={styles.programExerciseNote}>{ex.note}</div>}
-                </div>
-              ))}
-              {d.accessories.length > 0 && (
-                <div style={styles.programExercise}>
-                  <div style={styles.programExerciseName}>Accessories</div>
-                  {d.accessories.map((a, i) => (
-                    <div key={i} style={styles.programExerciseSets}>{a.scheme} — {a.name}</div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
     </section>
   );
 }
 
-// Coach summary view: trends + the prescribed program. The training
+// Coach summary view: maxes, athlete notes, Whoop trends. The training
 // feed stays clean; this page is the birds-eye read for Seb.
 function CoachPage() {
   return (
     <div>
       <MaxBoard />
+      <AthleteNotes />
       <RecoveryPanel />
-      <ProgramPanel />
     </div>
   );
 }
@@ -2258,25 +2228,23 @@ const styles = {
   trendsPanel: {
     marginBottom: 44,
   },
-  programPanel: {
-    marginBottom: 44,
-  },
-  programGrid: {
+  noteGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
     gap: 18,
     alignItems: 'start',
   },
-  programDay: {
+  noteCard: {
     background: COLORS.surface,
     border: `1px solid ${COLORS.border}`,
+    borderLeft: `3px solid ${COLORS.accent}`,
     borderRadius: 10,
     padding: '16px 18px',
     display: 'flex',
     flexDirection: 'column',
-    gap: 14,
+    gap: 10,
   },
-  programDayLabel: {
+  noteLift: {
     fontFamily: FONTS.display,
     fontWeight: 800,
     fontSize: 20,
@@ -2285,26 +2253,10 @@ const styles = {
     color: COLORS.accent,
     lineHeight: 1,
   },
-  programExercise: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 3,
-  },
-  programExerciseName: {
+  noteBody: {
     fontSize: 13.5,
-    fontWeight: 600,
-    color: COLORS.text,
-  },
-  programExerciseSets: {
-    fontFamily: FONTS.mono,
-    fontSize: 11.5,
+    lineHeight: 1.65,
     color: COLORS.textDim,
-    lineHeight: 1.6,
-  },
-  programExerciseNote: {
-    fontSize: 12,
-    color: COLORS.textMute,
-    fontStyle: 'italic',
   },
   maxBoard: {
     display: 'flex',
