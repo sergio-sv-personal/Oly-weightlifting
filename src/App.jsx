@@ -39,6 +39,7 @@ const LIFT_LABELS = {
   deadlift: 'Deadlift',
   bb_bent_over_row_supinated: 'BB Bent-Over Row, Supinated',
   snatch_grip_rdl: 'Snatch-Grip RDL',
+  bench_press: 'Bench Press',
   dips: 'Dips',
   pull_ups: 'Pull-Ups',
 };
@@ -77,6 +78,7 @@ const LIFT_CATEGORIES = {
   bulgarian_split_squat: 'accessory',
   single_leg_glute_bridge: 'accessory',
   snatch_grip_rdl: 'accessory',
+  bench_press: 'accessory',
 };
 
 const LIFT_CATEGORY_ORDER = ['snatch', 'clean_jerk', 'squat_pull', 'accessory'];
@@ -1149,7 +1151,7 @@ function MaxBoard() {
               <div style={styles.maxRowHead}>
                 <span style={styles.maxRowLabel}>{e.label}</span>
                 <span style={styles.maxRowMeta}>
-                  {e.cur.ref ? 'program ref' : `tested ${formatDayDate(e.cur.date)}`}
+                  {e.cur.ref ? 'program ref' : e.cur.est ? 'estimated' : `tested ${formatDayDate(e.cur.date)}`}
                 </span>
                 <span style={styles.maxRowValue}>
                   {e.prev && <span style={styles.maxRowPrev}>{e.prev.kg} → </span>}

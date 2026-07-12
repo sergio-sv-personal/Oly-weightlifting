@@ -525,6 +525,54 @@
     "hrv": 37,
     "sleepPerf": 77,
     "sleepMin": 431,
+    "strain": 15
+  },
+  "2026-07-06": {
+    "recovery": 62,
+    "rhr": 70,
+    "hrv": 38,
+    "sleepPerf": 77,
+    "sleepMin": 403,
+    "strain": 5.4
+  },
+  "2026-07-07": {
+    "recovery": 92,
+    "rhr": 68,
+    "hrv": 45,
+    "sleepPerf": 77,
+    "sleepMin": 438,
+    "strain": 12.8
+  },
+  "2026-07-08": {
+    "recovery": 54,
+    "rhr": 70,
+    "hrv": 37,
+    "sleepPerf": 76,
+    "sleepMin": 344,
+    "strain": 14.5
+  },
+  "2026-07-09": {
+    "recovery": 73,
+    "rhr": 68,
+    "hrv": 40,
+    "sleepPerf": 79,
+    "sleepMin": 378,
+    "strain": 9.7
+  },
+  "2026-07-10": {
+    "recovery": 40,
+    "rhr": 71,
+    "hrv": 34,
+    "sleepPerf": 66,
+    "sleepMin": 345,
+    "strain": 7.8
+  },
+  "2026-07-11": {
+    "recovery": 56,
+    "rhr": 72,
+    "hrv": 37,
+    "sleepPerf": 81,
+    "sleepMin": 507,
     "strain": null
   }
 }

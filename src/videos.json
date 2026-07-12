@@ -1,5 +1,19 @@
 [
   {
+    "id": "v416",
+    "vertical": true,
+    "accessory": true,
+    "title": "Bench Press, 4×3 @ 60kg",
+    "date": "2026-07-11",
+    "lift": "bench_press",
+    "weight": 60,
+    "sets": 4,
+    "reps": 3,
+    "bodyweight": 82,
+    "tags": ["week-9-c2", "accessory", "cycle-2", "loc-brunswick"],
+    "notes": "4 sets of 3 at 60kg. Not recorded."
+  },
+  {
     "id": "v415",
     "youtubeId": "jAnUTPS8eX0",
     "vertical": true,
