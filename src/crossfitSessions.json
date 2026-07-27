@@ -498,5 +498,56 @@
       "timeCap": "35:00"
     },
     "notes": "400s started around 1:45 and progressively dropped to ~1:25. Logged result in the app: 1:21 average."
+  },
+  "2026-07-19": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-10-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "3 Rounds For Time",
+      "details": "2000m Bike\n1000m Row\n600m Run",
+      "scoreType": "Time",
+      "timeCap": "35:00"
+    },
+    "notes": "Finished in 35 minutes — right on the time cap."
+  },
+  "2026-07-22": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-11-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "1 Power Clean + 1 Front Squat + 1 Hang Squat Clean",
+        "scheme": "Every 1:30 x 6, building to moderate-heavy.",
+        "myWeight": "built in 2.5kg jumps to 60kg"
+      }
+    ],
+    "metcon": {
+      "format": "AMRAP 2:30 x 4 (rest 1:00)",
+      "details": "25 Air Squats\n10 Power Cleans (45kg)\n15 Air Squats\nMax Rep Power Cleans (55kg)",
+      "scoreType": "Reps",
+      "timeCap": "14:00"
+    },
+    "notes": "Complex built to 60kg in 2.5kg jumps — legs were cooked early on (day after Day 1), so couldn't hit full depth on the hang squat clean at the beginning. Metcon at 45/55kg, completed all four sets."
+  },
+  "2026-07-24": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-11-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Legacy Day — 5 Rounds For Time",
+      "details": "24/18 Cal Row\n20 Thrusters (40kg)\n16 Bar Facing Burpees",
+      "scoreType": "Time",
+      "timeCap": "28:00"
+    },
+    "notes": "Felt off — pacing was off, still learning how to pace the burpees, and 40kg on the thrusters was probably too heavy. Reached round 5 but only finished the row before the cap."
   }
 }
