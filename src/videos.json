@@ -1,5 +1,29 @@
 [
   {
+    "id": "v509",
+    "vertical": true,
+    "title": "Clean & Jerk, 65kg × 1 — 1RM test",
+    "date": "2026-07-28",
+    "lift": "clean_and_jerk",
+    "weight": 65,
+    "reps": 1,
+    "bodyweight": 80,
+    "tags": ["week-12-c2", "heavy", "cycle-2", "loc-altona"],
+    "notes": "Test day closing cycle 2: first tested clean & jerk 1RM — 65kg, five days after the previous best of 57. Not recorded."
+  },
+  {
+    "id": "v508",
+    "vertical": true,
+    "title": "Snatch, 44kg × 1 — 1RM test",
+    "date": "2026-07-28",
+    "lift": "snatch",
+    "weight": 44,
+    "reps": 1,
+    "bodyweight": 80,
+    "tags": ["week-12-c2", "heavy", "cycle-2", "loc-altona"],
+    "notes": "Test day closing cycle 2: new snatch 1RM — 44kg, up from 40 in April. Not recorded."
+  },
+  {
     "id": "v507",
     "youtubeId": "gbyNcPuZrpc",
     "vertical": true,

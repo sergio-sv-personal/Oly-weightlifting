@@ -549,5 +549,107 @@
       "timeCap": "28:00"
     },
     "notes": "Felt off — pacing was off, still learning how to pace the burpees, and 40kg on the thrusters was probably too heavy. Reached round 5 but only finished the row before the cap."
+  },
+  "2026-07-29": {
+    "className": "CrossFit 3056",
+    "time": "evening",
+    "week": "week-12-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Power: Row + 2 Power Clean + 1 Hang Power Clean",
+        "scheme": "Every 2:00 x 6 — 12/10 cal row, then the clean complex @ 30-40% of best deadlift. Time cap 12:00.",
+        "myWeight": "55kg"
+      }
+    ],
+    "metcon": {
+      "format": "10 Rounds For Time",
+      "details": "3 Shoulder to Overhead (50kg)\n5 Toes to Bar (scaled: leg raises)\n7 Burpees Over Bar",
+      "scoreType": "Time",
+      "timeCap": "15:00"
+    },
+    "notes": "Evening class the day after test day. Cleans at 55 in the power piece; metcon overhead at 50kg — 30 total shoulder-to-overhead reps at 83% of the push press 1RM — and finished under the cap. Toes to bar scaled to leg raises."
+  },
+  "2026-07-31": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-12-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Dead Stop Deadlift",
+        "scheme": "Every 2:00 x 5 — 2 dead-stop deadlifts @ 80%. Time cap 10:00.",
+        "myWeight": "100kg"
+      }
+    ],
+    "metcon": {
+      "format": "For Time",
+      "details": "150 Double Unders (subbed: 200 single unders)\n100 Air Squats\n100 Sit-ups\n150 Double Unders (subbed: 200 single unders)",
+      "scoreType": "Time",
+      "timeCap": "15:00"
+    },
+    "notes": "Dead-stop deadlifts at 100 — exactly the defined 80%. Finished the metcon; double unders subbed for 200 single unders per block."
+  },
+  "2026-08-01": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-12-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Super Saturday — For Time",
+      "details": "3 Rounds:\n9 Hang Power Snatches (35kg)\n12 Pull-ups (subbed: jumping pull-ups)\n15 Back Rack Lunges (35kg)\nRest 2:00\n3 Rounds:\n15 Hang Power Snatches (30kg)\n12 Pull-ups (subbed: jumping pull-ups)\n9 Overhead Squats (30kg)",
+      "scoreType": "Time",
+      "timeCap": "22:00"
+    },
+    "notes": "35kg on part one, 30kg on part two — got to the last round before the cap. Form got really poor as it went; no kipping pull-ups yet, so subbed jumping pull-ups."
+  },
+  "2026-08-02": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-12-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "3 Sets For Time",
+      "details": "2:00 Row / Bike\n1/1 Kettlebell Turkish Get-ups\n100m Single Arm Front Rack KB Carry\n2:00 Row / Bike\n20 Weighted Sit-ups\n100m Single Arm Overhead KB Carry",
+      "scoreType": "Time",
+      "timeCap": "36:00"
+    },
+    "notes": "Kettlebells at 12 and 12.5kg. Finished right on the 36:00 cap."
+  },
+  "2026-08-07": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-13-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "5 Rounds Not For Time",
+      "details": "750/500m Row / 1000-1600m Bike\n20 Wall Balls (subbed: KB swings @ 24kg)\n200m Carry of Choice (2 x 12kg — front rack & overhead)",
+      "scoreType": "Notes",
+      "timeCap": "30:00"
+    },
+    "notes": "Deload week class, kept deliberately easy. Wall balls subbed for kettlebell swings at 24kg to spare the knee; carries with double 12s, front rack and overhead. Plus the weighted deadbug midline piece."
+  },
+  "2026-08-08": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-13-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Super Saturday — For Time",
+      "details": "100 Toes to Bar (scaled: leg raises)\n100 Dumbbell Snatch → hang snatch @ 20kg\n100 Burpees\n1600m Run\nBreak up as desired.",
+      "scoreType": "Time",
+      "timeCap": "34:00"
+    },
+    "notes": "Re-entry day closing the deload week. Broke it up as 9 sets of 10 of each movement with ~150m run segments. Snatches done as hang snatches at 20kg; toes to bar scaled to leg raises."
   }
 }
