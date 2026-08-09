@@ -140,21 +140,23 @@ export default function App() {
   const [selectedWeeks, setSelectedWeeks] = useState(() => {
     // Default to the latest week present in the data, where "latest"
     // means highest cycle, then highest week within that cycle.
+    // Class-only weeks (crossfitSessions) count too — a deload week with
+    // no filmed lifts still has to be reachable and selected by default.
     let latest = null;
     let latestCycle = -Infinity;
     let latestWeek = -Infinity;
-    for (const v of videos) {
-      for (const t of v.tags) {
-        if (!t.startsWith('week-')) continue;
-        const [w, c] = parseWeekTag(t);
-        if (!Number.isFinite(w)) continue;
-        if (c > latestCycle || (c === latestCycle && w > latestWeek)) {
-          latestCycle = c;
-          latestWeek = w;
-          latest = t;
-        }
+    const consider = (t) => {
+      if (!t || !t.startsWith('week-')) return;
+      const [w, c] = parseWeekTag(t);
+      if (!Number.isFinite(w)) return;
+      if (c > latestCycle || (c === latestCycle && w > latestWeek)) {
+        latestCycle = c;
+        latestWeek = w;
+        latest = t;
       }
-    }
+    };
+    for (const v of videos) for (const t of v.tags) consider(t);
+    for (const s of Object.values(crossfitSessions)) consider(s.week);
     return latest ? new Set([latest]) : new Set();
   });
   const [selectedCycles, setSelectedCycles] = useState(new Set());
@@ -199,6 +201,11 @@ export default function App() {
     videos.forEach(v => v.tags.forEach(t => {
       if (t.startsWith('week-')) weeks.add(t);
     }));
+    // Weeks that only exist as class sessions (e.g. a deload week with no
+    // filmed lifts) still get a chip.
+    Object.values(crossfitSessions).forEach(s => {
+      if (s.week && s.week.startsWith('week-')) weeks.add(s.week);
+    });
     return Array.from(weeks).sort((a, b) => {
       const [wa, ca] = parseWeekTag(a);
       const [wb, cb] = parseWeekTag(b);
@@ -660,7 +667,7 @@ export default function App() {
           <CoachPage />
         ) : view === 'feed' ? (
           <FeedPage />
-        ) : visibleVideos.length === 0 ? (
+        ) : visibleVideos.length === 0 && groupedByDay.length === 0 ? (
           <div style={styles.empty}>
             <div style={styles.emptyTitle}>No lifts match.</div>
             <div style={styles.emptySub}>Try clearing a filter or different search term.</div>

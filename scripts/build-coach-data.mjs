@@ -36,6 +36,7 @@ const bundle = {
       'Left knee ITB pain, progressively worsening as of Aug 2026 — flagged to coach in the cycle 2 check-in.',
     ],
   },
+  program: read('src/program.json'),
   maxes: read('src/maxes.json'),
   athleteNotes: read('src/coachNotes.json'),
   dayNotes: read('src/dayNotes.json'),
