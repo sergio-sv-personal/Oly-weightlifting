@@ -651,5 +651,91 @@
       "timeCap": "34:00"
     },
     "notes": "Re-entry day closing the deload week. Broke it up as 9 sets of 10 of each movement with ~150m run segments. Snatches done as hang snatches at 20kg; toes to bar scaled to leg raises."
+  },
+  "2026-08-09": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-13-c2",
+    "cycle": "cycle-2",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Every 5:00 x 6",
+      "details": "1600m Bike // 800m Row\n20 Ring Rows (dropped to 15 after two sets)\nLateral Box Step Overs in remaining time\nRest 1:00",
+      "scoreType": "Notes",
+      "timeCap": "30:00"
+    },
+    "notes": "First day of getting sick — intervals didn't feel okay. Dropped the ring rows from 20 to 15 after the first two sets; everything else held. Illness took over from here."
+  },
+  "2026-08-14": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-1-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Back Squat",
+        "scheme": "4 sets: 5-5-3-3, ascending, rest 2:00. Time cap 15:00.",
+        "myWeight": "50 → 60kg (kept light coming off illness)"
+      }
+    ],
+    "metcon": {
+      "format": "For Time",
+      "details": "40 Front Squats (40kg)\n30 Kettlebell Box Step Overs (20kg)\n40 Kettlebell Swings (20kg)\n30 Box Jump Overs, Step Down\n40 Burpee Over Bar",
+      "scoreType": "Time",
+      "timeCap": "16:00"
+    },
+    "notes": "First class back after the illness — felt good. Squats deliberately capped at 60 to not overdo it; front squats at 40, kettlebell at 20. Jumps and burpees both good, pace held throughout."
+  },
+  "2026-08-15": {
+    "className": "CrossFit 3056",
+    "time": "8:30am",
+    "week": "week-1-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Super Saturday — AMRAP 10 x 2 (rest 2:00)",
+      "details": "AMRAP 10:\n10 Shoulder to Overhead (40kg)\n100m Run\n15 Push-ups (on knees)\n100m Run\nRest 2:00\nAMRAP 10:\n5 Shoulder to Overhead (45kg)\n200m Run\n10 Ring Dips (on boxes)\n200m Run",
+      "scoreType": "Rounds + Reps",
+      "timeCap": "22:00"
+    },
+    "notes": "3 rounds + 3 rounds. Went 40 then 45 on the shoulder-to-overhead — in hindsight 35/40 would have been the right call, six days into recovering from illness. Push-ups from the knees, ring dips on boxes. Frustrating one: these metcons bring the feeling of not progressing."
+  },
+  "2026-08-26": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-3-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Band Resisted Body Rows",
+        "scheme": "5 x 5-7, make this hard. Rest 1:00-1:30. Time cap 12:00."
+      }
+    ],
+    "metcon": {
+      "format": "3 Rounds For Time",
+      "details": "15 Shoulder to Overhead (40kg)\n9 Burpee Pull-ups\n6 Hang Power Cleans (40kg)",
+      "scoreType": "Time",
+      "timeCap": "12:00"
+    },
+    "notes": "First fuelled 6am class (pouch + banana 45 min before). Felt definitely different — more focus, and didn't end destroyed. Barbell at 40kg — start of a deliberate policy: scale CrossFit weights down so classes don't impact the Oly days."
+  },
+  "2026-08-16": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-1-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "3 Sets, Not For Time",
+      "details": "3:00 Row / Bike / Ski\n20 Sit-ups\n2:00 Row / Bike / Ski\n15 Tuck-ups\n1:00 Row / Bike / Ski\n10 V-ups\nRest 1:00",
+      "scoreType": "Notes",
+      "timeCap": "30:00"
+    },
+    "notes": "Done alongside Day 3 of Seb's program (strict press RPE calibration). Plus the MacKenzie press accessory, 2 x 10 with 10s hold on the last rep."
   }
 }

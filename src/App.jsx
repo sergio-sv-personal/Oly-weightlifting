@@ -6,27 +6,36 @@ import crossfitSessions from './crossfitSessions.json';
 import whoopDays from './whoopDays.json';
 import maxes from './maxes.json';
 import coachNotes from './coachNotes.json';
+import nutrition from './nutrition.json';
+import weightDays from './weightDays.json';
 import { supabase } from './supabase.js';
 
 const LIFT_LABELS = {
   snatch: 'Snatch',
   power_snatch: 'Power Snatch',
   hip_power_snatch_ohs: '2 Hip Power Snatch + 2 OHS',
+  power_snatch_ohs: 'Power Snatch + OHS',
   drop_snatch: 'Drop Snatch',
+  paused_overhead_squat: 'Paused Overhead Squat',
+  above_knee_hang_snatch: 'Above-Knee Hang Snatch',
   floating_snatch: 'Floating Snatch',
   clean_and_jerk: 'Clean & Jerk',
   pause_off_floor_clean_jerk: 'Pause Off-Floor Clean + 2 Jerks',
   clean_2_jerks: 'Clean + 2 Jerks',
   clean: 'Clean',
   pause_above_knee_clean: 'Pause Above-Knee Clean',
+  above_knee_hang_clean: 'Above-Knee Hang Clean',
   tempo_clean: 'Tempo Clean',
   power_clean: 'Power Clean',
   hang_power_clean_push_press: 'Below-the-Knee HPC + PP',
   jerk: 'Jerk',
+  tall_jerk: 'Tall Jerk',
+  power_clean_jerk: 'Power Clean + Jerk',
   behind_neck_jerk: 'Behind-the-Neck Jerk',
   btn_strict_press_snatch_grip: 'BTN Strict Press, Snatch Grip',
   btn_push_press: 'BTN Push Press',
   press_in_split: 'Press in Split',
+  barbell_strict_press: 'Barbell Strict Press',
   push_jerk_in_split: 'Push Jerk in Split',
   raised_snatch_deadlift: 'Raised Snatch Deadlift',
   paused_snatch_pull: 'Paused Snatch Pull (BTK + ATK)',
@@ -35,12 +44,17 @@ const LIFT_LABELS = {
   back_squat: 'Back Squat',
   paused_back_squat: 'Paused Back Squat',
   bulgarian_split_squat: 'Bulgarian Split Squat',
+  ssb_split_squat: 'SSB Split Squat',
+  knee_raises: 'Knee Raises (Dip Bar)',
+  cossack_squat: 'Cossack Squat',
+  sunrise_situps: 'Sunrise Sit-ups',
   single_leg_glute_bridge: 'Single-Leg Glute Bridge',
   deadlift: 'Deadlift',
   bb_bent_over_row_supinated: 'BB Bent-Over Row, Supinated',
   snatch_grip_rdl: 'Snatch-Grip RDL',
   dips: 'Dips',
   pull_ups: 'Pull-Ups',
+  chin_ups: 'Chin-Ups',
 };
 
 // Movement family of each lift, for grouping chips in the Lift filter.
@@ -48,8 +62,11 @@ const LIFT_CATEGORIES = {
   snatch: 'snatch',
   power_snatch: 'snatch',
   drop_snatch: 'snatch',
+  paused_overhead_squat: 'snatch',
+  above_knee_hang_snatch: 'snatch',
   floating_snatch: 'snatch',
   hip_power_snatch_ohs: 'snatch',
+  power_snatch_ohs: 'snatch',
   btn_strict_press_snatch_grip: 'snatch',
   btn_push_press: 'snatch',
   paused_snatch_pull: 'snatch',
@@ -61,11 +78,15 @@ const LIFT_CATEGORIES = {
   power_clean: 'clean_jerk',
   hang_power_clean_push_press: 'clean_jerk',
   pause_above_knee_clean: 'clean_jerk',
+  above_knee_hang_clean: 'clean_jerk',
   tempo_clean: 'clean_jerk',
   tempo_clean_grip_deadlift: 'clean_jerk',
   jerk: 'clean_jerk',
+  tall_jerk: 'clean_jerk',
+  power_clean_jerk: 'clean_jerk',
   behind_neck_jerk: 'clean_jerk',
   press_in_split: 'clean_jerk',
+  barbell_strict_press: 'clean_jerk',
   push_jerk_in_split: 'clean_jerk',
   front_squat: 'squat_pull',
   back_squat: 'squat_pull',
@@ -74,7 +95,12 @@ const LIFT_CATEGORIES = {
   bb_bent_over_row_supinated: 'squat_pull',
   dips: 'accessory',
   pull_ups: 'accessory',
+  chin_ups: 'accessory',
   bulgarian_split_squat: 'accessory',
+  ssb_split_squat: 'squat_pull',
+  knee_raises: 'accessory',
+  cossack_squat: 'accessory',
+  sunrise_situps: 'accessory',
   single_leg_glute_bridge: 'accessory',
   snatch_grip_rdl: 'accessory',
 };
@@ -103,6 +129,12 @@ const DAY_BANNERS = {
     radial-gradient(ellipse at 90% -20%, rgba(45, 182, 196, 0.30), transparent 50%),
     radial-gradient(ellipse at 15% -30%, rgba(233, 78, 27, 0.28), transparent 50%),
     linear-gradient(135deg, #2E1911 0%, #15282C 60%, #141210 100%)
+  `,
+  // Fuel (nutrition) days: a green tint so food reads as its own concept
+  // next to the warm Oly and cool CrossFit banners.
+  fuel: `
+    radial-gradient(ellipse at 85% -20%, rgba(63, 191, 127, 0.28), transparent 55%),
+    linear-gradient(135deg, #0F3A26 0%, #16281F 55%, #141210 100%)
   `,
 };
 const DAY_TYPE_LABELS = { oly: 'Oly', crossfit: 'CrossFit', hybrid: 'Hybrid' };
@@ -416,6 +448,7 @@ export default function App() {
         {[
           { key: 'log', label: 'Training log' },
           { key: 'feed', label: 'Feed' },
+          { key: 'fuel', label: 'Fuel' },
           { key: 'coach', label: 'Coach summary' },
         ].map(t => (
           <button
@@ -665,6 +698,8 @@ export default function App() {
       <main style={styles.main}>
         {view === 'coach' ? (
           <CoachPage />
+        ) : view === 'fuel' ? (
+          <FuelPage />
         ) : view === 'feed' ? (
           <FeedPage />
         ) : visibleVideos.length === 0 && groupedByDay.length === 0 ? (
@@ -1311,6 +1346,401 @@ function CoachPage() {
       <MaxBoard />
       <AthleteNotes />
       <RecoveryPanel />
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------
+// Fuel: the nutrition log (src/nutrition.json) + morning weight
+// (src/weightDays.json, RENPHO). Same day-card grammar as the training
+// log, with Seb's calorie band and the pre/intra/post protocol surfaced
+// so a coach can read adherence at a glance.
+// ---------------------------------------------------------------------
+const SLOT_LABELS = { pre: 'Pre', intra: 'Intra', post: 'Post', veg: 'Veg', fruit: 'Fruit', supp: 'Supp' };
+const BAND_OK = '#3FBF7F';
+const BAND_OFF = '#E8B84B';
+
+function sumItems(items) {
+  return items.reduce((a, i) => ({
+    kcal: a.kcal + (i.kcal || 0),
+    p: a.p + (i.p || 0),
+    c: a.c + (i.c || 0),
+    f: a.f + (i.f || 0),
+    fibre: a.fibre + (i.fibre || 0),
+  }), { kcal: 0, p: 0, c: 0, f: 0, fibre: 0 });
+}
+
+function shortDay(s) {
+  const d = new Date(s);
+  if (isNaN(d.getTime())) return s;
+  return `${['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][d.getDay()]}${d.getDate()}`;
+}
+
+// Strip the "PRE-TRAINING (40 min out): " style prefix once the slot is
+// shown as its own tag next to the item.
+function cleanItemName(name) {
+  return name.replace(/^(PRE-TRAINING|PRE-CLASS|INTRA-TRAINING|INTRA-CLASS|POST-TRAINING|BETWEEN SESSIONS)[^:]*:\s*/i, '');
+}
+
+function useFuelDays() {
+  return useMemo(() => Object.entries(nutrition.days)
+    .map(([date, d]) => ({
+      date,
+      ...d,
+      totals: sumItems(d.items),
+      slots: new Set(d.items.map(i => i.slot).filter(Boolean)),
+      weight: weightDays[date] ?? null,
+      whoop: whoopDays[date] || null,
+      isTraining: !/^rest/i.test(d.training || ''),
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date)), []);
+}
+
+function FuelStat({ label, value, unit, sub, color }) {
+  return (
+    <div style={styles.fuelStat}>
+      <div style={styles.fuelStatLabel}>{label}</div>
+      <div style={{ ...styles.fuelStatNum, ...(color ? { color } : {}) }}>
+        {value}<span style={styles.fuelStatUnit}>{unit}</span>
+      </div>
+      {sub && <div style={styles.fuelStatSub}>{sub}</div>}
+    </div>
+  );
+}
+
+// Daily kcal bars against Seb's maintenance band, with the morning
+// weigh-in as a line on a right-hand axis. Open (in-progress) days draw
+// as a dashed outline so a half-logged day never reads as a low day.
+function FuelChart({ days, targets }) {
+  const [hoverI, setHoverI] = useState(null);
+  const W = 360, H = 128, TOP = 10, BASE = H - 16, PADL = 30, PADR = 32;
+  const n = days.length;
+  if (!n) return null;
+  const maxK = Math.max(3200, Math.ceil(Math.max(...days.map(d => d.totals.kcal)) / 200) * 200);
+  const slot = (W - PADL - PADR) / n;
+  const bw = Math.max(2, Math.min(22, slot - 3));
+  const x = i => PADL + i * slot + (slot - bw) / 2;
+  const yK = v => BASE - (v / maxK) * (BASE - TOP);
+  const ws = days.map(d => d.weight).filter(v => v != null);
+  const wMin = ws.length ? Math.floor(Math.min(...ws) - 0.5) : 0;
+  const wMax = ws.length ? Math.ceil(Math.max(...ws) + 0.5) : 1;
+  const yW = v => BASE - ((v - wMin) / (wMax - wMin || 1)) * (BASE - TOP);
+  let path = '';
+  let pen = false;
+  days.forEach((d, i) => {
+    if (d.weight == null) { pen = false; return; }
+    path += `${pen ? ' L' : ' M'}${(x(i) + bw / 2).toFixed(1)},${yW(d.weight).toFixed(1)}`;
+    pen = true;
+  });
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) * (W / rect.width);
+    setHoverI(Math.max(0, Math.min(n - 1, Math.floor((px - PADL) / slot))));
+  };
+  const kTicks = [1000, 2000, 3000].filter(t => t < maxK);
+  const labelEvery = Math.max(1, Math.ceil(n / 16));
+  const bandTop = yK(targets.kcalHigh);
+  const bandH = yK(targets.kcalLow) - bandTop;
+  return (
+    <div style={{ position: 'relative' }}>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
+        onMouseMove={onMove}
+        onMouseLeave={() => setHoverI(null)}
+      >
+        <rect x={PADL} y={bandTop} width={W - PADL - PADR} height={bandH} fill={COLORS.accent} opacity="0.10" />
+        {[targets.kcalLow, targets.kcalHigh].map(v => (
+          <line key={v} x1={PADL} y1={yK(v)} x2={W - PADR} y2={yK(v)} stroke={COLORS.accent} strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
+        ))}
+        {kTicks.map(t => (
+          <g key={t}>
+            <line x1={PADL} y1={yK(t)} x2={W - PADR} y2={yK(t)} stroke={COLORS.border} strokeWidth="1" opacity="0.55" />
+            <text x={PADL - 5} y={yK(t) + 2.5} textAnchor="end" fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.textMute}>{t / 1000}k</text>
+          </g>
+        ))}
+        <line x1={PADL} y1={BASE} x2={W - PADR} y2={BASE} stroke={COLORS.border} strokeWidth="1" />
+        {days.map((d, i) => (
+          <rect
+            key={d.date}
+            x={x(i)}
+            y={yK(d.totals.kcal)}
+            width={bw}
+            height={Math.max(0, BASE - yK(d.totals.kcal))}
+            rx="2"
+            fill={d.closed ? COLORS.accent : 'transparent'}
+            stroke={COLORS.accent}
+            strokeWidth={d.closed ? 0 : 1}
+            strokeDasharray={d.closed ? undefined : '2 2'}
+            opacity={hoverI == null || hoverI === i ? (d.closed ? 0.9 : 0.75) : 0.4}
+          />
+        ))}
+        {path && <path d={path} fill="none" stroke={COLORS.text} strokeWidth="1.6" strokeLinejoin="round" />}
+        {days.map((d, i) => d.weight != null && (
+          <circle key={`w${d.date}`} cx={x(i) + bw / 2} cy={yW(d.weight)} r="2.6" fill={COLORS.bg} stroke={COLORS.text} strokeWidth="1.4" />
+        ))}
+        {ws.length > 0 && [wMin, wMax].map(v => (
+          <text key={`wt${v}`} x={W - PADR + 5} y={yW(v) + 2.5} fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.textMute}>{v}kg</text>
+        ))}
+        {days.map((d, i) => i % labelEvery === 0 && (
+          <text key={`l${d.date}`} x={x(i) + bw / 2} y={H - 4} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.textMute}>{shortDay(d.date)}</text>
+        ))}
+      </svg>
+      {hoverI != null && (
+        <div
+          style={{
+            ...styles.sparkTooltip,
+            left: `${((x(hoverI) + bw / 2) / W) * 100}%`,
+            transform: x(hoverI) > W * 0.6 ? 'translateX(-100%)' : 'none',
+          }}
+        >
+          {formatDayDate(days[hoverI].date)} · {days[hoverI].totals.kcal.toLocaleString()} kcal
+          {days[hoverI].weight != null ? ` · ${days[hoverI].weight.toFixed(1)}kg` : ''}
+          {days[hoverI].closed ? '' : ' · so far'}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// The long view: every morning weigh-in since the 103kg peak.
+function WeightJourney() {
+  const [open, setOpen] = useState(false);
+  const pts = useMemo(() => Object.entries(weightDays).sort((a, b) => a[0].localeCompare(b[0])), []);
+  if (pts.length < 2) return null;
+  const first = pts[0];
+  const last = pts[pts.length - 1];
+  const peak = pts.reduce((m, p) => (p[1] > m[1] ? p : m), pts[0]);
+  const low = pts.reduce((m, p) => (p[1] < m[1] ? p : m), pts[0]);
+  const delta = last[1] - peak[1];
+  const W = 360, H = 90, PADL = 6, PADR = 36, TOP = 8, BASE = H - 14;
+  const t0 = Date.parse(first[0]);
+  const t1 = Date.parse(last[0]);
+  const x = d => PADL + ((Date.parse(d) - t0) / (t1 - t0 || 1)) * (W - PADL - PADR);
+  const yLo = low[1] - 1;
+  const yHi = peak[1] + 1;
+  const y = v => BASE - ((v - yLo) / (yHi - yLo)) * (BASE - TOP);
+  const path = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ');
+  const labels = [];
+  let lastMonth = null;
+  for (const p of pts) {
+    const m = p[0].slice(0, 7);
+    if (m === lastMonth) continue;
+    lastMonth = m;
+    const d = new Date(p[0]);
+    if (d.getMonth() % 3 === 0) labels.push([p[0], d.toLocaleDateString('en-AU', { month: 'short', year: '2-digit' })]);
+  }
+  return (
+    <section style={styles.trendsPanel}>
+      <button type="button" onClick={() => setOpen(o => !o)} style={styles.fuelJourneyBar} aria-expanded={open}>
+        <span style={{ ...styles.filterLabel, marginBottom: 0 }}>Weight since the peak</span>
+        <span style={styles.fuelJourneyDelta}>{delta.toFixed(1)} kg</span>
+        <span style={styles.trendsSub}>{peak[1]}kg {formatDayDate(peak[0])} → {last[1]}kg {formatDayDate(last[0])}</span>
+        <ChevronDown size={14} style={{ marginLeft: 'auto', flexShrink: 0, color: COLORS.textDim, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.18s ease' }} />
+      </button>
+      {open && (
+        <div style={{ ...styles.trendCell, marginTop: 12 }}>
+          <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
+            <line x1={PADL} y1={BASE} x2={W - PADR} y2={BASE} stroke={COLORS.border} strokeWidth="1" />
+            <path d={path} fill="none" stroke={COLORS.accent} strokeWidth="1.5" strokeLinejoin="round" />
+            <circle cx={x(last[0])} cy={y(last[1])} r="3" fill={COLORS.accent} />
+            <text x={x(last[0]) + 6} y={y(last[1]) + 3} fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.text}>{last[1]}</text>
+            <text x={x(peak[0]) + 5} y={y(peak[1]) + 3} fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.textDim}>{peak[1]}</text>
+            {labels.map(([d, l]) => (
+              <text key={d} x={x(d)} y={H - 3} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="7" fill={COLORS.textMute}>{l}</text>
+            ))}
+          </svg>
+          <div style={styles.trendsSub}>renpho scale, first weigh-in of each day · {pts.length} readings</div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function FuelDay({ day, targets, open, onToggle }) {
+  const t = day.totals;
+  const inBand = t.kcal >= targets.kcalLow && t.kcal <= targets.kcalHigh;
+  const kcalColor = !day.closed ? COLORS.textDim : inBand ? BAND_OK : BAND_OFF;
+  const checks = day.isTraining ? ['pre', 'intra', 'post', 'veg', 'fruit'] : ['veg', 'fruit'];
+  const nums = (v) => (
+    <span style={styles.fuelItemNums}>
+      <b style={styles.fuelItemKcal}>{Math.round(v.kcal).toLocaleString()}</b>
+      <span>P{Math.round(v.p)} C{Math.round(v.c)} F{Math.round(v.f)} Fb{Math.round(v.fibre)}</span>
+    </span>
+  );
+  return (
+    <section style={styles.daySection}>
+      <button
+        type="button"
+        className="day-header"
+        onClick={onToggle}
+        style={{ ...styles.dayHeader, background: DAY_BANNERS.fuel }}
+        aria-expanded={open}
+      >
+        <span style={styles.dayHeaderInner}>
+          <span style={styles.dayLabel}>{formatDayDate(day.date)}</span>
+          <span style={styles.daySep}>·</span>
+          <span style={styles.dayDate}>{day.training}</span>
+          <span style={{ ...styles.fuelKcal, color: kcalColor }}>
+            {t.kcal.toLocaleString()}<span style={styles.fuelKcalUnit}> kcal{day.closed ? '' : ' so far'}</span>
+          </span>
+          <span style={styles.fuelMacros}>P {Math.round(t.p)} · C {Math.round(t.c)} · F {Math.round(t.f)} · Fb {Math.round(t.fibre)}</span>
+          {day.fluidsMl > 0 && <span style={styles.dayCount}>{(day.fluidsMl / 1000).toFixed(1)}L</span>}
+          {day.whoop && day.whoop.recovery != null && (
+            <span style={styles.recoveryPill}>
+              <span style={{ ...styles.recoveryDot, background: recoveryColor(day.whoop.recovery) }} />
+              {day.whoop.recovery}%
+            </span>
+          )}
+        </span>
+        <ChevronDown
+          size={16}
+          className="day-chevron"
+          style={{ marginLeft: 'auto', flexShrink: 0, alignSelf: 'center', color: COLORS.textDim, transform: open ? 'none' : 'rotate(-90deg)', transition: 'transform 0.18s ease, color 0.15s ease' }}
+        />
+      </button>
+      {open && (
+        <>
+          <div style={styles.fuelAdherence}>
+            <span style={styles.whoopTag}>Protocol</span>
+            {checks.map(s => {
+              const ok = day.slots.has(s);
+              return (
+                <span key={s} style={{ ...styles.fuelAdhItem, color: ok ? COLORS.text : COLORS.textMute, borderColor: ok ? COLORS.accent : COLORS.border }}>
+                  {ok ? '✓' : '·'} {SLOT_LABELS[s]}
+                </span>
+              );
+            })}
+            {day.weight != null && (
+              <span style={{ ...styles.whoopStat, marginLeft: 'auto' }}>
+                <span style={styles.whoopStatLabel}>Weight</span>
+                <span style={styles.whoopStatValue}>{day.weight.toFixed(1)} kg</span>
+              </span>
+            )}
+          </div>
+          {day.whoop && <WhoopStrip data={day.whoop} />}
+          <div style={styles.fuelItems}>
+            {day.items.map((it, i) => {
+              const slot = it.slot && it.slot !== 'supp' ? it.slot : null;
+              return (
+                <div key={i} style={{ ...styles.fuelItem, ...(slot ? styles.fuelItemSlot : {}) }}>
+                  <span style={styles.fuelItemName}>
+                    {slot && <span style={styles.fuelSlotTag}>{SLOT_LABELS[slot]}</span>}
+                    {slot ? cleanItemName(it.name) : it.name}
+                  </span>
+                  {nums(it)}
+                </div>
+              );
+            })}
+            <div style={{ ...styles.fuelItem, ...styles.fuelItemTotal }}>
+              <span style={styles.fuelItemName}>{day.closed ? 'Day total' : 'Running total'}</span>
+              {nums(t)}
+            </div>
+          </div>
+          {day.note && (
+            <div style={styles.dayNote}>
+              <div style={styles.dayNoteLabel}>Session note</div>
+              <div style={styles.dayNoteBody}>{day.note}</div>
+            </div>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
+function FuelPage() {
+  const days = useFuelDays();
+  const targets = nutrition.targets;
+  const [range, setRange] = useState('all');
+  const [openDays, setOpenDays] = useState(() => new Set(days.slice(-1).map(d => d.date)));
+  const weightSeries = useMemo(() => Object.entries(weightDays).sort((a, b) => a[0].localeCompare(b[0])), []);
+  if (days.length === 0) return null;
+
+  const closed = days.filter(d => d.closed);
+  const last7 = closed.slice(-7);
+  const avg = f => (last7.length ? last7.reduce((s, d) => s + f(d), 0) / last7.length : null);
+  const avgK = avg(d => d.totals.kcal);
+  const avgP = avg(d => d.totals.p);
+  const avgC = avg(d => d.totals.c);
+  const avgFb = avg(d => d.totals.fibre);
+  const avgFl = avg(d => d.fluidsMl) / 1000;
+  const mean = a => (a.length ? a.reduce((s, v) => s + v, 0) / a.length : null);
+  const wNow = mean(weightSeries.slice(-7).map(e => e[1]));
+  const wBefore = mean(weightSeries.slice(-14, -7).map(e => e[1]));
+  const wDelta = wNow != null && wBefore != null ? wNow - wBefore : null;
+  const inBand = avgK != null && avgK >= targets.kcalLow && avgK <= targets.kcalHigh;
+  const bandWord = avgK == null ? null : inBand ? 'inside band' : avgK < targets.kcalLow ? 'below band' : 'above band';
+
+  const rangeDays = range === 'all' ? days : days.slice(-(range === '2w' ? 14 : 28));
+  const newestFirst = days.slice().reverse();
+  const toggleDay = date => setOpenDays(prev => {
+    const next = new Set(prev);
+    if (next.has(date)) next.delete(date);
+    else next.add(date);
+    return next;
+  });
+
+  return (
+    <div>
+      <section style={styles.trendsPanel}>
+        <div style={styles.coachSectionHead}>
+          <span style={styles.filterLabel}>Fuel</span>
+          <span style={styles.trendsSub}>last {last7.length} closed days · seb's band {targets.kcalLow.toLocaleString()}–{targets.kcalHigh.toLocaleString()} kcal</span>
+        </div>
+        <div style={styles.fuelStatRow}>
+          {avgK != null && <FuelStat label="Avg intake" value={Math.round(avgK).toLocaleString()} unit="kcal" color={inBand ? BAND_OK : BAND_OFF} sub={bandWord} />}
+          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" sub={`heading to ~${targets.carbsG}`} />}
+          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" sub={`trim toward ~${targets.proteinG}`} />}
+          {avgFb != null && <FuelStat label="Fibre" value={Math.round(avgFb)} unit="g" sub={`goal ${targets.fibreLowG}–${targets.fibreHighG}`} />}
+          {avgFl != null && <FuelStat label="Fluids" value={avgFl.toFixed(1)} unit="L" sub="incl. protein waters + gatorade" />}
+          {wNow != null && (
+            <FuelStat
+              label="Weight, 7d avg"
+              value={wNow.toFixed(1)}
+              unit="kg"
+              color={wDelta != null && Math.abs(wDelta) < 0.5 ? BAND_OK : undefined}
+              sub={wDelta == null ? null : Math.abs(wDelta) < 0.05 ? 'flat vs previous 7d' : `${wDelta > 0 ? '+' : ''}${wDelta.toFixed(1)} vs previous 7d`}
+            />
+          )}
+        </div>
+      </section>
+
+      <section style={styles.trendsPanel}>
+        <div style={{ ...styles.coachSectionHead, flexWrap: 'wrap' }}>
+          <span style={{ ...styles.filterLabel, whiteSpace: 'nowrap' }}>Intake vs weight</span>
+          <span style={styles.trendsSub}>bars: kcal · shaded: seb's band · line: morning weight</span>
+          <span style={styles.fuelRangeRow}>
+            {['2w', '4w', 'all'].map(r => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRange(r)}
+                style={{ ...styles.fuelRangeBtn, ...(range === r ? styles.fuelRangeBtnActive : {}) }}
+              >
+                {r}
+              </button>
+            ))}
+          </span>
+        </div>
+        <div style={{ ...styles.trendCell, maxWidth: 760 }}>
+          <FuelChart days={rangeDays} targets={targets} />
+        </div>
+      </section>
+
+      <WeightJourney />
+
+      <section style={styles.trendsPanel}>
+        <div style={styles.coachSectionHead}>
+          <span style={styles.filterLabel}>Days</span>
+          <span style={styles.trendsSub}>newest first · open a day for every item</span>
+        </div>
+        <div style={styles.fuelDayList}>
+          {newestFirst.map(d => (
+            <FuelDay key={d.date} day={d} targets={targets} open={openDays.has(d.date)} onToggle={() => toggleDay(d.date)} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
@@ -3442,5 +3872,186 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: 6,
+  },
+  // ---- Fuel tab ----
+  fuelStatRow: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+    gap: 12,
+  },
+  fuelStat: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '14px 16px',
+  },
+  fuelStatLabel: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+    marginBottom: 8,
+  },
+  fuelStatNum: {
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 34,
+    lineHeight: 1,
+    color: COLORS.text,
+  },
+  fuelStatUnit: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    fontWeight: 400,
+    color: COLORS.textDim,
+    marginLeft: 5,
+    letterSpacing: '0.04em',
+  },
+  fuelStatSub: {
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    color: COLORS.textMute,
+    marginTop: 8,
+    letterSpacing: '0.04em',
+  },
+  fuelRangeRow: {
+    marginLeft: 'auto',
+    display: 'inline-flex',
+    gap: 4,
+  },
+  fuelRangeBtn: {
+    background: 'transparent',
+    border: `1px solid ${COLORS.border}`,
+    color: COLORS.textDim,
+    borderRadius: 999,
+    padding: '3px 10px',
+    fontFamily: FONTS.mono,
+    fontSize: 10,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    cursor: 'pointer',
+  },
+  fuelRangeBtnActive: {
+    background: COLORS.accent,
+    borderColor: COLORS.accent,
+    color: '#fff',
+  },
+  fuelJourneyBar: {
+    display: 'flex',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+    gap: '6px 12px',
+    width: '100%',
+    background: 'transparent',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    textAlign: 'left',
+  },
+  fuelJourneyDelta: {
+    fontFamily: FONTS.display,
+    fontWeight: 800,
+    fontSize: 26,
+    lineHeight: 1,
+    color: COLORS.accent,
+  },
+  fuelDayList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+  },
+  fuelKcal: {
+    fontFamily: FONTS.mono,
+    fontSize: 15,
+    fontWeight: 600,
+    whiteSpace: 'nowrap',
+  },
+  fuelKcalUnit: {
+    fontSize: 10,
+    fontWeight: 400,
+    color: COLORS.textDim,
+    letterSpacing: '0.06em',
+  },
+  fuelMacros: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textDim,
+    letterSpacing: '0.04em',
+    whiteSpace: 'nowrap',
+  },
+  fuelAdherence: {
+    display: 'flex',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+    gap: 8,
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 8,
+    padding: '10px 14px',
+  },
+  fuelAdhItem: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    border: '1px solid',
+    borderRadius: 4,
+    padding: '3px 8px',
+    whiteSpace: 'nowrap',
+  },
+  fuelItems: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  fuelItem: {
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: '4px 14px',
+    padding: '9px 14px',
+    borderBottom: `1px solid ${COLORS.border}`,
+    fontSize: 13.5,
+    color: COLORS.text,
+  },
+  fuelItemSlot: {
+    boxShadow: `inset 3px 0 0 ${COLORS.accent}`,
+  },
+  fuelItemTotal: {
+    borderBottom: 'none',
+    background: COLORS.surfaceLift,
+    fontWeight: 600,
+  },
+  fuelItemName: {
+    flex: '1 1 220px',
+    minWidth: 0,
+    lineHeight: 1.4,
+  },
+  fuelSlotTag: {
+    fontFamily: FONTS.mono,
+    fontSize: 9.5,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    color: COLORS.accent,
+    marginRight: 8,
+  },
+  fuelItemNums: {
+    display: 'inline-flex',
+    alignItems: 'baseline',
+    marginLeft: 'auto',
+    gap: 10,
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    color: COLORS.textMute,
+    whiteSpace: 'nowrap',
+    letterSpacing: '0.02em',
+  },
+  fuelItemKcal: {
+    fontSize: 13,
+    fontWeight: 600,
+    color: COLORS.text,
   },
 };

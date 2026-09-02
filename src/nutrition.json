@@ -1,0 +1,1037 @@
+{
+  "targets": {
+    "kcalLow": 2680,
+    "kcalHigh": 2982,
+    "carbsG": 350,
+    "proteinG": 145,
+    "fibreLowG": 30,
+    "fibreHighG": 35,
+    "source": "Seb, nutrition follow-up email 25 Aug 2026 (calorie range); carbs/protein direction from the 24 Aug consult"
+  },
+  "days": {
+    "2026-08-25": {
+      "training": "Oly Day 1 (pm)",
+      "fluidsMl": 4100,
+      "items": [
+        {
+          "name": "Coffee: 125ml barista oat milk + 1 shot",
+          "kcal": 75,
+          "p": 1,
+          "c": 9,
+          "f": 4,
+          "fibre": 1
+        },
+        {
+          "name": "Breakfast smoothie: 300ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 630,
+          "p": 39,
+          "c": 91,
+          "f": 11,
+          "fibre": 15
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Pear (small–medium)",
+          "kcal": 85,
+          "p": 1,
+          "c": 22,
+          "f": 0,
+          "fibre": 5,
+          "slot": "fruit"
+        },
+        {
+          "name": "Lunch: F4F chicken meal (label: 617 kcal, chicken/wrap/beans chipotle)",
+          "kcal": 617,
+          "p": 63,
+          "c": 50,
+          "f": 9,
+          "fibre": 8
+        },
+        {
+          "name": "Grapes ×5",
+          "kcal": 17,
+          "p": 0,
+          "c": 4,
+          "f": 0,
+          "fibre": 0,
+          "slot": "fruit"
+        },
+        {
+          "name": "Yerba mate sparkling can, 375ml (70mg caffeine)",
+          "kcal": 10,
+          "p": 0,
+          "c": 2,
+          "f": 0,
+          "fibre": 1
+        },
+        {
+          "name": "Protein water #2: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "PRE-TRAINING (40 min out): banana + purée pouch",
+          "kcal": 170,
+          "p": 2,
+          "c": 40,
+          "f": 0,
+          "fibre": 5,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeine-free (10g boost blend)",
+          "kcal": 25,
+          "p": 5,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "INTRA-TRAINING: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "POST-TRAINING: WPI shake (25g) + purée pouch",
+          "kcal": 170,
+          "p": 24,
+          "c": 14,
+          "f": 1,
+          "fibre": 2,
+          "slot": "post"
+        },
+        {
+          "name": "Dinner: F4F BBQ honey chicken, basmati rice & beans (label, 350g)",
+          "kcal": 453,
+          "p": 49,
+          "c": 44,
+          "f": 8,
+          "fibre": 5
+        },
+        {
+          "name": "Night stack: psyllium husk 6g (~3.4g fibre) + 2 sleep tablets (valerian/ziziphus/hops, 150mg Mg) + 2 Mg glycinate caps (180mg Mg)",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true,
+      "note": "Energy levels were fine throughout — no crash — but strength felt down; a challenging session strength-wise (consistent with two weeks of illness, not fuelling). Post-session dip was caught by the purée pouch, which gave a noticeable boost. Gatorade (2 scoops) sat fine — no GI issues."
+    },
+    "2026-08-26": {
+      "training": "6am class",
+      "fluidsMl": 3100,
+      "items": [
+        {
+          "name": "PRE-CLASS (45 min out): purée pouch + banana",
+          "kcal": 170,
+          "p": 2,
+          "c": 40,
+          "f": 0,
+          "fibre": 5,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeinated (8.3g high-stim: 199mg caffeine)",
+          "kcal": 25,
+          "p": 4,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "Post-class coffee: regular oat milk latte (barista), 1 shot",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Breakfast smoothie: 350ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 635,
+          "p": 39,
+          "c": 91,
+          "f": 12,
+          "fibre": 15
+        },
+        {
+          "name": "Lunch: F4F honey soy chicken thigh + basmati rice (label, 565 kcal)",
+          "kcal": 565,
+          "p": 47,
+          "c": 53,
+          "f": 15,
+          "fibre": 3
+        },
+        {
+          "name": "Café deli sandwich, HALF: ham/salami, cheese, spinach, relish on white (photo est.)",
+          "kcal": 240,
+          "p": 11,
+          "c": 23,
+          "f": 11,
+          "fibre": 2
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Oat flat white, half-strength shot (9:30am, backfilled)",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Half Glick's everything bagel",
+          "kcal": 145,
+          "p": 5,
+          "c": 27,
+          "f": 2,
+          "fibre": 1
+        },
+        {
+          "name": "Frozen mixed vegetables, 175g (Birds Eye — label)",
+          "kcal": 70,
+          "p": 4,
+          "c": 10,
+          "f": 1,
+          "fibre": 5,
+          "slot": "veg"
+        },
+        {
+          "name": "Dinner: F4F chicken thigh stir-fry, basmati + cashews (label, 522 kcal)",
+          "kcal": 522,
+          "p": 31,
+          "c": 61,
+          "f": 17,
+          "fibre": 4
+        },
+        {
+          "name": "Protein water #2: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true
+    },
+    "2026-08-27": {
+      "training": "Oly Day 2 (pm)",
+      "fluidsMl": 3300,
+      "items": [
+        {
+          "name": "Breakfast smoothie: 350ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 635,
+          "p": 39,
+          "c": 91,
+          "f": 12,
+          "fibre": 15
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Lunch out: meatball bowl combo — 5 meatballs in sugo + garlic bread + SP Limonata (menu est.)",
+          "kcal": 860,
+          "p": 35,
+          "c": 80,
+          "f": 42,
+          "fibre": 4
+        },
+        {
+          "name": "Coke Zero, 375ml can (~32mg caffeine)",
+          "kcal": 1,
+          "p": 0,
+          "c": 0,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Granny Smith apple",
+          "kcal": 80,
+          "p": 0,
+          "c": 21,
+          "f": 0,
+          "fibre": 4,
+          "slot": "fruit"
+        },
+        {
+          "name": "PRE-TRAINING (40 min out): banana + purée pouch",
+          "kcal": 170,
+          "p": 2,
+          "c": 40,
+          "f": 0,
+          "fibre": 5,
+          "slot": "pre"
+        },
+        {
+          "name": "INTRA-TRAINING: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "POST-TRAINING: WPI shake (25g) + purée pouch",
+          "kcal": 170,
+          "p": 24,
+          "c": 14,
+          "f": 1,
+          "fibre": 2,
+          "slot": "post"
+        },
+        {
+          "name": "Dinner: F4F chicken laksa w/ vermicelli (label, 507 kcal)",
+          "kcal": 507,
+          "p": 29,
+          "c": 40,
+          "f": 22,
+          "fibre": 3
+        },
+        {
+          "name": "Frozen mixed vegetables, 100g (with dinner)",
+          "kcal": 41,
+          "p": 2,
+          "c": 6,
+          "f": 0,
+          "fibre": 3,
+          "slot": "veg"
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true
+    },
+    "2026-08-28": {
+      "training": "6am class",
+      "fluidsMl": 3900,
+      "items": [
+        {
+          "name": "PRE-CLASS: purée pouch + banana",
+          "kcal": 170,
+          "p": 2,
+          "c": 40,
+          "f": 0,
+          "fibre": 5,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeinated (8.3g high-stim: 199mg caffeine) — backfilled",
+          "kcal": 25,
+          "p": 4,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "Breakfast smoothie right after class: 350ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 635,
+          "p": 39,
+          "c": 91,
+          "f": 12,
+          "fibre": 15
+        },
+        {
+          "name": "INTRA-CLASS: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "Oat flat whites, half-strength × 2",
+          "kcal": 280,
+          "p": 4,
+          "c": 30,
+          "f": 14,
+          "fibre": 2
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Lunch: F4F chicken thigh w/ jasmine rice (label: 646 kcal; carbs est. from energy)",
+          "kcal": 646,
+          "p": 53,
+          "c": 68,
+          "f": 17,
+          "fibre": 2
+        },
+        {
+          "name": "Granny Smith apple",
+          "kcal": 80,
+          "p": 0,
+          "c": 21,
+          "f": 0,
+          "fibre": 4,
+          "slot": "fruit"
+        },
+        {
+          "name": "Protein water #2: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner: F4F meal (label, 350g: 505 kcal / 55.1P / 48.2C / 10.7F)",
+          "kcal": 505,
+          "p": 55,
+          "c": 48,
+          "f": 11,
+          "fibre": 4
+        },
+        {
+          "name": "Turkish pide bread (Alasya), 68g (half of a weighed 136g piece)",
+          "kcal": 180,
+          "p": 6,
+          "c": 36,
+          "f": 1,
+          "fibre": 2
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true
+    },
+    "2026-08-29": {
+      "training": "Rest",
+      "fluidsMl": 3250,
+      "items": [
+        {
+          "name": "Oat milk flat white",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Breakfast smoothie: 350ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 635,
+          "p": 39,
+          "c": 91,
+          "f": 12,
+          "fibre": 15
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Corn chips (Health Magic, lightly salted), ~20 chips ≈45g (label est.)",
+          "kcal": 215,
+          "p": 4,
+          "c": 32,
+          "f": 8,
+          "fibre": 2
+        },
+        {
+          "name": "Falafel ×4 (fried, ~30g each — est.)",
+          "kcal": 350,
+          "p": 13,
+          "c": 30,
+          "f": 20,
+          "fibre": 6
+        },
+        {
+          "name": "Ham bagel, quarter (est.)",
+          "kcal": 100,
+          "p": 5,
+          "c": 14,
+          "f": 2,
+          "fibre": 1
+        },
+        {
+          "name": "Flavoured sparkling water, slim can 250ml (no sugar)",
+          "kcal": 2,
+          "p": 0,
+          "c": 0,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Watermelon, 2 wedge slices (~300g flesh — est.)",
+          "kcal": 90,
+          "p": 2,
+          "c": 22,
+          "f": 0,
+          "fibre": 1,
+          "slot": "fruit"
+        },
+        {
+          "name": "Protein water #2: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Corn Thin ×1",
+          "kcal": 25,
+          "p": 1,
+          "c": 5,
+          "f": 0,
+          "fibre": 1
+        },
+        {
+          "name": "Dinner: grilled chicken burger, takeaway (brioche, grilled chicken, cheese, guac, lettuce — photo est.)",
+          "kcal": 650,
+          "p": 45,
+          "c": 50,
+          "f": 30,
+          "fibre": 3
+        },
+        {
+          "name": "Hot chips, ~15 (est. 100g)",
+          "kcal": 300,
+          "p": 4,
+          "c": 38,
+          "f": 15,
+          "fibre": 3
+        },
+        {
+          "name": "Pepsi Max, half can (no sugar)",
+          "kcal": 1,
+          "p": 0,
+          "c": 0,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Protein water #3: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true,
+      "note": "rest day (no training). Off-script eating — takeaway dinner, chips, snacks — but landed inside the maintenance window anyway."
+    },
+    "2026-08-30": {
+      "training": "Double: Oly Day 3 + class",
+      "fluidsMl": 2500,
+      "items": [
+        {
+          "name": "PRE-TRAINING: purée pouch",
+          "kcal": 65,
+          "p": 1,
+          "c": 13,
+          "f": 0,
+          "fibre": 2,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-TRAINING: Granny Smith apple",
+          "kcal": 80,
+          "p": 0,
+          "c": 21,
+          "f": 0,
+          "fibre": 4,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-TRAINING: Turkish pide bread (Alasya), ~68g",
+          "kcal": 180,
+          "p": 6,
+          "c": 36,
+          "f": 1,
+          "fibre": 2,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeinated (8.3g high-stim: 199mg caffeine)",
+          "kcal": 25,
+          "p": 4,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "INTRA-TRAINING: Gatorade, 3 scoops in 750ml (double session)",
+          "kcal": 195,
+          "p": 0,
+          "c": 45,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "BETWEEN SESSIONS: purée pouch",
+          "kcal": 65,
+          "p": 1,
+          "c": 13,
+          "f": 0,
+          "fibre": 2,
+          "slot": "intra"
+        },
+        {
+          "name": "POST-TRAINING: WPI shake (25g) in 350ml water + 3g creatine",
+          "kcal": 105,
+          "p": 24,
+          "c": 1,
+          "f": 1,
+          "fibre": 0,
+          "slot": "post"
+        },
+        {
+          "name": "Yum cha: assorted steamed dumplings ×~7 (est.)",
+          "kcal": 490,
+          "p": 30,
+          "c": 45,
+          "f": 20,
+          "fibre": 2
+        },
+        {
+          "name": "Yum cha: fried salt & pepper calamari (share portion, est.)",
+          "kcal": 350,
+          "p": 20,
+          "c": 20,
+          "f": 22,
+          "fibre": 1
+        },
+        {
+          "name": "Yum cha: egg custard tarts ×2",
+          "kcal": 360,
+          "p": 4,
+          "c": 40,
+          "f": 20,
+          "fibre": 1
+        },
+        {
+          "name": "Yum cha: chicken feet ×1",
+          "kcal": 50,
+          "p": 4,
+          "c": 1,
+          "f": 3,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner: enfrijoladas ×3 (corn tortillas in bean sauce, chicken, cheese — est.)",
+          "kcal": 630,
+          "p": 40,
+          "c": 60,
+          "f": 22,
+          "fibre": 9
+        },
+        {
+          "name": "Esquites, half cup (corn, mayo, cotija — est.)",
+          "kcal": 150,
+          "p": 4,
+          "c": 18,
+          "f": 8,
+          "fibre": 2
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Orange juice, half glass (~125ml)",
+          "kcal": 55,
+          "p": 1,
+          "c": 13,
+          "f": 0,
+          "fibre": 0,
+          "slot": "fruit"
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true,
+      "note": "fully fuelled — ~70g carbs pre (pouch, apple, half Turkish pide), 3-scoop Gatorade intra across both sessions, pouch between them, WPI after. Oly done first; the class (28-min EMOM: double-unders as singles, KB swings, box jump-overs, echo bike) came after and ate the back of Day 3 — front squats cut to 3×5 of the prescribed 5×5, RDLs dropped. Cut sets left cut rather than chased after the class. Plan: 3-scoop Gatorade intra across both sessions, spare pouch between them.)*"
+    },
+    "2026-08-31": {
+      "training": "Rest",
+      "fluidsMl": 3750,
+      "items": [
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Pear (small–medium)",
+          "kcal": 85,
+          "p": 1,
+          "c": 22,
+          "f": 0,
+          "fibre": 5,
+          "slot": "fruit"
+        },
+        {
+          "name": "Oat milk flat white",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Coffee at home: 125ml barista oat milk + 1 shot",
+          "kcal": 75,
+          "p": 1,
+          "c": 9,
+          "f": 4,
+          "fibre": 1
+        },
+        {
+          "name": "Breakfast smoothie: 350ml unsw. almond milk, 90g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 597,
+          "p": 38,
+          "c": 85,
+          "f": 11,
+          "fibre": 14
+        },
+        {
+          "name": "Lunch: chicken meal, single-serve pack (label: 611 kcal / 59P / 41.3C / 22.2F)",
+          "kcal": 611,
+          "p": 59,
+          "c": 41,
+          "f": 22,
+          "fibre": 3
+        },
+        {
+          "name": "Protein water #2: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner: F4F meal (label, 350g: 466 kcal / 32.2P / 45.3C / 8.8F)",
+          "kcal": 466,
+          "p": 32,
+          "c": 45,
+          "f": 9,
+          "fibre": 4
+        },
+        {
+          "name": "Frozen mixed vegetables, 100g (with dinner)",
+          "kcal": 41,
+          "p": 2,
+          "c": 6,
+          "f": 0,
+          "fibre": 3,
+          "slot": "veg"
+        },
+        {
+          "name": "Protein water #3: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true
+    },
+    "2026-09-01": {
+      "training": "Oly Day 1 (pm)",
+      "fluidsMl": 3700,
+      "items": [
+        {
+          "name": "Coffee at home: 125ml barista oat milk + 1 shot",
+          "kcal": 75,
+          "p": 1,
+          "c": 9,
+          "f": 4,
+          "fibre": 1
+        },
+        {
+          "name": "Breakfast smoothie: 350ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 635,
+          "p": 39,
+          "c": 91,
+          "f": 12,
+          "fibre": 15
+        },
+        {
+          "name": "Coffee at work: oat milk flat white",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Granny Smith apple",
+          "kcal": 80,
+          "p": 0,
+          "c": 21,
+          "f": 0,
+          "fibre": 4,
+          "slot": "fruit"
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Lunch: F4F chicken quesadilla-style meal (as last Tue — label 617 kcal)",
+          "kcal": 617,
+          "p": 63,
+          "c": 50,
+          "f": 9,
+          "fibre": 8
+        },
+        {
+          "name": "Protein water #2: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "PRE-TRAINING: banana + purée pouch",
+          "kcal": 170,
+          "p": 2,
+          "c": 40,
+          "f": 0,
+          "fibre": 5,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeine-free (10g boost blend)",
+          "kcal": 25,
+          "p": 5,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "INTRA-TRAINING: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "POST-TRAINING: WPI shake (25g) + purée pouch",
+          "kcal": 170,
+          "p": 24,
+          "c": 14,
+          "f": 1,
+          "fibre": 2,
+          "slot": "post"
+        },
+        {
+          "name": "Dinner: F4F meal (label, 350g: 635 kcal / 58.1P / 68.1C / 14.4F)",
+          "kcal": 635,
+          "p": 58,
+          "c": 68,
+          "f": 14,
+          "fibre": 4
+        },
+        {
+          "name": "Frozen mixed vegetables, 100g (with dinner)",
+          "kcal": 41,
+          "p": 2,
+          "c": 6,
+          "f": 0,
+          "fibre": 3,
+          "slot": "veg"
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "closed": true
+    },
+    "2026-09-02": {
+      "training": "6am class",
+      "fluidsMl": 2500,
+      "items": [
+        {
+          "name": "PRE-CLASS: purée pouch + banana",
+          "kcal": 170,
+          "p": 2,
+          "c": 40,
+          "f": 0,
+          "fibre": 5,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeinated (8.3g high-stim: 199mg caffeine)",
+          "kcal": 25,
+          "p": 4,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "INTRA-CLASS: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "Breakfast smoothie: 350ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens",
+          "kcal": 635,
+          "p": 39,
+          "c": 91,
+          "f": 12,
+          "fibre": 15
+        },
+        {
+          "name": "Coffee: oat milk flat white",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Lunch: F4F homestyle chicken cacciatora, basmati rice & seasonal veg (label, 450g: 604 kcal / 65.4P / 46.5C / 18.9F)",
+          "kcal": 604,
+          "p": 65,
+          "c": 47,
+          "f": 19,
+          "fibre": 6
+        },
+        {
+          "name": "Yerba mate sparkling can, 375ml (70mg caffeine)",
+          "kcal": 10,
+          "p": 0,
+          "c": 2,
+          "f": 0,
+          "fibre": 1
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 750ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        }
+      ],
+      "closed": false
+    }
+  }
+}

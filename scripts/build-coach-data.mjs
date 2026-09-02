@@ -41,6 +41,10 @@ const bundle = {
   athleteNotes: read('src/coachNotes.json'),
   dayNotes: read('src/dayNotes.json'),
   whoopDays: read('src/whoopDays.json'),
+  // Food log (per-day items with kcal/P/C/F/fibre, slot = pre/intra/post/veg/fruit/supp)
+  // and morning weigh-ins from the RENPHO scale, keyed by date.
+  nutrition: read('src/nutrition.json'),
+  weightDays: read('src/weightDays.json'),
   crossfitSessions: read('src/crossfitSessions.json'),
   videos: read('src/videos.json'),
   checkins,
