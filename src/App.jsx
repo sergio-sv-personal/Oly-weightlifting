@@ -1396,15 +1396,117 @@ function useFuelDays() {
     .sort((a, b) => a.date.localeCompare(b.date)), []);
 }
 
-function FuelStat({ label, value, unit, sub, color }) {
+// One metric, two rolling windows: the last 7 closed days (the headline)
+// and every tracked day (the baseline it's drifting from).
+function FuelStat({ label, value, unit, sub, color, allValue }) {
   return (
     <div style={styles.fuelStat}>
       <div style={styles.fuelStatLabel}>{label}</div>
       <div style={{ ...styles.fuelStatNum, ...(color ? { color } : {}) }}>
         {value}<span style={styles.fuelStatUnit}>{unit}</span>
       </div>
+      {allValue != null && (
+        <div style={styles.fuelStatAll}>
+          all {allValue}<span style={{ opacity: 0.6 }}>{unit}</span>
+        </div>
+      )}
       {sub && <div style={styles.fuelStatSub}>{sub}</div>}
     </div>
+  );
+}
+
+// Least-squares fit over [{x, y}]; x in days. Returns kg/day slope.
+function linreg(pts) {
+  const n = pts.length;
+  if (n < 3) return null;
+  const mx = pts.reduce((s, p) => s + p.x, 0) / n;
+  const my = pts.reduce((s, p) => s + p.y, 0) / n;
+  let num = 0, den = 0;
+  for (const p of pts) { num += (p.x - mx) * (p.y - my); den += (p.x - mx) ** 2; }
+  if (den === 0) return null;
+  const slope = num / den;
+  return { slope, intercept: my - slope * mx, at: x => my + slope * (x - mx) };
+}
+
+const KCAL_PER_KG = 7700;
+
+// The question Seb's week was designed to answer: at this intake, is the
+// weight holding? Pairs average intake with the fitted weight slope over
+// the same window and turns the gap into an implied maintenance figure.
+function FuelTrend({ days }) {
+  const closed = days.filter(d => d.closed);
+  const rows = [
+    { key: '7d', label: 'Last 7 days', set: closed.slice(-7) },
+    { key: 'all', label: `All ${closed.length} days`, set: closed },
+  ].map(r => {
+    const n = r.set.length;
+    if (!n) return { ...r, empty: true };
+    const kcal = r.set.reduce((s, d) => s + d.totals.kcal, 0) / n;
+    const t0 = Date.parse(r.set[0].date);
+    const wpts = Object.entries(weightDays)
+      .filter(([dt]) => dt >= r.set[0].date && dt <= r.set[n - 1].date)
+      .map(([dt, kg]) => ({ x: (Date.parse(dt) - t0) / 86400000, y: kg }));
+    const fit = linreg(wpts);
+    const perWeek = fit ? fit.slope * 7 : null;
+    const maint = fit ? kcal - fit.slope * KCAL_PER_KG : null;
+    return { ...r, n, kcal, perWeek, maint, points: wpts.length };
+  }).filter(r => !r.empty);
+  if (!rows.length) return null;
+  const headline = rows[0];
+  return (
+    <section style={styles.trendsPanel}>
+      <div style={styles.coachSectionHead}>
+        <span style={styles.filterLabel}>Trend</span>
+        <span style={styles.trendsSub}>is this intake actually maintenance?</span>
+      </div>
+      <div style={styles.fuelTrendGrid}>
+        {rows.map(r => {
+          const losing = r.perWeek != null && r.perWeek < -0.1;
+          const gaining = r.perWeek != null && r.perWeek > 0.1;
+          const col = losing || gaining ? BAND_OFF : BAND_OK;
+          return (
+            <div key={r.key} style={styles.fuelTrendCard}>
+              <div style={styles.fuelStatLabel}>{r.label}</div>
+              <div style={styles.fuelTrendRow}>
+                <span style={styles.fuelTrendLbl}>Avg intake</span>
+                <span style={styles.fuelTrendVal}>{Math.round(r.kcal).toLocaleString()} kcal</span>
+              </div>
+              <div style={styles.fuelTrendRow}>
+                <span style={styles.fuelTrendLbl}>Weight trend</span>
+                <span style={{ ...styles.fuelTrendVal, color: col }}>
+                  {r.perWeek == null ? '—' : `${r.perWeek > 0 ? '+' : ''}${r.perWeek.toFixed(2)} kg/wk`}
+                </span>
+              </div>
+              <div style={{ ...styles.fuelTrendRow, borderBottom: 'none' }}>
+                <span style={styles.fuelTrendLbl}>Implied maintenance</span>
+                <span style={{ ...styles.fuelTrendVal, ...styles.fuelTrendBig }}>
+                  {r.maint == null
+                    ? '—'
+                    : `${(Math.round(Math.min(r.maint, r.kcal + 600) / 100) * 100).toLocaleString()}–${(Math.round(r.maint / 100) * 100).toLocaleString()}`}
+                </span>
+              </div>
+              <div style={{ ...styles.fuelStatSub, paddingBottom: 12 }}>
+                {r.points} weigh-ins over {r.n} days
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={styles.fuelTrendNote}>
+        <b>Read the direction, not the number.</b> Implied maintenance = average intake +
+        (weight slope × 7,700 kcal/kg). Over a window this short, one heavy or light morning
+        moves it by hundreds, and the top of each range assumes every gram lost is tissue
+        rather than water — so the true figure sits at the low end, if not below it.
+        {headline.perWeek != null && headline.perWeek < -0.1 && (
+          <> What is solid: at ~{Math.round(headline.kcal / 10) * 10} kcal/day the weight is
+          still going <b>down</b>, so maintenance is <b>above</b> what I'm eating now and the
+          target band hasn't been reached. A few more weeks will tighten this a lot.</>
+        )}
+        {headline.perWeek != null && headline.perWeek >= -0.1 && headline.perWeek <= 0.1 && (
+          <> Right now the weight is holding at this intake — this looks like maintenance.</>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -1432,6 +1534,20 @@ function FuelChart({ days, targets }) {
     path += `${pen ? ' L' : ' M'}${(x(i) + bw / 2).toFixed(1)},${yW(d.weight).toFixed(1)}`;
     pen = true;
   });
+  // Trailing 7-day mean of intake — the trend through the daily noise.
+  const rollPath = days.map((d, i) => {
+    const win = days.slice(Math.max(0, i - 6), i + 1).filter(w => w.closed);
+    if (i < 3 || win.length < 3) return null;
+    const m = win.reduce((s, w) => s + w.totals.kcal, 0) / win.length;
+    return `${(x(i) + bw / 2).toFixed(1)},${yK(m).toFixed(1)}`;
+  }).filter(Boolean).map((pt, i) => `${i ? 'L' : 'M'}${pt}`).join(' ');
+  // Least-squares weight line across the window.
+  const wfit = linreg(days.map((d, i) => (d.weight == null ? null : { x: i, y: d.weight })).filter(Boolean));
+  const firstW = days.findIndex(d => d.weight != null);
+  const lastW = days.length - 1 - [...days].reverse().findIndex(d => d.weight != null);
+  const trendPath = wfit && lastW > firstW
+    ? `M${(x(firstW) + bw / 2).toFixed(1)},${yW(wfit.at(firstW)).toFixed(1)} L${(x(lastW) + bw / 2).toFixed(1)},${yW(wfit.at(lastW)).toFixed(1)}`
+    : '';
   const onMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) * (W / rect.width);
@@ -1475,6 +1591,8 @@ function FuelChart({ days, targets }) {
             opacity={hoverI == null || hoverI === i ? (d.closed ? 0.9 : 0.75) : 0.4}
           />
         ))}
+        {rollPath && <path d={rollPath} fill="none" stroke="#FFC08A" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />}
+        {trendPath && <path d={trendPath} fill="none" stroke={COLORS.text} strokeWidth="1" strokeDasharray="4 3" opacity="0.75" />}
         {path && <path d={path} fill="none" stroke={COLORS.text} strokeWidth="1.6" strokeLinejoin="round" />}
         {days.map((d, i) => d.weight != null && (
           <circle key={`w${d.date}`} cx={x(i) + bw / 2} cy={yW(d.weight)} r="2.6" fill={COLORS.bg} stroke={COLORS.text} strokeWidth="1.4" />
@@ -1659,12 +1777,19 @@ function FuelPage() {
 
   const closed = days.filter(d => d.closed);
   const last7 = closed.slice(-7);
-  const avg = f => (last7.length ? last7.reduce((s, d) => s + f(d), 0) / last7.length : null);
+  const avgOf = (rows, f) => (rows.length ? rows.reduce((s, d) => s + f(d), 0) / rows.length : null);
+  const avg = f => avgOf(last7, f);
+  const all = f => avgOf(closed, f);
   const avgK = avg(d => d.totals.kcal);
   const avgP = avg(d => d.totals.p);
   const avgC = avg(d => d.totals.c);
   const avgFb = avg(d => d.totals.fibre);
   const avgFl = avg(d => d.fluidsMl) / 1000;
+  const allK = all(d => d.totals.kcal);
+  const allP = all(d => d.totals.p);
+  const allC = all(d => d.totals.c);
+  const allFb = all(d => d.totals.fibre);
+  const allFl = all(d => d.fluidsMl) / 1000;
   const mean = a => (a.length ? a.reduce((s, v) => s + v, 0) / a.length : null);
   const wNow = mean(weightSeries.slice(-7).map(e => e[1]));
   const wBefore = mean(weightSeries.slice(-14, -7).map(e => e[1]));
@@ -1686,14 +1811,14 @@ function FuelPage() {
       <section style={styles.trendsPanel}>
         <div style={styles.coachSectionHead}>
           <span style={styles.filterLabel}>Fuel</span>
-          <span style={styles.trendsSub}>last {last7.length} closed days · seb's band {targets.kcalLow.toLocaleString()}–{targets.kcalHigh.toLocaleString()} kcal</span>
+          <span style={styles.trendsSub}>big number = rolling {last7.length} days · "all" = every tracked day ({closed.length}) · seb's band {targets.kcalLow.toLocaleString()}–{targets.kcalHigh.toLocaleString()} kcal</span>
         </div>
         <div style={styles.fuelStatRow}>
-          {avgK != null && <FuelStat label="Avg intake" value={Math.round(avgK).toLocaleString()} unit="kcal" color={inBand ? BAND_OK : BAND_OFF} sub={bandWord} />}
-          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" sub={`heading to ~${targets.carbsG}`} />}
-          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" sub={`trim toward ~${targets.proteinG}`} />}
-          {avgFb != null && <FuelStat label="Fibre" value={Math.round(avgFb)} unit="g" sub={`goal ${targets.fibreLowG}–${targets.fibreHighG}`} />}
-          {avgFl != null && <FuelStat label="Fluids" value={avgFl.toFixed(1)} unit="L" sub="incl. protein waters + gatorade" />}
+          {avgK != null && <FuelStat label="Avg intake" value={Math.round(avgK).toLocaleString()} unit="kcal" allValue={Math.round(allK).toLocaleString()} color={inBand ? BAND_OK : BAND_OFF} sub={bandWord} />}
+          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" allValue={Math.round(allC)} sub={`heading to ~${targets.carbsG}`} />}
+          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" allValue={Math.round(allP)} sub={`trim toward ~${targets.proteinG}`} />}
+          {avgFb != null && <FuelStat label="Fibre" value={Math.round(avgFb)} unit="g" allValue={Math.round(allFb)} sub={`goal ${targets.fibreLowG}–${targets.fibreHighG}`} />}
+          {avgFl != null && <FuelStat label="Fluids" value={avgFl.toFixed(1)} unit="L" allValue={allFl.toFixed(1)} sub="incl. protein waters + gatorade" />}
           {wNow != null && (
             <FuelStat
               label="Weight, 7d avg"
@@ -1709,7 +1834,7 @@ function FuelPage() {
       <section style={styles.trendsPanel}>
         <div style={{ ...styles.coachSectionHead, flexWrap: 'wrap' }}>
           <span style={{ ...styles.filterLabel, whiteSpace: 'nowrap' }}>Intake vs weight</span>
-          <span style={styles.trendsSub}>bars: kcal · shaded: seb's band · line: morning weight</span>
+          <span style={styles.trendsSub}>bars: daily kcal · shaded: seb's band · pale line: 7-day avg intake · white line: morning weight (dashed = its trend)</span>
           <span style={styles.fuelRangeRow}>
             {['2w', '4w', 'all'].map(r => (
               <button
@@ -1727,6 +1852,8 @@ function FuelPage() {
           <FuelChart days={rangeDays} targets={targets} />
         </div>
       </section>
+
+      <FuelTrend days={days} />
 
       <WeightJourney />
 
@@ -3914,6 +4041,63 @@ const styles = {
     color: COLORS.textMute,
     marginTop: 8,
     letterSpacing: '0.04em',
+  },
+  fuelStatAll: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    color: COLORS.textDim,
+    marginTop: 6,
+    letterSpacing: '0.04em',
+  },
+  fuelTrendGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+    gap: 14,
+    maxWidth: 760,
+  },
+  fuelTrendCard: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '14px 16px 4px',
+  },
+  fuelTrendRow: {
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    gap: 12,
+    padding: '9px 0',
+    borderBottom: `1px solid ${COLORS.border}`,
+  },
+  fuelTrendLbl: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    color: COLORS.textMute,
+  },
+  fuelTrendVal: {
+    fontFamily: FONTS.mono,
+    fontSize: 14,
+    fontWeight: 600,
+    color: COLORS.text,
+    whiteSpace: 'nowrap',
+  },
+  fuelTrendBig: {
+    fontFamily: FONTS.display,
+    fontSize: 26,
+    fontWeight: 800,
+    color: COLORS.accent,
+    lineHeight: 1,
+  },
+  fuelTrendNote: {
+    marginTop: 12,
+    maxWidth: 760,
+    fontSize: 13,
+    lineHeight: 1.65,
+    color: COLORS.textDim,
+    borderLeft: `3px solid ${COLORS.accent}`,
+    paddingLeft: 14,
   },
   fuelRangeRow: {
     marginLeft: 'auto',
