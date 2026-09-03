@@ -1396,20 +1396,14 @@ function useFuelDays() {
     .sort((a, b) => a.date.localeCompare(b.date)), []);
 }
 
-// One metric, two rolling windows: the last 7 closed days (the headline)
-// and every tracked day (the baseline it's drifting from).
-function FuelStat({ label, value, unit, sub, color, allValue }) {
+// One metric, averaged over whatever period the page filter selects.
+function FuelStat({ label, value, unit, sub, color }) {
   return (
     <div style={styles.fuelStat}>
       <div style={styles.fuelStatLabel}>{label}</div>
       <div style={{ ...styles.fuelStatNum, ...(color ? { color } : {}) }}>
         {value}<span style={styles.fuelStatUnit}>{unit}</span>
       </div>
-      {allValue != null && (
-        <div style={styles.fuelStatAll}>
-          all {allValue}<span style={{ opacity: 0.6 }}>{unit}</span>
-        </div>
-      )}
       {sub && <div style={styles.fuelStatSub}>{sub}</div>}
     </div>
   );
@@ -1486,80 +1480,6 @@ function MacroDonut({ label, macros, kcal, sub }) {
       </div>
       {sub && <div style={styles.fuelStatSub}>{sub}</div>}
     </div>
-  );
-}
-
-// Average intake paired with the fitted slope of morning weight over the
-// same window — the two facts, without an inferred maintenance figure.
-function FuelTrend({ days }) {
-  const closed = days.filter(d => d.closed);
-  const rows = [
-    { key: '7d', label: 'Last 7 days', set: closed.slice(-7) },
-    { key: 'all', label: `All ${closed.length} days`, set: closed },
-  ].map(r => {
-    const n = r.set.length;
-    if (!n) return { ...r, empty: true };
-    const kcal = r.set.reduce((s, d) => s + d.totals.kcal, 0) / n;
-    const macros = ['p', 'c', 'f'].reduce((o, k) => ({ ...o, [k]: r.set.reduce((s, d) => s + d.totals[k], 0) / n }), {});
-    const t0 = Date.parse(r.set[0].date);
-    const wpts = Object.entries(weightDays)
-      .filter(([dt]) => dt >= r.set[0].date && dt <= r.set[n - 1].date)
-      .map(([dt, kg]) => ({ x: (Date.parse(dt) - t0) / 86400000, y: kg }));
-    const fit = linreg(wpts);
-    return { ...r, n, kcal, macros, perWeek: fit ? fit.slope * 7 : null, points: wpts.length };
-  }).filter(r => !r.empty);
-  if (!rows.length) return null;
-  return (
-    <>
-      <section style={styles.trendsPanel}>
-        <div style={styles.coachSectionHead}>
-          <span style={styles.filterLabel}>Macro split</span>
-          <span style={styles.trendsSub}>share of calories · protein &amp; carbs ×4, fat ×9</span>
-        </div>
-        <div style={styles.fuelTrendGrid}>
-          {rows.map(r => (
-            <MacroDonut
-              key={r.key}
-              label={r.label}
-              macros={r.macros}
-              kcal={r.kcal}
-              sub={`daily average over ${r.n} tracked days`}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section style={styles.trendsPanel}>
-        <div style={styles.coachSectionHead}>
-          <span style={styles.filterLabel}>Intake vs weight trend</span>
-          <span style={styles.trendsSub}>weight slope fitted by least squares over each window</span>
-        </div>
-        <div style={styles.fuelTrendGrid}>
-          {rows.map(r => {
-            const moving = r.perWeek != null && Math.abs(r.perWeek) > 0.1;
-            return (
-              <div key={r.key} style={styles.fuelTrendCard}>
-                <div style={styles.fuelStatLabel}>{r.label}</div>
-                <div style={styles.fuelTrendRow}>
-                  <span style={styles.fuelTrendLbl}>Avg intake</span>
-                  <span style={styles.fuelTrendVal}>{Math.round(r.kcal).toLocaleString()} kcal</span>
-                </div>
-                <div style={{ ...styles.fuelTrendRow, borderBottom: 'none' }}>
-                  <span style={styles.fuelTrendLbl}>Weight trend</span>
-                  <span style={{ ...styles.fuelTrendVal, ...styles.fuelTrendBig, color: moving ? BAND_OFF : BAND_OK }}>
-                    {r.perWeek == null ? '—' : `${r.perWeek > 0 ? '+' : ''}${r.perWeek.toFixed(2)}`}
-                    <span style={styles.fuelTrendUnit}> kg/wk</span>
-                  </span>
-                </div>
-                <div style={{ ...styles.fuelStatSub, paddingBottom: 12 }}>
-                  {r.points} weigh-ins over {r.n} days
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    </>
   );
 }
 
@@ -1820,37 +1740,65 @@ function FuelDay({ day, targets, open, onToggle }) {
   );
 }
 
+// One period control at the top of the page drives every number below it:
+// averages, macro split, chart, weight trend and the day log.
+const FUEL_RANGES = [
+  { key: 'all', label: 'All', days: null },
+  { key: '4w', label: '4 weeks', days: 28 },
+  { key: '7d', label: '7 days', days: 7 },
+];
+
+function FuelSection({ title, subtitle, children }) {
+  return (
+    <section style={styles.trendsPanel}>
+      <div style={{ ...styles.coachSectionHead, flexWrap: 'wrap' }}>
+        <span style={{ ...styles.filterLabel, marginBottom: 0, whiteSpace: 'nowrap' }}>{title}</span>
+        <span style={styles.trendsSub}>{subtitle}</span>
+      </div>
+      {children}
+    </section>
+  );
+}
+
 function FuelPage() {
-  const days = useFuelDays();
+  const allDays = useFuelDays();
   const targets = nutrition.targets;
   const [range, setRange] = useState('all');
-  const [openDays, setOpenDays] = useState(() => new Set(days.slice(-1).map(d => d.date)));
-  const weightSeries = useMemo(() => Object.entries(weightDays).sort((a, b) => a[0].localeCompare(b[0])), []);
-  if (days.length === 0) return null;
+  const [openDays, setOpenDays] = useState(() => new Set(allDays.slice(-1).map(d => d.date)));
+  if (allDays.length === 0) return null;
+
+  const active = FUEL_RANGES.find(r => r.key === range) || FUEL_RANGES[0];
+  // Calendar window, counted back from the most recent tracked day.
+  const lastDate = allDays[allDays.length - 1].date;
+  const cutoff = active.days
+    ? new Date(Date.parse(lastDate) - (active.days - 1) * 86400000).toISOString().slice(0, 10)
+    : null;
+  const days = cutoff ? allDays.filter(d => d.date >= cutoff) : allDays;
+  const firstDate = days.length ? days[0].date : lastDate;
 
   const closed = days.filter(d => d.closed);
-  const last7 = closed.slice(-7);
   const avgOf = (rows, f) => (rows.length ? rows.reduce((s, d) => s + f(d), 0) / rows.length : null);
-  const avg = f => avgOf(last7, f);
-  const all = f => avgOf(closed, f);
+  const avg = f => avgOf(closed, f);
   const avgK = avg(d => d.totals.kcal);
   const avgP = avg(d => d.totals.p);
   const avgC = avg(d => d.totals.c);
+  const avgF = avg(d => d.totals.f);
   const avgFb = avg(d => d.totals.fibre);
   const avgFl = avg(d => d.fluidsMl) / 1000;
-  const allK = all(d => d.totals.kcal);
-  const allP = all(d => d.totals.p);
-  const allC = all(d => d.totals.c);
-  const allFb = all(d => d.totals.fibre);
-  const allFl = all(d => d.fluidsMl) / 1000;
-  const mean = a => (a.length ? a.reduce((s, v) => s + v, 0) / a.length : null);
-  const wNow = mean(weightSeries.slice(-7).map(e => e[1]));
-  const wBefore = mean(weightSeries.slice(-14, -7).map(e => e[1]));
-  const wDelta = wNow != null && wBefore != null ? wNow - wBefore : null;
   const inBand = avgK != null && avgK >= targets.kcalLow && avgK <= targets.kcalHigh;
   const bandWord = avgK == null ? null : inBand ? 'inside band' : avgK < targets.kcalLow ? 'below band' : 'above band';
 
-  const rangeDays = range === 'all' ? days : days.slice(-(range === '2w' ? 14 : 28));
+  // Weight readings inside the same window.
+  const wInWindow = Object.entries(weightDays)
+    .filter(([d]) => d >= firstDate && d <= lastDate)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  const wAvg = wInWindow.length ? wInWindow.reduce((s, e) => s + e[1], 0) / wInWindow.length : null;
+  const t0 = Date.parse(firstDate);
+  const wFit = linreg(wInWindow.map(([d, kg]) => ({ x: (Date.parse(d) - t0) / 86400000, y: kg })));
+  const perWeek = wFit ? wFit.slope * 7 : null;
+  const wLatest = wInWindow.length ? wInWindow[wInWindow.length - 1][1] : null;
+  const periodLabel = `${formatDayDate(firstDate)} – ${formatDayDate(lastDate)}`;
+
   const newestFirst = days.slice().reverse();
   const toggleDay = date => setOpenDays(prev => {
     const next = new Set(prev);
@@ -1861,66 +1809,101 @@ function FuelPage() {
 
   return (
     <div>
-      <section style={styles.trendsPanel}>
-        <div style={styles.coachSectionHead}>
-          <span style={styles.filterLabel}>Fuel</span>
-          <span style={styles.trendsSub}>big number = rolling {last7.length} days · "all" = every tracked day ({closed.length}) · seb's band {targets.kcalLow.toLocaleString()}–{targets.kcalHigh.toLocaleString()} kcal</span>
-        </div>
+      <div style={styles.fuelPeriodBar}>
+        <span style={{ ...styles.filterLabel, marginBottom: 0 }}>Period</span>
+        <span style={styles.fuelRangeRow}>
+          {FUEL_RANGES.map(r => (
+            <button
+              key={r.key}
+              type="button"
+              onClick={() => setRange(r.key)}
+              style={{ ...styles.fuelRangeBtn, ...(range === r.key ? styles.fuelRangeBtnActive : {}) }}
+            >
+              {r.label}
+            </button>
+          ))}
+        </span>
+        <span style={styles.fuelPeriodMeta}>
+          {periodLabel} · {closed.length} closed {closed.length === 1 ? 'day' : 'days'}
+          {days.length > closed.length ? ` (+${days.length - closed.length} in progress)` : ''}
+        </span>
+      </div>
+
+      <FuelSection
+        title="Averages"
+        subtitle={`per day across the selected period · seb's band ${targets.kcalLow.toLocaleString()}-${targets.kcalHigh.toLocaleString()} kcal`}
+      >
         <div style={styles.fuelStatRow}>
-          {avgK != null && <FuelStat label="Avg intake" value={Math.round(avgK).toLocaleString()} unit="kcal" allValue={Math.round(allK).toLocaleString()} color={inBand ? BAND_OK : BAND_OFF} sub={bandWord} />}
-          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" allValue={Math.round(allC)} sub={`heading to ~${targets.carbsG}`} />}
-          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" allValue={Math.round(allP)} sub={`trim toward ~${targets.proteinG}`} />}
-          {avgFb != null && <FuelStat label="Fibre" value={Math.round(avgFb)} unit="g" allValue={Math.round(allFb)} sub={`goal ${targets.fibreLowG}–${targets.fibreHighG}`} />}
-          {avgFl != null && <FuelStat label="Fluids" value={avgFl.toFixed(1)} unit="L" allValue={allFl.toFixed(1)} sub="incl. protein waters + gatorade" />}
-          {wNow != null && (
+          {avgK != null && <FuelStat label="Intake" value={Math.round(avgK).toLocaleString()} unit="kcal" color={inBand ? BAND_OK : BAND_OFF} sub={bandWord} />}
+          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" sub={`heading to ~${targets.carbsG}`} />}
+          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" sub={`trim toward ~${targets.proteinG}`} />}
+          {avgFb != null && <FuelStat label="Fibre" value={Math.round(avgFb)} unit="g" sub={`goal ${targets.fibreLowG}-${targets.fibreHighG}`} />}
+          {avgFl != null && <FuelStat label="Fluids" value={avgFl.toFixed(1)} unit="L" sub="incl. protein waters + gatorade" />}
+          {wAvg != null && (
             <FuelStat
-              label="Weight, 7d avg"
-              value={wNow.toFixed(1)}
+              label="Weight"
+              value={wAvg.toFixed(1)}
               unit="kg"
-              color={wDelta != null && Math.abs(wDelta) < 0.5 ? BAND_OK : undefined}
-              sub={wDelta == null ? null : Math.abs(wDelta) < 0.05 ? 'flat vs previous 7d' : `${wDelta > 0 ? '+' : ''}${wDelta.toFixed(1)} vs previous 7d`}
+              sub={wLatest != null ? `${wLatest.toFixed(1)}kg latest · ${wInWindow.length} weigh-ins` : null}
             />
           )}
         </div>
-      </section>
+      </FuelSection>
 
-      <section style={styles.trendsPanel}>
-        <div style={{ ...styles.coachSectionHead, flexWrap: 'wrap' }}>
-          <span style={{ ...styles.filterLabel, whiteSpace: 'nowrap' }}>Intake vs weight</span>
-          <span style={styles.trendsSub}>bars: daily kcal · shaded: seb's band · pale line: 7-day avg intake · white line: morning weight (dashed = its trend)</span>
-          <span style={styles.fuelRangeRow}>
-            {['2w', '4w', 'all'].map(r => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => setRange(r)}
-                style={{ ...styles.fuelRangeBtn, ...(range === r ? styles.fuelRangeBtnActive : {}) }}
-              >
-                {r}
-              </button>
-            ))}
-          </span>
+      <FuelSection
+        title="Macro split"
+        subtitle="share of calories over the selected period · protein and carbs x4, fat x9"
+      >
+        <div style={styles.fuelTrendGrid}>
+          {avgK != null && (
+            <MacroDonut
+              label={active.days ? `Last ${active.label}` : `All ${closed.length} days`}
+              macros={{ p: avgP, c: avgC, f: avgF }}
+              kcal={avgK}
+              sub={`daily average over ${closed.length} closed days`}
+            />
+          )}
+          <div style={styles.fuelTrendCard}>
+            <div style={styles.fuelStatLabel}>Intake vs weight</div>
+            <div style={styles.fuelTrendRow}>
+              <span style={styles.fuelTrendLbl}>Avg intake</span>
+              <span style={styles.fuelTrendVal}>{avgK == null ? '-' : `${Math.round(avgK).toLocaleString()} kcal`}</span>
+            </div>
+            <div style={{ ...styles.fuelTrendRow, borderBottom: 'none' }}>
+              <span style={styles.fuelTrendLbl}>Weight trend</span>
+              <span style={{ ...styles.fuelTrendVal, ...styles.fuelTrendBig, color: perWeek != null && Math.abs(perWeek) > 0.1 ? BAND_OFF : BAND_OK }}>
+                {perWeek == null ? '-' : `${perWeek > 0 ? '+' : ''}${perWeek.toFixed(2)}`}
+                <span style={styles.fuelTrendUnit}> kg/wk</span>
+              </span>
+            </div>
+            <div style={{ ...styles.fuelStatSub, paddingBottom: 12 }}>
+              least-squares fit over {wInWindow.length} weigh-ins
+            </div>
+          </div>
         </div>
+      </FuelSection>
+
+      <FuelSection
+        title="Intake vs weight"
+        subtitle="bars: daily kcal · shaded: seb's band · pale line: 7-day avg intake · white line: morning weight (dashed = its trend)"
+      >
         <div style={{ ...styles.trendCell, maxWidth: 760 }}>
-          <FuelChart days={rangeDays} targets={targets} />
+          <FuelChart days={days} targets={targets} />
         </div>
-      </section>
-
-      <FuelTrend days={days} />
+      </FuelSection>
 
       <WeightJourney />
 
-      <section style={styles.trendsPanel}>
-        <div style={styles.coachSectionHead}>
-          <span style={styles.filterLabel}>Days</span>
-          <span style={styles.trendsSub}>newest first · open a day for every item</span>
-        </div>
+      <FuelSection
+        title="Days"
+        subtitle="every tracked day in the selected period · newest first · open one for the full item list"
+      >
         <div style={styles.fuelDayList}>
           {newestFirst.map(d => (
             <FuelDay key={d.date} day={d} targets={targets} open={openDays.has(d.date)} onToggle={() => toggleDay(d.date)} />
           ))}
         </div>
-      </section>
+      </FuelSection>
     </div>
   );
 }
@@ -4095,12 +4078,23 @@ const styles = {
     marginTop: 8,
     letterSpacing: '0.04em',
   },
-  fuelStatAll: {
+  fuelPeriodBar: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '10px 16px',
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '12px 16px',
+    marginBottom: 32,
+  },
+  fuelPeriodMeta: {
     fontFamily: FONTS.mono,
-    fontSize: 11,
-    color: COLORS.textDim,
-    marginTop: 6,
+    fontSize: 10.5,
+    color: COLORS.textMute,
     letterSpacing: '0.04em',
+    marginLeft: 'auto',
   },
   fuelTrendGrid: {
     display: 'grid',
