@@ -1428,11 +1428,69 @@ function linreg(pts) {
   return { slope, intercept: my - slope * mx, at: x => my + slope * (x - mx) };
 }
 
-const KCAL_PER_KG = 7700;
+// Literals, not COLORS.* — this runs at module load, before COLORS is initialised.
+const MACRO_COLORS = { c: '#E94E1B', p: '#3FBF7F', f: '#E8B84B' };
+const MACRO_LABELS = { c: 'Carbs', p: 'Protein', f: 'Fat' };
 
-// The question Seb's week was designed to answer: at this intake, is the
-// weight holding? Pairs average intake with the fitted weight slope over
-// the same window and turns the gap into an implied maintenance figure.
+// Macro split as a doughnut: arcs are share of calories (P/C x4, F x9),
+// the legend carries the grams. Drawn with stroke-dasharray on a circle
+// rather than arc paths — same result, far less geometry.
+function MacroDonut({ label, macros, kcal, sub }) {
+  const cals = { p: macros.p * 4, c: macros.c * 4, f: macros.f * 9 };
+  const total = cals.p + cals.c + cals.f;
+  if (!total) return null;
+  const R = 46, TH = 15, CX = 60, CY = 60;
+  const circ = 2 * Math.PI * R;
+  let acc = 0;
+  const arcs = ['c', 'p', 'f'].map(k => {
+    const frac = cals[k] / total;
+    const seg = { k, frac, len: frac * circ, offset: acc * circ, pct: Math.round(frac * 100) };
+    acc += frac;
+    return seg;
+  });
+  return (
+    <div style={styles.fuelDonutCard}>
+      <div style={styles.fuelStatLabel}>{label}</div>
+      <div style={styles.fuelDonutBody}>
+        <svg viewBox="0 0 120 120" style={styles.fuelDonutSvg}>
+          <circle cx={CX} cy={CY} r={R} fill="none" stroke={COLORS.border} strokeWidth={TH} opacity="0.5" />
+          {arcs.map(a => (
+            <circle
+              key={a.k}
+              cx={CX} cy={CY} r={R}
+              fill="none"
+              stroke={MACRO_COLORS[a.k]}
+              strokeWidth={TH}
+              strokeDasharray={`${a.len.toFixed(2)} ${(circ - a.len).toFixed(2)}`}
+              strokeDashoffset={(-a.offset).toFixed(2)}
+              transform={`rotate(-90 ${CX} ${CY})`}
+            />
+          ))}
+          <text x={CX} y={CY - 2} textAnchor="middle" fontFamily={FONTS.mono} fontSize="17" fontWeight="600" fill={COLORS.text}>
+            {Math.round(kcal).toLocaleString()}
+          </text>
+          <text x={CX} y={CY + 13} textAnchor="middle" fontFamily={FONTS.mono} fontSize="8" fill={COLORS.textMute} letterSpacing="1">
+            KCAL
+          </text>
+        </svg>
+        <div style={styles.fuelDonutLegend}>
+          {arcs.map(a => (
+            <div key={a.k} style={styles.fuelDonutRow}>
+              <span style={{ ...styles.fuelDonutSwatch, background: MACRO_COLORS[a.k] }} />
+              <span style={styles.fuelDonutName}>{MACRO_LABELS[a.k]}</span>
+              <span style={styles.fuelDonutG}>{Math.round(macros[a.k])}g</span>
+              <span style={styles.fuelDonutPct}>{a.pct}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {sub && <div style={styles.fuelStatSub}>{sub}</div>}
+    </div>
+  );
+}
+
+// Average intake paired with the fitted slope of morning weight over the
+// same window — the two facts, without an inferred maintenance figure.
 function FuelTrend({ days }) {
   const closed = days.filter(d => d.closed);
   const rows = [
@@ -1442,71 +1500,66 @@ function FuelTrend({ days }) {
     const n = r.set.length;
     if (!n) return { ...r, empty: true };
     const kcal = r.set.reduce((s, d) => s + d.totals.kcal, 0) / n;
+    const macros = ['p', 'c', 'f'].reduce((o, k) => ({ ...o, [k]: r.set.reduce((s, d) => s + d.totals[k], 0) / n }), {});
     const t0 = Date.parse(r.set[0].date);
     const wpts = Object.entries(weightDays)
       .filter(([dt]) => dt >= r.set[0].date && dt <= r.set[n - 1].date)
       .map(([dt, kg]) => ({ x: (Date.parse(dt) - t0) / 86400000, y: kg }));
     const fit = linreg(wpts);
-    const perWeek = fit ? fit.slope * 7 : null;
-    const maint = fit ? kcal - fit.slope * KCAL_PER_KG : null;
-    return { ...r, n, kcal, perWeek, maint, points: wpts.length };
+    return { ...r, n, kcal, macros, perWeek: fit ? fit.slope * 7 : null, points: wpts.length };
   }).filter(r => !r.empty);
   if (!rows.length) return null;
-  const headline = rows[0];
   return (
-    <section style={styles.trendsPanel}>
-      <div style={styles.coachSectionHead}>
-        <span style={styles.filterLabel}>Trend</span>
-        <span style={styles.trendsSub}>is this intake actually maintenance?</span>
-      </div>
-      <div style={styles.fuelTrendGrid}>
-        {rows.map(r => {
-          const losing = r.perWeek != null && r.perWeek < -0.1;
-          const gaining = r.perWeek != null && r.perWeek > 0.1;
-          const col = losing || gaining ? BAND_OFF : BAND_OK;
-          return (
-            <div key={r.key} style={styles.fuelTrendCard}>
-              <div style={styles.fuelStatLabel}>{r.label}</div>
-              <div style={styles.fuelTrendRow}>
-                <span style={styles.fuelTrendLbl}>Avg intake</span>
-                <span style={styles.fuelTrendVal}>{Math.round(r.kcal).toLocaleString()} kcal</span>
+    <>
+      <section style={styles.trendsPanel}>
+        <div style={styles.coachSectionHead}>
+          <span style={styles.filterLabel}>Macro split</span>
+          <span style={styles.trendsSub}>share of calories · protein &amp; carbs ×4, fat ×9</span>
+        </div>
+        <div style={styles.fuelTrendGrid}>
+          {rows.map(r => (
+            <MacroDonut
+              key={r.key}
+              label={r.label}
+              macros={r.macros}
+              kcal={r.kcal}
+              sub={`daily average over ${r.n} tracked days`}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section style={styles.trendsPanel}>
+        <div style={styles.coachSectionHead}>
+          <span style={styles.filterLabel}>Intake vs weight trend</span>
+          <span style={styles.trendsSub}>weight slope fitted by least squares over each window</span>
+        </div>
+        <div style={styles.fuelTrendGrid}>
+          {rows.map(r => {
+            const moving = r.perWeek != null && Math.abs(r.perWeek) > 0.1;
+            return (
+              <div key={r.key} style={styles.fuelTrendCard}>
+                <div style={styles.fuelStatLabel}>{r.label}</div>
+                <div style={styles.fuelTrendRow}>
+                  <span style={styles.fuelTrendLbl}>Avg intake</span>
+                  <span style={styles.fuelTrendVal}>{Math.round(r.kcal).toLocaleString()} kcal</span>
+                </div>
+                <div style={{ ...styles.fuelTrendRow, borderBottom: 'none' }}>
+                  <span style={styles.fuelTrendLbl}>Weight trend</span>
+                  <span style={{ ...styles.fuelTrendVal, ...styles.fuelTrendBig, color: moving ? BAND_OFF : BAND_OK }}>
+                    {r.perWeek == null ? '—' : `${r.perWeek > 0 ? '+' : ''}${r.perWeek.toFixed(2)}`}
+                    <span style={styles.fuelTrendUnit}> kg/wk</span>
+                  </span>
+                </div>
+                <div style={{ ...styles.fuelStatSub, paddingBottom: 12 }}>
+                  {r.points} weigh-ins over {r.n} days
+                </div>
               </div>
-              <div style={styles.fuelTrendRow}>
-                <span style={styles.fuelTrendLbl}>Weight trend</span>
-                <span style={{ ...styles.fuelTrendVal, color: col }}>
-                  {r.perWeek == null ? '—' : `${r.perWeek > 0 ? '+' : ''}${r.perWeek.toFixed(2)} kg/wk`}
-                </span>
-              </div>
-              <div style={{ ...styles.fuelTrendRow, borderBottom: 'none' }}>
-                <span style={styles.fuelTrendLbl}>Implied maintenance</span>
-                <span style={{ ...styles.fuelTrendVal, ...styles.fuelTrendBig }}>
-                  {r.maint == null
-                    ? '—'
-                    : `${(Math.round(Math.min(r.maint, r.kcal + 600) / 100) * 100).toLocaleString()}–${(Math.round(r.maint / 100) * 100).toLocaleString()}`}
-                </span>
-              </div>
-              <div style={{ ...styles.fuelStatSub, paddingBottom: 12 }}>
-                {r.points} weigh-ins over {r.n} days
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div style={styles.fuelTrendNote}>
-        <b>Read the direction, not the number.</b> Implied maintenance = average intake +
-        (weight slope × 7,700 kcal/kg). Over a window this short, one heavy or light morning
-        moves it by hundreds, and the top of each range assumes every gram lost is tissue
-        rather than water — so the true figure sits at the low end, if not below it.
-        {headline.perWeek != null && headline.perWeek < -0.1 && (
-          <> What is solid: at ~{Math.round(headline.kcal / 10) * 10} kcal/day the weight is
-          still going <b>down</b>, so maintenance is <b>above</b> what I'm eating now and the
-          target band hasn't been reached. A few more weeks will tighten this a lot.</>
-        )}
-        {headline.perWeek != null && headline.perWeek >= -0.1 && headline.perWeek <= 0.1 && (
-          <> Right now the weight is holding at this intake — this looks like maintenance.</>
-        )}
-      </div>
-    </section>
+            );
+          })}
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -4090,14 +4143,69 @@ const styles = {
     color: COLORS.accent,
     lineHeight: 1,
   },
-  fuelTrendNote: {
-    marginTop: 12,
-    maxWidth: 760,
-    fontSize: 13,
-    lineHeight: 1.65,
+  fuelTrendUnit: {
+    fontFamily: FONTS.mono,
+    fontSize: 11,
+    fontWeight: 400,
+    letterSpacing: '0.04em',
+  },
+  fuelDonutCard: {
+    background: COLORS.surface,
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 10,
+    padding: '14px 16px 16px',
+  },
+  fuelDonutBody: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 16,
+    margin: '4px 0 10px',
+    flexWrap: 'wrap',
+  },
+  fuelDonutSvg: {
+    width: 116,
+    height: 116,
+    flexShrink: 0,
+    display: 'block',
+  },
+  fuelDonutLegend: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 9,
+    flex: '1 1 130px',
+    minWidth: 0,
+  },
+  fuelDonutRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  },
+  fuelDonutSwatch: {
+    width: 9,
+    height: 9,
+    borderRadius: 2,
+    flexShrink: 0,
+  },
+  fuelDonutName: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
     color: COLORS.textDim,
-    borderLeft: `3px solid ${COLORS.accent}`,
-    paddingLeft: 14,
+    flex: 1,
+  },
+  fuelDonutG: {
+    fontFamily: FONTS.mono,
+    fontSize: 12.5,
+    fontWeight: 600,
+    color: COLORS.text,
+  },
+  fuelDonutPct: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    color: COLORS.textMute,
+    width: 30,
+    textAlign: 'right',
   },
   fuelRangeRow: {
     marginLeft: 'auto',
