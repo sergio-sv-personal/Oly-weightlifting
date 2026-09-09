@@ -737,5 +737,41 @@
       "timeCap": "30:00"
     },
     "notes": "Done alongside Day 3 of Seb's program (strict press RPE calibration). Plus the MacKenzie press accessory, 2 x 10 with 10s hold on the last rep."
+  },
+  "2026-08-19": {
+    "className": "CrossFit 3056",
+    "time": "6:30pm",
+    "week": "week-2-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "EMOM 28",
+      "details": "Min 1: 100-200m run or 200-400m bike\nMin 2: 100ft dual kettlebell front rack carry\nMin 3: Hold of choice",
+      "scoreType": "Notes",
+      "timeCap": "28:00"
+    },
+    "notes": "Didn't feel good. Took the bike every round, aiming for 300m. Dual 20kg kettlebells on the front rack carry — by far the hardest piece. Hang hollow for the min-3 hold. The 6:30pm slot also left me more tired than the morning classes do."
+  },
+  "2026-08-28": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-3-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Power intervals — Row / Toes to Bar / Power Snatch",
+        "scheme": "4 sets, each for reps: 0:20 max calorie row (RPE 9/10) — rest 0:20 — 0:20 max rep toes to bar, unbroken — rest 0:20 — 0:20 max rep power snatch @ 60% or RPE 7/10 — rest 1:40. Score: reps on the snatches. Time cap 12:00.",
+        "myWeight": "Snatch 30kg, ~4 reps a set. Toes to bar scaled to raised legs, ~5 a set."
+      }
+    ],
+    "metcon": {
+      "format": "Teams of 3 — Max Calorie Row in 10:00",
+      "details": "P1: Row\nP2: Dual dumbbell / kettlebell front rack hold (24kg)\nP3: Rest\nSwitch as needed.",
+      "scoreType": "Total Calories",
+      "timeCap": "10:00"
+    },
+    "notes": "Felt really good — one of the first classes done fuelled (purée pouch + banana, 40g carbs, 45 min before), and the difference against the unfuelled ones was obvious. Toes to bar scaled to raised legs, ~5 a set; power snatch kept light at 30kg for ~4 a set; 24kg dumbbells on the front rack hold."
   }
 }

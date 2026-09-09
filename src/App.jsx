@@ -1429,10 +1429,11 @@ const MACRO_LABELS = { c: 'Carbs', p: 'Protein', f: 'Fat' };
 // Macro split as a doughnut: arcs are share of calories (P/C x4, F x9),
 // the legend carries the grams. Drawn with stroke-dasharray on a circle
 // rather than arc paths — same result, far less geometry.
-function MacroDonut({ label, macros, kcal, sub }) {
+function MacroDonut({ label, macros, kcal, sub, targets }) {
   const cals = { p: macros.p * 4, c: macros.c * 4, f: macros.f * 9 };
   const total = cals.p + cals.c + cals.f;
   if (!total) return null;
+  const tgt = targets ? { p: targets.proteinG, c: targets.carbsG, f: targets.fatG } : null;
   const R = 46, TH = 15, CX = 60, CY = 60;
   const circ = 2 * Math.PI * R;
   let acc = 0;
@@ -1468,14 +1469,27 @@ function MacroDonut({ label, macros, kcal, sub }) {
           </text>
         </svg>
         <div style={styles.fuelDonutLegend}>
-          {arcs.map(a => (
-            <div key={a.k} style={styles.fuelDonutRow}>
-              <span style={{ ...styles.fuelDonutSwatch, background: MACRO_COLORS[a.k] }} />
-              <span style={styles.fuelDonutName}>{MACRO_LABELS[a.k]}</span>
-              <span style={styles.fuelDonutG}>{Math.round(macros[a.k])}g</span>
-              <span style={styles.fuelDonutPct}>{a.pct}%</span>
-            </div>
-          ))}
+          {arcs.map(a => {
+            const g = Math.round(macros[a.k]);
+            const t = tgt ? Math.round(tgt[a.k]) : null;
+            const gap = t == null ? null : g - t;
+            return (
+              <div key={a.k} style={styles.fuelDonutRow}>
+                <span style={{ ...styles.fuelDonutSwatch, background: MACRO_COLORS[a.k] }} />
+                <span style={styles.fuelDonutName}>{MACRO_LABELS[a.k]}</span>
+                <span style={styles.fuelDonutG}>{g}g</span>
+                <span style={styles.fuelDonutPct}>{a.pct}%</span>
+                {t != null && (
+                  <span style={styles.fuelDonutTarget}>
+                    /{t}
+                    <span style={{ color: Math.abs(gap) <= t * 0.05 ? BAND_OK : BAND_OFF, marginLeft: 5 }}>
+                      {gap > 0 ? '+' : ''}{gap}
+                    </span>
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
       {sub && <div style={styles.fuelStatSub}>{sub}</div>}
@@ -1740,6 +1754,19 @@ function FuelDay({ day, targets, open, onToggle }) {
   );
 }
 
+// Within 5% of a macro target reads as on-target; beyond that it's the
+// amber "needs moving" colour, with the gap spelled out underneath.
+function macroColor(actual, target) {
+  if (actual == null || !target) return undefined;
+  return Math.abs(actual - target) <= target * 0.05 ? BAND_OK : BAND_OFF;
+}
+function gapText(actual, target) {
+  if (actual == null || !target) return null;
+  const gap = Math.round(actual - target);
+  if (Math.abs(gap) <= target * 0.05) return `on target (${target}g)`;
+  return `${gap > 0 ? '+' : ''}${gap} vs target ${target}g`;
+}
+
 // One period control at the top of the page drives every number below it:
 // averages, macro split, chart, weight trend and the day log.
 const FUEL_RANGES = [
@@ -1831,12 +1858,13 @@ function FuelPage() {
 
       <FuelSection
         title="Averages"
-        subtitle={`per day across the selected period · seb's band ${targets.kcalLow.toLocaleString()}-${targets.kcalHigh.toLocaleString()} kcal`}
+        subtitle={`per day across the selected period · seb's targets from 4 sep: ${targets.kcal.toLocaleString()} kcal, ${targets.proteinG}p / ${targets.carbsG}c / ${targets.fatG}f`}
       >
         <div style={styles.fuelStatRow}>
-          {avgK != null && <FuelStat label="Intake" value={Math.round(avgK).toLocaleString()} unit="kcal" color={inBand ? BAND_OK : BAND_OFF} sub={bandWord} />}
-          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" sub={`heading to ~${targets.carbsG}`} />}
-          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" sub={`trim toward ~${targets.proteinG}`} />}
+          {avgK != null && <FuelStat label="Intake" value={Math.round(avgK).toLocaleString()} unit="kcal" color={inBand ? BAND_OK : BAND_OFF} sub={`${bandWord} · target ${targets.kcal.toLocaleString()}`} />}
+          {avgC != null && <FuelStat label="Carbs" value={Math.round(avgC)} unit="g" color={macroColor(avgC, targets.carbsG)} sub={gapText(avgC, targets.carbsG)} />}
+          {avgP != null && <FuelStat label="Protein" value={Math.round(avgP)} unit="g" color={macroColor(avgP, targets.proteinG)} sub={gapText(avgP, targets.proteinG)} />}
+          {avgF != null && <FuelStat label="Fat" value={Math.round(avgF)} unit="g" color={macroColor(avgF, targets.fatG)} sub={gapText(avgF, targets.fatG)} />}
           {avgFb != null && <FuelStat label="Fibre" value={Math.round(avgFb)} unit="g" sub={`goal ${targets.fibreLowG}-${targets.fibreHighG}`} />}
           {avgFl != null && <FuelStat label="Fluids" value={avgFl.toFixed(1)} unit="L" sub="incl. protein waters + gatorade" />}
           {wAvg != null && (
@@ -1852,7 +1880,7 @@ function FuelPage() {
 
       <FuelSection
         title="Macro split"
-        subtitle="share of calories over the selected period · protein and carbs x4, fat x9"
+        subtitle={`share of calories · vs seb's split ${targets.proteinG}p / ${targets.carbsG}c / ${targets.fatG}f`}
       >
         <div style={styles.fuelTrendGrid}>
           {avgK != null && (
@@ -1860,7 +1888,8 @@ function FuelPage() {
               label={active.days ? `Last ${active.label}` : `All ${closed.length} days`}
               macros={{ p: avgP, c: avgC, f: avgF }}
               kcal={avgK}
-              sub={`daily average over ${closed.length} closed days`}
+              targets={targets}
+              sub={`daily average over ${closed.length} closed days · /N = seb's target`}
             />
           )}
           <div style={styles.fuelTrendCard}>
@@ -4200,6 +4229,12 @@ const styles = {
     color: COLORS.textMute,
     width: 30,
     textAlign: 'right',
+  },
+  fuelDonutTarget: {
+    fontFamily: FONTS.mono,
+    fontSize: 10.5,
+    color: COLORS.textMute,
+    whiteSpace: 'nowrap',
   },
   fuelRangeRow: {
     marginLeft: 'auto',
