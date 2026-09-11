@@ -1808,7 +1808,7 @@
     "2026-09-09": {
       "training": "6am class",
       "fluidsMl": 2275,
-      "closed": false,
+      "closed": true,
       "items": [
         {
           "name": "PRE-TRAINING: Glick's bagel (90g)",
@@ -1928,8 +1928,239 @@
           "c": 0,
           "f": 0,
           "fibre": 0
+        },
+        {
+          "name": "Dinner (El Jannah, est.): charcoal chicken, drumstick + pieces, ~160g meat",
+          "kcal": 320,
+          "p": 33,
+          "c": 4,
+          "f": 18,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner (est.): small chips",
+          "kcal": 250,
+          "p": 3,
+          "c": 30,
+          "f": 12,
+          "fibre": 3
+        },
+        {
+          "name": "Dinner: half a regular coleslaw (full serve labelled 1,876kJ / 448kcal)",
+          "kcal": 224,
+          "p": 1,
+          "c": 10,
+          "f": 20,
+          "fibre": 2
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
         }
       ]
+    },
+    "2026-09-10": {
+      "training": "Rest — Oly Day 2 missed (infected chin wound)",
+      "fluidsMl": 2025,
+      "closed": true,
+      "items": [
+        {
+          "name": "Breakfast smoothie + PB: 400ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens, 40g peanut butter",
+          "kcal": 879,
+          "p": 50,
+          "c": 95,
+          "f": 32,
+          "fibre": 18
+        },
+        {
+          "name": "Coffee at home: 125ml barista oat milk + 1 shot",
+          "kcal": 75,
+          "p": 1,
+          "c": 9,
+          "f": 4,
+          "fibre": 1
+        },
+        {
+          "name": "Pita bread x2 (20g carbs each, label)",
+          "kcal": 200,
+          "p": 7,
+          "c": 40,
+          "f": 1,
+          "fibre": 2
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 700ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Lunch (est.): focaccia bread, ~140g",
+          "kcal": 410,
+          "p": 11,
+          "c": 54,
+          "f": 16,
+          "fibre": 3
+        },
+        {
+          "name": "Lunch (est.): salami, ~50g",
+          "kcal": 205,
+          "p": 11,
+          "c": 1,
+          "f": 18,
+          "fibre": 0
+        },
+        {
+          "name": "Pre-training feed (session not done): banana x2",
+          "kcal": 210,
+          "p": 2,
+          "c": 54,
+          "f": 0,
+          "fibre": 6
+        },
+        {
+          "name": "Pre-training feed (session not done): purée pouch",
+          "kcal": 60,
+          "p": 1,
+          "c": 12,
+          "f": 0,
+          "fibre": 1
+        },
+        {
+          "name": "Pre-workout, caffeine-free (10g boost blend)",
+          "kcal": 25,
+          "p": 5,
+          "c": 0,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner (est.): lean beef mince, ~150g cooked",
+          "kcal": 255,
+          "p": 40,
+          "c": 0,
+          "f": 10,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner: mashed potato, 150g Zerella (half a 300g pack, label) + splash of milk",
+          "kcal": 105,
+          "p": 4,
+          "c": 15,
+          "f": 2,
+          "fibre": 2
+        },
+        {
+          "name": "Dinner (est.): fresh salad, ~150g undressed",
+          "kcal": 30,
+          "p": 2,
+          "c": 5,
+          "f": 0,
+          "fibre": 2,
+          "slot": "veg"
+        },
+        {
+          "name": "Banana x2 (evening)",
+          "kcal": 210,
+          "p": 2,
+          "c": 54,
+          "f": 0,
+          "fibre": 6,
+          "slot": "fruit"
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ],
+      "note": "Oly Day 2 not done. Chin cut on a box ~31 Aug has become infected. Pre-training feed was already eaten, so the day carries the carbs without the session."
+    },
+    "2026-09-11": {
+      "training": "6am class",
+      "fluidsMl": 1975,
+      "closed": false,
+      "items": [
+        {
+          "name": "PRE-TRAINING: purée pouch",
+          "kcal": 60,
+          "p": 1,
+          "c": 12,
+          "f": 0,
+          "fibre": 1,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-TRAINING: banana x3",
+          "kcal": 315,
+          "p": 3,
+          "c": 81,
+          "f": 0,
+          "fibre": 9,
+          "slot": "pre"
+        },
+        {
+          "name": "INTRA-TRAINING: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "Lunch: F4F Singapore Chicken Noodle Stir-Fry (label, 598.5 kcal / 41.4P / 71.6C / 11.3F, 1143mg Na)",
+          "kcal": 598,
+          "p": 41,
+          "c": 72,
+          "f": 11,
+          "fibre": 6
+        },
+        {
+          "name": "Breakfast smoothie + PB: 400ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens, 40g peanut butter",
+          "kcal": 879,
+          "p": 50,
+          "c": 95,
+          "f": 32,
+          "fibre": 18
+        },
+        {
+          "name": "Coffee at home: 125ml barista oat milk + 1 shot",
+          "kcal": 75,
+          "p": 1,
+          "c": 9,
+          "f": 4,
+          "fibre": 1
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 700ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Purée pouch (afternoon snack)",
+          "kcal": 60,
+          "p": 1,
+          "c": 12,
+          "f": 0,
+          "fibre": 1
+        }
+      ],
+      "note": "Three bananas in the pre-training feed (93g carbs but 10g fibre) caused GI discomfort late in the session. Carbs weren't the problem, fibre was — cap the pre-feed at two bananas and take the balance from a bagel."
     }
   }
 }

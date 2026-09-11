@@ -98,6 +98,10 @@ carbs and 28 Aug is the oldest unlogged 6am class that fits. Sergio described it
 
 ## Health
 
+- **Infected chin wound (active).** Cut on a box around 31 Aug; infected as of
+  10 Sep and it cost him the Thursday Oly session. Ten days is long enough that it
+  needs a doctor if it hasn't been seen. **Tell Seb** — it explains a missed session
+  and may affect the next few.
 - **Left knee ITB** — flagged as "getting worse and worse" in the cycle 2 check-in,
   before the deload. Never followed up. Still unanswered: how is it now?
 

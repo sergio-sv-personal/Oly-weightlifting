@@ -107,6 +107,12 @@ Old norm was ~40g (pouch + banana). Combinations that reach 80:
 Keep fat and fibre low in that feed. A banana is the cheapest 27g in the kitchen —
 worth always having some in.
 
+**Fibre ceiling, learned 11 Sep.** Three bananas + a pouch hit 93g of carbs with zero
+fat, which looked ideal — but it also carried **10g of fibre**, and it caused GI
+discomfort late in the session. Carbs were not the problem. **Cap the pre-feed at two
+bananas** and take the balance from a bagel: bagel + banana + pouch delivers the same
+83g on **3g of fibre**, and has run clean on 6, 8 and 9 Sep.
+
 First attempt (Sat 5 Sep, 8:30am class, no banana in the house): apple + 2 pouches +
 2 corn thins = **57g from food, 65g counting the coffee's oat milk.**
 
