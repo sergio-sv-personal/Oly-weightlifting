@@ -1462,7 +1462,7 @@
       ]
     },
     "2026-09-06": {
-      "training": "Oly Day 3 (am)",
+      "training": "Double: Oly Day 3 + Sweat Sunday class",
       "fluidsMl": 2450,
       "closed": true,
       "items": [
@@ -1965,7 +1965,7 @@
       ]
     },
     "2026-09-10": {
-      "training": "Rest — Oly Day 2 missed (infected chin wound)",
+      "training": "Rest — Oly Day 2 missed (infected shin wound)",
       "fluidsMl": 2025,
       "closed": true,
       "items": [
@@ -2085,12 +2085,12 @@
           "slot": "supp"
         }
       ],
-      "note": "Oly Day 2 not done. Chin cut on a box ~31 Aug has become infected. Pre-training feed was already eaten, so the day carries the carbs without the session."
+      "note": "Oly Day 2 not done. Shin cut on a box ~31 Aug became infected — leg swollen Wed and Thu. Urgent care Wednesday night put him on antibiotics; swelling down by Friday. Pre-training feed was already eaten, so the day carries the carbs without the session."
     },
     "2026-09-11": {
       "training": "6am class",
-      "fluidsMl": 1975,
-      "closed": false,
+      "fluidsMl": 3275,
+      "closed": true,
       "items": [
         {
           "name": "PRE-TRAINING: purée pouch",
@@ -2158,9 +2158,279 @@
           "c": 12,
           "f": 0,
           "fibre": 1
+        },
+        {
+          "name": "Dinner: F4F Fresh & Zesty Beef Burrito Bowl (label, 629 kcal / 41.4P / 63.6C / 6.9F, 1020mg Na)",
+          "kcal": 629,
+          "p": 41,
+          "c": 64,
+          "f": 7,
+          "fibre": 9
+        },
+        {
+          "name": "Powerade Zero ION4, 600ml (label: 10.4 kcal, 254mg Na, 201mg K, 47mg Mg)",
+          "kcal": 10,
+          "p": 0,
+          "c": 0,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
         }
       ],
       "note": "Three bananas in the pre-training feed (93g carbs but 10g fibre) caused GI discomfort late in the session. Carbs weren't the problem, fibre was — cap the pre-feed at two bananas and take the balance from a bagel."
+    },
+    "2026-09-12": {
+      "training": "8.30am class",
+      "fluidsMl": 2670,
+      "closed": true,
+      "items": [
+        {
+          "name": "Breakfast smoothie + PB: 400ml unsw. almond milk, 100g rolled oats, banana, 25g WPI, 3g creatine, 5g greens, 40g peanut butter",
+          "kcal": 879,
+          "p": 50,
+          "c": 95,
+          "f": 32,
+          "fibre": 18
+        },
+        {
+          "name": "PRE-CLASS: Glick's bagel (90g)",
+          "kcal": 248,
+          "p": 8,
+          "c": 44,
+          "f": 3,
+          "fibre": 2,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-CLASS: purée pouch",
+          "kcal": 60,
+          "p": 1,
+          "c": 12,
+          "f": 0,
+          "fibre": 1,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-CLASS: banana",
+          "kcal": 105,
+          "p": 1,
+          "c": 27,
+          "f": 0,
+          "fibre": 3,
+          "slot": "pre"
+        },
+        {
+          "name": "INTRA-CLASS: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "Coffee from the shop: oat milk flat white",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Lunch: F4F Grilled Souvlaki Chicken + Basmati (label, 716 kcal / 74.6P / 78.2C / 12.1F, 626mg Na)",
+          "kcal": 716,
+          "p": 75,
+          "c": 78,
+          "f": 12,
+          "fibre": 6
+        },
+        {
+          "name": "Protein water #1: 25g Bulk collagen/WPI blend in 700ml water",
+          "kcal": 95,
+          "p": 20,
+          "c": 1,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Dinner out, vegan, shared plates (est. half of each): eggplant dip + focaccia",
+          "kcal": 350,
+          "p": 8,
+          "c": 38,
+          "f": 19,
+          "fibre": 4
+        },
+        {
+          "name": "Dinner (est. half): patatas bravas",
+          "kcal": 320,
+          "p": 4,
+          "c": 35,
+          "f": 18,
+          "fibre": 3
+        },
+        {
+          "name": "Dinner (est. half): roasted Brussels sprouts",
+          "kcal": 150,
+          "p": 4,
+          "c": 12,
+          "f": 10,
+          "fibre": 5,
+          "slot": "veg"
+        },
+        {
+          "name": "Dinner (est. half): potato lasagna",
+          "kcal": 400,
+          "p": 10,
+          "c": 45,
+          "f": 20,
+          "fibre": 3
+        },
+        {
+          "name": "Beer, 1 pint (570ml, full-strength, est.)",
+          "kcal": 230,
+          "p": 2,
+          "c": 17,
+          "f": 0,
+          "fibre": 0
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ]
+    },
+    "2026-09-13": {
+      "training": "Double: Oly Day 3 + 9am class (jerks after)",
+      "fluidsMl": 2250,
+      "closed": true,
+      "items": [
+        {
+          "name": "PRE-TRAINING: Glick's bagel (90g)",
+          "kcal": 248,
+          "p": 8,
+          "c": 44,
+          "f": 3,
+          "fibre": 2,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-TRAINING: banana",
+          "kcal": 105,
+          "p": 1,
+          "c": 27,
+          "f": 0,
+          "fibre": 3,
+          "slot": "pre"
+        },
+        {
+          "name": "PRE-TRAINING: purée pouch",
+          "kcal": 60,
+          "p": 1,
+          "c": 12,
+          "f": 0,
+          "fibre": 1,
+          "slot": "pre"
+        },
+        {
+          "name": "Pre-workout, caffeinated (8.3g high-stim: 199mg caffeine)",
+          "kcal": 25,
+          "p": 4,
+          "c": 0,
+          "f": 0,
+          "fibre": 0,
+          "slot": "supp"
+        },
+        {
+          "name": "INTRA-TRAINING: Gatorade, 2 scoops in 750ml",
+          "kcal": 130,
+          "p": 0,
+          "c": 30,
+          "f": 0,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "BETWEEN SESSIONS: WPI 25g in 350ml water (before the jerks)",
+          "kcal": 110,
+          "p": 23,
+          "c": 2,
+          "f": 1,
+          "fibre": 0,
+          "slot": "intra"
+        },
+        {
+          "name": "Coffee from the shop: oat milk flat white",
+          "kcal": 140,
+          "p": 2,
+          "c": 15,
+          "f": 7,
+          "fibre": 1
+        },
+        {
+          "name": "Lunch: F4F Fully Loaded Beef Nacho Bowl (label, 793 kcal / 49.1P / 50C / 20.1F, 1120mg Na)",
+          "kcal": 793,
+          "p": 49,
+          "c": 50,
+          "f": 20,
+          "fibre": 8
+        },
+        {
+          "name": "Smoothie + PB, no WPI today: 400ml unsw. almond milk, 100g rolled oats, banana, 3g creatine, 5g greens, 40g peanut butter",
+          "kcal": 784,
+          "p": 27,
+          "c": 93,
+          "f": 31,
+          "fibre": 18
+        },
+        {
+          "name": "Banana (before dinner)",
+          "kcal": 105,
+          "p": 1,
+          "c": 27,
+          "f": 0,
+          "fibre": 3,
+          "slot": "fruit"
+        },
+        {
+          "name": "Dinner: F4F Loaded Chicken Creamy Alfredo Spiral Pasta (label, 624 kcal / 55.3P / 67C / 9.7F, 498mg Na)",
+          "kcal": 624,
+          "p": 55,
+          "c": 67,
+          "f": 10,
+          "fibre": 5
+        },
+        {
+          "name": "Frozen mixed vegetables (carrot, cauliflower, broccoli), 150g",
+          "kcal": 40,
+          "p": 3,
+          "c": 5,
+          "f": 0,
+          "fibre": 3,
+          "slot": "veg"
+        },
+        {
+          "name": "Night stack: psyllium 6g + 2 sleep tablets + 2 Mg glycinate",
+          "kcal": 15,
+          "p": 0,
+          "c": 1,
+          "f": 0,
+          "fibre": 3,
+          "slot": "supp"
+        }
+      ]
     }
   }
 }

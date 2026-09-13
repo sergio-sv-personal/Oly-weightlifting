@@ -32,7 +32,8 @@
     "label": "Deadlift",
     "history": [
       { "date": "2026-07-11", "kg": 115, "est": true },
-      { "date": "2026-07-28", "kg": 125, "est": true }
+      { "date": "2026-07-28", "kg": 125, "est": true },
+      { "date": "2026-09-04", "kg": 140 }
     ]
   },
   "bench_press": {

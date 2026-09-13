@@ -773,5 +773,131 @@
       "timeCap": "10:00"
     },
     "notes": "Felt really good — one of the first classes done fuelled (purée pouch + banana, 40g carbs, 45 min before), and the difference against the unfuelled ones was obvious. Toes to bar scaled to raised legs, ~5 a set; power snatch kept light at 30kg for ~4 a set; 24kg dumbbells on the front rack hold."
+  },
+  "2026-09-12": {
+    "className": "CrossFit 3056 — double (CrossFit + Gymnastics)",
+    "time": "8:30am + 9:30am",
+    "week": "week-5-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Gymnastics class (9:30am) — plyo prep",
+        "scheme": "Landing mechanics, 3 reps of each: stepping off a box, countermovement jumps, broad jumps, jumping onto a box."
+      },
+      {
+        "name": "Gymnastics class (9:30am) — contrast power",
+        "scheme": "5 sets: 3 weighted seated jumps into 2 unweighted broad jumps. Rest 2:00 between sets.",
+        "myWeight": "24 + 2 blue plates"
+      }
+    ],
+    "metcon": {
+      "format": "3 Rounds For Time",
+      "details": "30 Toes to Bar\n20 Burpees Over Bar\n10 Power Snatch (115/75lb)\n\nTeam finisher (done) — teams of 3, AMRAP 5:\n10 team dumbbell plank drag throughs\n30 synchronised Russian twists",
+      "scoreType": "Time",
+      "timeCap": "20:00"
+    },
+    "notes": "Double: 8:30am CrossFit then 9:30am gymnastics. Metcon went badly. Still no toes to bar, so scaled to leg raises. Power snatch at 35kg — the load was fine, the barbell cycling was the problem, inefficient rather than heavy. Did the optional team finisher as well. The gymnastics class was the good half."
+  },
+  "2026-09-11": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-5-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "AMRAP 19 — \"The Man in the Red Bandana\"",
+      "details": "5 Thrusters (135/95lb)\n17 Front Rack Lunges (135/95lb)\n77 Double Unders\n200.1m Plate Carry (45/35lb)",
+      "scoreType": "Rounds + Reps",
+      "timeCap": "19:00"
+    },
+    "notes": "Scored 3 rounds + 5 thrusters + 10 lunges. Barbell at 40kg, plate carry with a 20kg plate. Form was really good throughout. A 9/11 memorial workout, done on the anniversary — the rep scheme spells out the date."
+  },
+  "2026-09-02": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-4-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Ring muscle-up skill work",
+        "scheme": "A / B / C skips, swing on ring + pull back, low ring muscle-up transitions.",
+        "myWeight": "Scaled to the two halves separately: 2 false-grip pull-ups, 3 dips on tiptoes"
+      }
+    ],
+    "metcon": {
+      "format": "Every 2:00 x 6",
+      "details": "200m Run\n3/2 Ring Muscle-ups (RX+ 5/3)",
+      "scoreType": "Notes",
+      "timeCap": "12:00"
+    },
+    "notes": "No ring muscle-ups yet, so scaled to the halves — 2 false-grip pull-ups and 3 dips on tiptoes on the rings. Also did the optional Tabata (8 x 0:20 on / 0:10 off, L-hang / L-sit): knees up on the rings for the first, dead hang with legs raised for the second. Worth comparing against 7 Jun, where the same finisher is logged as “couldn't do it at all”."
+  },
+  "2026-09-06": {
+    "className": "CrossFit 3056 — Sweat Sunday",
+    "time": "9:00am",
+    "week": "week-4-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Sweat Sunday — 4 x Tabata (rest 1:00 between)",
+      "details": "Tabata 1: Row for calories\nTabata 2: Wall Balls, moderate to light (subbed: plate ground-to-overhead, 15kg)\nTabata 3: Bike for calories\nTabata 4: Walking Lunges\n\nPost-metcon EMOM 9 (done):\n1 — 5-8 strict toes to bar (scaled to leg raises)\n2 — 0:20-0:30 handstand hold\n3 — 0:30-0:45 wall sit",
+      "scoreType": "Total Reps"
+    },
+    "notes": "Wall balls swapped out for plate ground-to-overhead with a 15kg plate. Did the post-metcon EMOM 9 as well, with the strict toes to bar scaled to leg raises."
+  },
+  "2026-09-05": {
+    "className": "CrossFit 3056 — Super Saturday",
+    "time": "8:30am",
+    "week": "week-4-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Super Saturday — For Time",
+      "details": "Run 1000m\n---\n15-12-9\nThrusters (115/75lb — did 35kg)\nChest to Bar Pull-ups (jumping)\n---\nRun 1000m\n---\n9-15-21\nThrusters (95/65lb — did 30kg)\nPull-ups (jumping)\n---\nRun 1000m",
+      "scoreType": "Time",
+      "timeCap": "30:00"
+    },
+    "notes": "Finished right on the 30:00 cap. Thrusters at 35kg for the 15-12-9 and 30kg for the 9-15-21 (coach's intermediate scale was 43 & 30); chest-to-bar and pull-ups both done as jumping versions. Programmed as a rest day by Seb — this and the following Sunday double made it three sessions in two days."
+  },
+  "2026-09-04": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-4-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Deadlift 1RM",
+        "scheme": "Take 20-30 minutes to find a 1 rep max deadlift. Time cap 30:00.",
+        "myWeight": "140kg — tested"
+      }
+    ],
+    "metcon": {
+      "format": "AMRAP 8 (optional)",
+      "details": "4 Burpees\n4/4 Kettlebell Snatches (53/35lb)\nAdd 1 rep every round",
+      "scoreType": "Rounds + Reps",
+      "timeCap": "8:00"
+    },
+    "notes": "Deadlift tested to 140kg — first real number, replacing the 125 estimate that had been on the max board since July. The optional AMRAP wasn't confirmed either way."
+  },
+  "2026-09-13": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-5-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "For Time — Row 5000m with interruptions",
+      "details": "Row 5000m\nEvery 2:00, alternate:\n- 10 Box Jump Overs (24/20\") — did 8\n- 10 Dumbbell Push Press (50/35lb) — 17.5kg",
+      "scoreType": "Time",
+      "timeCap": "30:00"
+    },
+    "notes": "Finished in 20:00 (first reported as 17:00 — corrected), which squares with the 1:50-2:00/500m row pace over the full 5000m. Dumbbells at 17.5kg. Box jump overs cut to 8 a round but still jumped, twelve days into the infected shin. Second half of a double — Week 5 Day 3 cleans before it, jerks after. Sorenson holds skipped."
   }
 }

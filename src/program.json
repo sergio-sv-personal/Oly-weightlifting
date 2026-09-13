@@ -1,8 +1,8 @@
 {
   "label": "Cycle 3 — from 10 Aug 2026",
-  "focus": "Overhead position, split strength and bracing — programmed off the new tested maxes (snatch 44, C&J 65). Sergio runs Day 1 Tue / Day 2 Thu / Day 3 Sun.",
+  "focus": "Coach's cycle focus, verbatim: “Continue to build consistency with the olympic lifts. Focus on building stronger overhead strength/depth.” Programmed off the tested maxes (snatch 44, C&J 65). Sergio runs Day 1 Tue / Day 2 Thu / Day 3 Sun.",
   "startDate": "2026-08-10",
-  "note": "Week 1 extracted from spreadsheet screenshots (sheet 10/08/26); remaining weeks pending the xlsx.",
+  "note": "Weeks 1 and 5 extracted from spreadsheet screenshots (sheet 10/08/26), plus week 4 Days 2 and 3. Weeks 2-3, week 4 Day 1, and Day 2 onward of week 5 still pending the xlsx.",
   "weeks": [
     {
       "week": 1,
@@ -13,9 +13,21 @@
             {
               "name": "Paused Overhead Squat",
               "sets": [
-                { "pct": 80, "kg": 35, "reps": 3 },
-                { "pct": 80, "kg": 35, "reps": 3 },
-                { "pct": 80, "kg": 35, "reps": 3 }
+                {
+                  "pct": 80,
+                  "kg": 35,
+                  "reps": 3
+                },
+                {
+                  "pct": 80,
+                  "kg": 35,
+                  "reps": 3
+                },
+                {
+                  "pct": 80,
+                  "kg": 35,
+                  "reps": 3
+                }
               ],
               "refMax": 44,
               "note": "Hold in the bottom for 3 seconds. Warm up with a sots press 2x5."
@@ -23,9 +35,21 @@
             {
               "name": "Above Knee Hang Snatch",
               "sets": [
-                { "pct": 68, "kg": 30, "reps": 3 },
-                { "pct": 68, "kg": 30, "reps": 3 },
-                { "pct": 68, "kg": 30, "reps": 3 }
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 3
+                },
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 3
+                }
               ],
               "refMax": 44,
               "note": "2 minutes rest between each set."
@@ -33,19 +57,44 @@
             {
               "name": "Tall Jerk",
               "sets": [
-                { "pct": "Primer", "reps": 3 },
-                { "pct": "Primer", "reps": 3 },
-                { "pct": "Primer", "reps": 3 }
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
               ],
               "note": "1 minute rest between each set."
             },
             {
               "name": "Power Clean + Jerk",
               "sets": [
-                { "pct": 61, "kg": 40, "reps": 4 },
-                { "pct": 61, "kg": 40, "reps": 4 },
-                { "pct": 69, "kg": 45, "reps": 4 },
-                { "pct": 69, "kg": 45, "reps": 4 }
+                {
+                  "pct": 61,
+                  "kg": 40,
+                  "reps": 4
+                },
+                {
+                  "pct": 61,
+                  "kg": 40,
+                  "reps": 4
+                },
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 4
+                },
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 4
+                }
               ],
               "refMax": 65,
               "note": "4 = 1 power clean + 1 jerk + 1 power clean + 1 jerk. 2 minutes rest."
@@ -53,16 +102,31 @@
             {
               "name": "SSB Split Squat",
               "sets": [
-                { "pct": "RPE 7", "reps": 8 },
-                { "pct": "RPE 7", "reps": 8 },
-                { "pct": "RPE 7", "reps": 8 }
+                {
+                  "pct": "RPE 7",
+                  "reps": 8
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 8
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 8
+                }
               ],
               "note": "8 reps each side; 2-3 minutes rest between each set."
             }
           ],
           "accessories": [
-            { "name": "Dips", "scheme": "3 x 5 @ RPE 7 (superset)" },
-            { "name": "Leg raises (with dip bar)", "scheme": "3 x AMRAP (superset, 2 min rest)" }
+            {
+              "name": "Dips",
+              "scheme": "3 x 5 @ RPE 7 (superset)"
+            },
+            {
+              "name": "Leg raises (with dip bar)",
+              "scheme": "3 x AMRAP (superset, 2 min rest)"
+            }
           ]
         },
         {
@@ -71,10 +135,26 @@
             {
               "name": "Power Snatch + Overhead Squat",
               "sets": [
-                { "pct": 57, "kg": 25, "reps": 2 },
-                { "pct": 68, "kg": 30, "reps": 2 },
-                { "pct": 68, "kg": 30, "reps": 2 },
-                { "pct": 75, "kg": 33, "reps": 2 }
+                {
+                  "pct": 57,
+                  "kg": 25,
+                  "reps": 2
+                },
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 2
+                },
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 33,
+                  "reps": 2
+                }
               ],
               "refMax": 44,
               "note": "2 = 1 power snatch + 1 OHS x2. 2 minutes rest between each set."
@@ -82,10 +162,26 @@
             {
               "name": "Above Knee Hang Clean",
               "sets": [
-                { "pct": 61, "kg": 40, "reps": 3 },
-                { "pct": 66, "kg": 43, "reps": 3 },
-                { "pct": 72, "kg": 47, "reps": 3 },
-                { "pct": 77, "kg": 50, "reps": 3 }
+                {
+                  "pct": 61,
+                  "kg": 40,
+                  "reps": 3
+                },
+                {
+                  "pct": 66,
+                  "kg": 43,
+                  "reps": 3
+                },
+                {
+                  "pct": 72,
+                  "kg": 47,
+                  "reps": 3
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 3
+                }
               ],
               "refMax": 65,
               "note": "2 minutes rest between sets."
@@ -93,11 +189,31 @@
             {
               "name": "Jerk",
               "sets": [
-                { "pct": 69, "kg": 45, "reps": 2 },
-                { "pct": 69, "kg": 45, "reps": 2 },
-                { "pct": 69, "kg": 45, "reps": 2 },
-                { "pct": 69, "kg": 45, "reps": 2 },
-                { "pct": 69, "kg": 45, "reps": 2 }
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 2
+                }
               ],
               "refMax": 65,
               "note": "2 minutes rest between sets."
@@ -105,17 +221,35 @@
             {
               "name": "Back Squat",
               "sets": [
-                { "pct": 70, "kg": 70, "reps": 8 },
-                { "pct": 70, "kg": 70, "reps": 8 },
-                { "pct": 70, "kg": 70, "reps": 8 }
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 8
+                },
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 8
+                },
+                {
+                  "pct": 70,
+                  "kg": 70,
+                  "reps": 8
+                }
               ],
               "refMax": 100,
               "note": "2-3 minutes rest between sets."
             }
           ],
           "accessories": [
-            { "name": "Cossack Squats", "scheme": "3 x 16 @ RPE 7" },
-            { "name": "Sunrise Sit-ups", "scheme": "3 x 20 @ RPE 8" }
+            {
+              "name": "Cossack Squats",
+              "scheme": "3 x 16 @ RPE 7"
+            },
+            {
+              "name": "Sunrise Sit-ups",
+              "scheme": "3 x 20 @ RPE 8"
+            }
           ]
         },
         {
@@ -124,47 +258,604 @@
             {
               "name": "Barbell Strict Press",
               "sets": [
-                { "pct": "RPE 7", "reps": 5 },
-                { "pct": "RPE 7.5", "reps": 5 },
-                { "pct": "RPE 8", "reps": 5 },
-                { "pct": "RPE 8.5", "reps": 5 },
-                { "pct": "RPE 9", "reps": 5 }
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 8",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 8.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 9",
+                  "reps": 5
+                }
               ]
             },
             {
               "name": "Chin Ups",
               "sets": [
-                { "pct": "RPE 7", "reps": "5-7" },
-                { "pct": "RPE 7", "reps": "5-7" },
-                { "pct": "RPE 7", "reps": "5-7" },
-                { "pct": "RPE 7", "reps": "5-7" }
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                }
               ],
               "note": "5-7 reps. Add weight if you can."
             },
             {
               "name": "Front Squat",
               "sets": [
-                { "pct": 69, "kg": 55, "reps": 5 },
-                { "pct": 69, "kg": 55, "reps": 5 },
-                { "pct": 69, "kg": 55, "reps": 5 },
-                { "pct": 69, "kg": 55, "reps": 5 },
-                { "pct": 69, "kg": 55, "reps": 5 }
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                },
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                },
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                },
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                },
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                }
               ],
               "refMax": 80
             },
             {
               "name": "Snatch Grip RDL",
               "sets": [
-                { "pct": 68, "kg": 30, "reps": 10 },
-                { "pct": 68, "kg": 30, "reps": 10 },
-                { "pct": 68, "kg": 30, "reps": 10 }
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 10
+                },
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 10
+                },
+                {
+                  "pct": 68,
+                  "kg": 30,
+                  "reps": 10
+                }
               ],
               "refMax": 44
             }
           ],
           "accessories": [
-            { "name": "Single Arm DB Row", "scheme": "3 x 8 each side @ RPE 7" },
-            { "name": "DB Side Bend", "scheme": "3 x 15 each side @ RPE 7" }
+            {
+              "name": "Single Arm DB Row",
+              "scheme": "3 x 8 each side @ RPE 7"
+            },
+            {
+              "name": "DB Side Bend",
+              "scheme": "3 x 15 each side @ RPE 7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "days": [
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Power Snatch + Overhead Squat",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 33,
+                  "reps": 2
+                },
+                {
+                  "pct": 75,
+                  "kg": 33,
+                  "reps": 2
+                },
+                {
+                  "pct": 80,
+                  "kg": 35,
+                  "reps": 2
+                },
+                {
+                  "pct": 80,
+                  "kg": 35,
+                  "reps": 2
+                }
+              ],
+              "refMax": 44,
+              "note": "2 = 1 power snatch + 1 OHS x2. 2 minutes rest between each set."
+            },
+            {
+              "name": "Above Knee Hang Clean",
+              "sets": [
+                {
+                  "pct": 66,
+                  "kg": 43,
+                  "reps": 3
+                },
+                {
+                  "pct": 72,
+                  "kg": 47,
+                  "reps": 3
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 3
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 3
+                }
+              ],
+              "refMax": 65,
+              "note": "2 minutes rest between sets."
+            },
+            {
+              "name": "Jerk",
+              "sets": [
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 2
+                },
+                {
+                  "pct": 73,
+                  "kg": 47,
+                  "reps": 2
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 2
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 2
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 2
+                }
+              ],
+              "refMax": 65,
+              "note": "2 minutes rest between sets."
+            },
+            {
+              "name": "Back Squat",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 8
+                },
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 8
+                },
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 8
+                },
+                {
+                  "pct": 75,
+                  "kg": 75,
+                  "reps": 8
+                }
+              ],
+              "refMax": 100,
+              "note": "2-3 minutes rest between sets."
+            },
+            {
+              "name": "Cossack Squats (accessory)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 16
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 16
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 16
+                }
+              ]
+            },
+            {
+              "name": "Sunrise Sit-ups (accessory)",
+              "sets": [
+                {
+                  "pct": "RPE 8",
+                  "reps": 20
+                },
+                {
+                  "pct": "RPE 8",
+                  "reps": 20
+                },
+                {
+                  "pct": "RPE 8",
+                  "reps": 20
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "exercises": [
+            {
+              "name": "Barbell Strict Press",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 8",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 8.5",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 9",
+                  "reps": 5
+                }
+              ],
+              "note": "Sergio's entered loads: 30 / 33 / 35 / 38 / 40."
+            },
+            {
+              "name": "Chin Ups",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "5-7"
+                }
+              ],
+              "note": "5-7 reps. Add weight if you can."
+            },
+            {
+              "name": "Front Squat",
+              "sets": [
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                },
+                {
+                  "pct": 69,
+                  "kg": 55,
+                  "reps": 5
+                },
+                {
+                  "pct": 71,
+                  "kg": 57,
+                  "reps": 5
+                },
+                {
+                  "pct": 75,
+                  "kg": 60,
+                  "reps": 5
+                },
+                {
+                  "pct": 75,
+                  "kg": 60,
+                  "reps": 5
+                }
+              ],
+              "refMax": 80
+            },
+            {
+              "name": "Snatch Grip RDL",
+              "sets": [
+                {
+                  "pct": 82,
+                  "kg": 36,
+                  "reps": 10
+                },
+                {
+                  "pct": 82,
+                  "kg": 36,
+                  "reps": 10
+                },
+                {
+                  "pct": 82,
+                  "kg": 36,
+                  "reps": 10
+                }
+              ],
+              "refMax": 44
+            },
+            {
+              "name": "Single Arm DB Row (accessory)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": "8 e/s"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "8 e/s"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "8 e/s"
+                }
+              ]
+            },
+            {
+              "name": "DB Side Bend (accessory)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": "15 e/s"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "15 e/s"
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": "15 e/s"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "days": [
+        {
+          "day": 1,
+          "date": "2026-09-07",
+          "exercises": [
+            {
+              "name": "Paused Overhead Squat",
+              "sets": [
+                {
+                  "pct": 90,
+                  "kg": 40,
+                  "reps": 3
+                },
+                {
+                  "pct": 90,
+                  "kg": 40,
+                  "reps": 3
+                },
+                {
+                  "pct": 90,
+                  "kg": 40,
+                  "reps": 3
+                },
+                {
+                  "pct": 90,
+                  "kg": 40,
+                  "reps": 3
+                }
+              ],
+              "refMax": 44,
+              "note": "Hold in the bottom for 3 seconds. Warm up with a sots press 2x5."
+            },
+            {
+              "name": "Above Knee Hang Snatch",
+              "sets": [
+                {
+                  "pct": 69,
+                  "kg": 30,
+                  "reps": 3
+                },
+                {
+                  "pct": 73,
+                  "kg": 32,
+                  "reps": 3
+                },
+                {
+                  "pct": 77,
+                  "kg": 34,
+                  "reps": 3
+                },
+                {
+                  "pct": 81,
+                  "kg": 36,
+                  "reps": 3
+                }
+              ],
+              "refMax": 44,
+              "note": "2 minutes rest between each set."
+            },
+            {
+              "name": "Tall Jerk",
+              "sets": [
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                },
+                {
+                  "pct": "Primer",
+                  "reps": 3
+                }
+              ],
+              "note": "1 minute rest between each set."
+            },
+            {
+              "name": "Power Clean + Jerk",
+              "sets": [
+                {
+                  "pct": 69,
+                  "kg": 45,
+                  "reps": 4
+                },
+                {
+                  "pct": 72,
+                  "kg": 47,
+                  "reps": 4
+                },
+                {
+                  "pct": 77,
+                  "kg": 50,
+                  "reps": 4
+                },
+                {
+                  "pct": 81,
+                  "kg": 53,
+                  "reps": 4
+                }
+              ],
+              "refMax": 65,
+              "note": "4 = 1 power clean + 1 jerk + 1 power clean + 1 jerk. 2 minutes rest."
+            },
+            {
+              "name": "SSB Split Squat",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 8
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 8
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 8
+                }
+              ],
+              "note": "8 reps each side; 2-3 minutes rest between each set."
+            },
+            {
+              "name": "Dips (accessory)",
+              "sets": [
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                },
+                {
+                  "pct": "RPE 7",
+                  "reps": 5
+                }
+              ],
+              "note": "Superset with the leg raises, 2 minutes rest between each set."
+            },
+            {
+              "name": "Leg Raises, Dip Bar (accessory)",
+              "sets": [
+                {
+                  "pct": "AMAP",
+                  "reps": "AMAP"
+                },
+                {
+                  "pct": "AMAP",
+                  "reps": "AMAP"
+                },
+                {
+                  "pct": "AMAP",
+                  "reps": "AMAP"
+                }
+              ],
+              "note": "Superset with the dips, 2 minutes rest between each set."
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "exercises": [
+            {
+              "name": "Power Snatch + Overhead Squat",
+              "sets": [
+                {
+                  "pct": 75,
+                  "kg": 33,
+                  "reps": 2
+                },
+                {
+                  "pct": 80,
+                  "kg": 35,
+                  "reps": 2
+                },
+                {
+                  "pct": 83,
+                  "kg": 37,
+                  "reps": 2
+                },
+                {
+                  "pct": 90,
+                  "kg": 40,
+                  "reps": 2
+                }
+              ],
+              "refMax": 44,
+              "note": "2 = 1 power snatch + 1 OHS x2. Rest of Day 2 not yet captured."
+            }
           ]
         }
       ]
