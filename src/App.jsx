@@ -1618,23 +1618,57 @@ function WeightJourney() {
   const peak = pts.reduce((m, p) => (p[1] > m[1] ? p : m), pts[0]);
   const low = pts.reduce((m, p) => (p[1] < m[1] ? p : m), pts[0]);
   const delta = last[1] - peak[1];
-  const W = 360, H = 90, PADL = 6, PADR = 36, TOP = 8, BASE = H - 14;
+
+  // Raw morning readings swing more than a kilo on hydration alone, so the
+  // honest signal is the trailing 7-day mean. Draw the raw series faintly
+  // behind it for context rather than letting the noise be the headline.
+  const roll = useMemo(() => {
+    const out = [];
+    for (let i = 0; i < pts.length; i++) {
+      const cut = Date.parse(pts[i][0]) - 6 * 864e5;
+      let sum = 0, n = 0;
+      for (let j = i; j >= 0 && Date.parse(pts[j][0]) >= cut; j--) { sum += pts[j][1]; n++; }
+      out.push([pts[i][0], sum / n]);
+    }
+    return out;
+  }, [pts]);
+
+  const W = 720, H = 250, PADL = 38, PADR = 52, TOP = 16, BASE = H - 30;
   const t0 = Date.parse(first[0]);
   const t1 = Date.parse(last[0]);
   const x = d => PADL + ((Date.parse(d) - t0) / (t1 - t0 || 1)) * (W - PADL - PADR);
-  const yLo = low[1] - 1;
-  const yHi = peak[1] + 1;
+  const yLo = Math.floor((low[1] - 1.5) / 5) * 5;
+  const yHi = Math.ceil((peak[1] + 1.5) / 5) * 5;
   const y = v => BASE - ((v - yLo) / (yHi - yLo)) * (BASE - TOP);
-  const path = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ');
-  const labels = [];
-  let lastMonth = null;
+  // Break the line wherever the scale went unused for a fortnight or more —
+  // there is one 166-day gap in 2025, and joining across it would draw a
+  // decline nobody measured. A faint dash spans the gap instead.
+  const GAP_DAYS = 14;
+  const line = series => series.map((p, i) => {
+    const jump = i > 0 && Date.parse(p[0]) - Date.parse(series[i - 1][0]) > GAP_DAYS * 864e5;
+    return `${i === 0 || jump ? 'M' : 'L'}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`;
+  }).join(' ');
+  const bridges = pts.reduce((acc, p, i) => {
+    if (i > 0 && Date.parse(p[0]) - Date.parse(pts[i - 1][0]) > GAP_DAYS * 864e5) acc.push([pts[i - 1], p]);
+    return acc;
+  }, []);
+
+  const grid = [];
+  for (let v = yLo; v <= yHi; v += 5) grid.push(v);
+
+  const rollLast = roll[roll.length - 1][1];
+  const months = [];
+  let lastMonth = null, lastLabelX = -Infinity;
   for (const p of pts) {
     const m = p[0].slice(0, 7);
     if (m === lastMonth) continue;
     lastMonth = m;
-    const d = new Date(p[0]);
-    if (d.getMonth() % 3 === 0) labels.push([p[0], d.toLocaleDateString('en-AU', { month: 'short', year: '2-digit' })]);
+    const px = x(p[0]);
+    if (px - lastLabelX < 58) continue;
+    lastLabelX = px;
+    months.push([p[0], new Date(p[0]).toLocaleDateString('en-AU', { month: 'short', year: '2-digit' })]);
   }
+
   return (
     <section style={styles.trendsPanel}>
       <button type="button" onClick={() => setOpen(o => !o)} style={styles.fuelJourneyBar} aria-expanded={open}>
@@ -1646,16 +1680,35 @@ function WeightJourney() {
       {open && (
         <div style={{ ...styles.trendCell, marginTop: 12 }}>
           <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
-            <line x1={PADL} y1={BASE} x2={W - PADR} y2={BASE} stroke={COLORS.border} strokeWidth="1" />
-            <path d={path} fill="none" stroke={COLORS.accent} strokeWidth="1.5" strokeLinejoin="round" />
-            <circle cx={x(last[0])} cy={y(last[1])} r="3" fill={COLORS.accent} />
-            <text x={x(last[0]) + 6} y={y(last[1]) + 3} fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.text}>{last[1]}</text>
-            <text x={x(peak[0]) + 5} y={y(peak[1]) + 3} fontFamily="JetBrains Mono, monospace" fontSize="8" fill={COLORS.textDim}>{peak[1]}</text>
-            {labels.map(([d, l]) => (
-              <text key={d} x={x(d)} y={H - 3} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="7" fill={COLORS.textMute}>{l}</text>
+            {grid.map(v => (
+              <g key={v}>
+                <line x1={PADL} y1={y(v)} x2={W - PADR} y2={y(v)} stroke={COLORS.border} strokeWidth="1" opacity={v === yLo ? 1 : 0.45} />
+                <text x={PADL - 8} y={y(v) + 3.5} textAnchor="end" fontFamily="JetBrains Mono, monospace" fontSize="9" fill={COLORS.textMute}>{v}</text>
+              </g>
+            ))}
+            {bridges.map(([a, b]) => (
+              <line key={a[0]} x1={x(a[0])} y1={y(a[1])} x2={x(b[0])} y2={y(b[1])} stroke={COLORS.textMute} strokeWidth="1" strokeDasharray="3 4" opacity="0.6" />
+            ))}
+            {bridges.map(([a, b]) => (
+              <text key={`g${a[0]}`} x={(x(a[0]) + x(b[0])) / 2} y={(y(a[1]) + y(b[1])) / 2 - 7} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8.5" fill={COLORS.textMute}>
+                no readings
+              </text>
+            ))}
+            <path d={line(pts)} fill="none" stroke={COLORS.accent} strokeWidth="1" opacity="0.28" strokeLinejoin="round" />
+            <path d={line(roll)} fill="none" stroke={COLORS.accent} strokeWidth="2.25" strokeLinejoin="round" strokeLinecap="round" />
+            <circle cx={x(peak[0])} cy={y(peak[1])} r="3" fill={COLORS.surface} stroke={COLORS.textDim} strokeWidth="1.5" />
+            <text x={x(peak[0]) + 7} y={y(peak[1]) - 5} fontFamily="JetBrains Mono, monospace" fontSize="9" fill={COLORS.textDim}>peak {peak[1]}</text>
+            <circle cx={x(low[0])} cy={y(low[1])} r="3" fill={COLORS.surface} stroke={COLORS.textDim} strokeWidth="1.5" />
+            <text x={x(low[0])} y={y(low[1]) + 15} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="9" fill={COLORS.textDim}>low {low[1]}</text>
+            <circle cx={x(last[0])} cy={y(rollLast)} r="3.5" fill={COLORS.accent} />
+            <text x={Math.min(x(last[0]) + 8, W - PADR + 6)} y={y(rollLast) + 3.5} fontFamily="JetBrains Mono, monospace" fontSize="10" fill={COLORS.text}>{rollLast.toFixed(1)}</text>
+            {months.map(([d, l]) => (
+              <text key={d} x={x(d)} y={H - 10} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="9" fill={COLORS.textMute}>{l}</text>
             ))}
           </svg>
-          <div style={styles.trendsSub}>renpho scale, first weigh-in of each day · {pts.length} readings</div>
+          <div style={styles.trendsSub}>
+            bold line = 7-day mean, now {rollLast.toFixed(1)}kg · faint = daily readings · renpho, first weigh-in of each day · {pts.length} readings
+          </div>
         </div>
       )}
     </section>
