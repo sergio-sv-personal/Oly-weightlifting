@@ -3,38 +3,38 @@
 Running list of things owed or outstanding, so they survive a cleared conversation.
 Last updated 13 Sep 2026 (Sunday night).
 
-## The energy question — answered
+## The energy question — answered, and the answer has moved
 
-**"Are we eating more than necessary?" No.** The 9 Sep RENPHO export closed the gap
-that made this unanswerable. Over the 15 closed days, 25 Aug – 8 Sep:
+**Sergio is not eating too much. He is eating at roughly maintenance.** The 15 Sep
+RENPHO export (313 readings) gives three clean weeks against the food ledger:
 
-- **Mean intake 2,842 kcal/day** against Seb's 2,846 target — within 4 kcal.
-- **Rolling-7 weight 80.83 → 79.59 kg**, a fall of 1.24 kg across the window
-  (−0.61 kg/week by least squares).
-- Body fat 27.0% → 26.5%; fat mass 21.91 → 21.20 kg.
-
-But the window is not one trend, it is two:
-
-| | Intake | Weight slope |
+| Week | Intake | Weight slope |
 |---|---|---|
 | 25 Aug – 1 Sep | 2,745 kcal/day | **−1.07 kg/week** |
-| 2 – 8 Sep | 2,953 kcal/day | **+0.60 kg/week** |
+| 2 – 8 Sep | 2,953 kcal/day | +0.43 kg/week |
+| 9 – 15 Sep | **3,122 kcal/day** | +0.56 kg/week |
 
-208 kcal/day cannot physiologically account for a 1.67 kg/week swing (it is worth
-about 0.19). **Most of that reversal is glycogen and the water bound to it** —
-carbs went 313 → 351 g/day over the same period, and every gram of stored glycogen
-carries roughly 3 g of water. The early drop was partly the same effect running the
-other way.
+Across the whole 21 days: mean intake **2,922 kcal/day**, weight slope **−0.10 kg/week**.
+Endpoints are flat — **81.15 kg on 25 Aug, 81.20 kg on 15 Sep** — and the rolling-7 fell
+only 80.83 → 80.40.
 
-**Reading it straight:** interpolating for a flat trend puts break-even near
-**2,880 kcal/day**. Seb's 2,846 looks close to right, possibly a shade under.
-**Do not add calories yet** — the loss has already stopped. Reassess after another
-fortnight of clean data. **The weigh-in data stops at 9 Sep** and the week since has
-run hot (see below), so the next RENPHO export is what settles it.
+**Body composition did not move at all.** Body fat 27.0% → 27.0%; fat mass 21.91 → 21.92 kg;
+muscle mass 56.30 → 56.35 kg. Three weeks, no change either way.
 
-Caveat on the body-composition split: the scale attributes ~0.7 kg of the loss to
-fat and ~0.5 kg to lean mass. Bioimpedance cannot actually separate those — the
-readings track hydration more than tissue. Don't act on the lean figure.
+**Implied maintenance: ~2,900–3,100 kcal/day.** Taking the rolling-7 fall of 0.43 kg as
+real puts it at 3,080; taking the flat endpoints puts it at 2,922. Either way **Seb's 2,846
+is a mild deficit, not a surplus** — which is the opposite of the worry that started this.
+
+**Caveats that matter:**
+- Daily readings swing ±1.5 kg on hydration alone (10→11 Sep +1.55, 14→15 Sep +1.15,
+  2→3 Sep −1.15). **Only the rolling average means anything.** Never react to one morning.
+- The rolling-7 bottomed at 79.52 on 9 Sep and has since climbed 0.88 kg. That tracks the
+  highest-intake week of the three (3,122) and carbs at ~370 g/day — part tissue, part
+  glycogen and water.
+
+**What to do:** the target isn't the problem, the adherence to it is. Last week ran **276
+kcal/day over** target. Bring intake back to 2,846 and weight settles. If Seb wants slow
+lean gain instead, ~3,000 is the number — but that should be his call, stated, not a drift.
 
 ## Nutrition
 
