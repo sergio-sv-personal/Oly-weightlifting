@@ -172,3 +172,39 @@ GYG's published component weights, useful for logging: standard burrito ~480g
 total; rice 90g, grilled chicken 100g per portion, black beans 30g, guacamole
 70g, burrito tortilla ~110g. Chicken + extra chicken + guac comes to ~650g.
 Logged on 6 Sep (without the extra rice) at 1,125 kcal / 78P / 101C / 44F.
+
+## Meal order placed 14 Sep (12 × 450g, arrives Fri 18 Sep)
+
+| Meal | Qty | kcal | P | C | F | Na (mg) | C:F |
+|---|---|---|---|---|---|---|---|
+| Fresh & Zesty Beef Burrito Bowl | 3 | 629 | 41.4 | 63.6 | 6.9 | 1020 | 9.2 |
+| Loaded Chicken Creamy Alfredo Spiral Pasta | 3 | 624 | 55.3 | 67.0 | 9.7 | 498 | 6.9 |
+| Singapore Chicken Noodle Stir-Fry | 3 | 598 | 41.4 | 71.5 | 11.2 | 1143 | 6.4 |
+| Chef Carlo's Beef Ragù Tortellini (new) | 3 | 594 | 48.6 | 64.8 | 15.3 | 1035 | 4.2 |
+| **Average per meal** | **12** | **611** | **46.7** | **66.7** | **10.8** | **924** | |
+| *Previous order (10), for comparison* | | *671* | *49.4* | *63.0* | *16.8* | | |
+
+**Why the mix changed.** The 4 Sep order was built to *add* fat, targeting ~26g a meal.
+That target is obsolete: fat now runs **87g rolling against 80**, because the 40g of
+peanut butter in the morning smoothie delivers 32g before anything else is eaten. The
+per-meal fat target is now **15–20g**, so the order is the four leanest, highest-carb
+meals. Fat per meal is down 36%, carbs up 6g, sodium down.
+
+**Dropped, and why:** Chicken Laksa (28.1g fat, C:F 1.8) and Hot Honey Chicken Mac &
+Cheese (45.2g, C:F 1.0) are the two worst ratios in the range — between them they caused
+the fat squeeze on 13 and 14 Sep. Nacho Bowl dropped for the worst calories-per-carb
+(793 kcal for 50g). Teriyaki dropped in favour of the tortellini, which has near-identical
+macros for **427mg less sodium**. Grilled Souvlaki (the best carb meal at 78.2g) was
+unavailable.
+
+**Consequence to plan around:** nothing in this box clears 72g of carbs, so **rest-day
+meals always need the top-up** — 150g microwave rice or one Glick's bagel (44g carbs)
+alongside. On training days the 83g pre-feed already covers it.
+
+**Sodium:** the three Alfredos (498mg) are the counterweight. Don't run Singapore noodle
+and tortellini in the same day if a third salty item is coming.
+
+**Order rate:** 12 meals at the observed 1.5/day is eight days, which matches both the
+use-by window (the 11 Sep box was stamped 19/09, eight days) and the next Friday delivery.
+A 7 × 350g pack was removed from the cart for that reason — 19 meals would have overrun
+the use-by by about five, and 350g portions land ~130 kcal under the per-meal target.
