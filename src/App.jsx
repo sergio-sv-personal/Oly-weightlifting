@@ -6,6 +6,7 @@ import crossfitSessions from './crossfitSessions.json';
 import whoopDays from './whoopDays.json';
 import maxes from './maxes.json';
 import coachNotes from './coachNotes.json';
+import benchmarks from './benchmarks.json';
 import nutrition from './nutrition.json';
 import weightDays from './weightDays.json';
 import { supabase } from './supabase.js';
@@ -1256,6 +1257,68 @@ function MaxBoard() {
   );
 }
 
+// Benchmark WODs: the named tests (Karen, Fran, ...) on the same grammar
+// as the max board — latest score, previous as "prev →", delta chip. No
+// bar, since the units differ row to row. Data lives in src/benchmarks.json;
+// append to a benchmark's history each time one comes up in class.
+const parseClock = s => {
+  const parts = String(s).split(':').map(Number);
+  return parts.length === 2 ? parts[0] * 60 + parts[1] : Number(s);
+};
+const fmtClockDelta = secs => {
+  const a = Math.abs(secs);
+  return `${secs < 0 ? '−' : '+'}${Math.floor(a / 60)}:${String(a % 60).padStart(2, '0')}`;
+};
+function BenchmarkBoard() {
+  const entries = Object.entries(benchmarks)
+    .filter(([, b]) => b.history && b.history.length)
+    .map(([key, b]) => {
+      const hist = b.history.slice().sort((a, c) => a.date.localeCompare(c.date));
+      return { key, ...b, cur: hist[hist.length - 1], prev: hist.length > 1 ? hist[hist.length - 2] : null, tests: hist.length };
+    })
+    .sort((a, b) => b.cur.date.localeCompare(a.cur.date));
+  if (entries.length === 0) return null;
+  return (
+    <section style={styles.trendsPanel}>
+      <div style={styles.coachSectionHead}>
+        <span style={styles.filterLabel}>Benchmarks</span>
+        <span style={styles.trendsSub}>named WODs — logged as they come up in class</span>
+      </div>
+      <div style={styles.maxBoard}>
+        {entries.map(e => {
+          const isTime = e.scoreType === 'time';
+          const toNum = isTime ? parseClock : Number;
+          const delta = e.prev ? toNum(e.cur.score) - toNum(e.prev.score) : null;
+          // For time, lower is better; for reps / rounds / load, higher is.
+          const better = delta != null && (isTime ? delta < 0 : delta > 0);
+          const deltaLabel = delta == null || delta === 0 ? null
+            : isTime ? fmtClockDelta(delta) : `${delta > 0 ? '+' : ''}${delta}`;
+          return (
+            <div key={e.key} style={styles.maxRow}>
+              <div style={styles.maxRowHead}>
+                <span style={styles.maxRowLabel}>{e.label}</span>
+                <span style={styles.maxRowMeta}>
+                  {e.description} · {formatDayDate(e.cur.date)}{e.tests > 1 ? ` · ${e.tests} tests` : ''}
+                </span>
+                <span style={styles.maxRowValue}>
+                  {e.prev && <span style={styles.maxRowPrev}>{e.prev.score} → </span>}
+                  {e.cur.score}
+                  {!isTime && e.scoreType && <span style={styles.maxRowUnit}>{e.scoreType}</span>}
+                  <span style={{ ...styles.benchRx, ...(e.cur.rx ? {} : styles.benchScaled) }}>{e.cur.rx ? 'RX' : 'scaled'}</span>
+                  {deltaLabel && (
+                    <span style={{ ...styles.trendDelta, color: better ? '#3FBF7F' : COLORS.textMute }}>{deltaLabel}</span>
+                  )}
+                </span>
+              </div>
+              {e.cur.note && <div style={styles.benchNote}>{e.cur.note}</div>}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 // Whoop recovery, last 30 days, as one compact band-colored bar chart.
 // Whoop weekly averages, bucketed by cycle week (week 1 = 11 May 2026,
 // matching the week-N-c2 tags used across the log).
@@ -1344,6 +1407,7 @@ function CoachPage() {
   return (
     <div>
       <MaxBoard />
+      <BenchmarkBoard />
       <AthleteNotes />
       <RecoveryPanel />
     </div>
@@ -2990,6 +3054,27 @@ const styles = {
     fontSize: 11,
     color: COLORS.textDim,
     marginLeft: 2,
+  },
+  benchRx: {
+    fontFamily: FONTS.mono,
+    fontSize: 9,
+    fontWeight: 600,
+    letterSpacing: '0.08em',
+    color: COLORS.accent,
+    border: `1px solid ${COLORS.accent}`,
+    borderRadius: 3,
+    padding: '1px 5px',
+    marginLeft: 8,
+    verticalAlign: 'middle',
+  },
+  benchScaled: {
+    color: COLORS.textMute,
+    borderColor: COLORS.border,
+  },
+  benchNote: {
+    fontSize: 12,
+    lineHeight: 1.45,
+    color: COLORS.textMute,
   },
   maxTrack: {
     position: 'relative',

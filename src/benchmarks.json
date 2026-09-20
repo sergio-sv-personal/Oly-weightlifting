@@ -1,0 +1,28 @@
+{
+  "karen": {
+    "label": "Karen",
+    "description": "150 wall balls for time",
+    "scoreType": "time",
+    "history": [
+      {
+        "date": "2026-09-18",
+        "score": "9:50",
+        "rx": true,
+        "note": "20lb ball, 10:00 cap. After 5×5 front squats at 50kg in the same class."
+      }
+    ]
+  },
+  "cindy": {
+    "label": "Cindy",
+    "description": "AMRAP 20:00 — 5 pull-ups, 10 push-ups, 15 air squats",
+    "scoreType": "rounds",
+    "history": [
+      {
+        "date": "2026-09-16",
+        "score": "10",
+        "rx": true,
+        "note": "10 rounds even, a round every 2:00. RX with strict pull-ups rather than kipping."
+      }
+    ]
+  }
+}

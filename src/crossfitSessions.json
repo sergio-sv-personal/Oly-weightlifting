@@ -899,5 +899,76 @@
       "timeCap": "30:00"
     },
     "notes": "Finished in 20:00 (first reported as 17:00 — corrected), which squares with the 1:50-2:00/500m row pace over the full 5000m. Dumbbells at 17.5kg. Box jump overs cut to 8 a round but still jumped, twelve days into the infected shin. Second half of a double — Week 5 Day 3 cleans before it, jerks after. Sorenson holds skipped."
+  },
+  "2026-09-16": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-6-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Cindy — AMRAP 20:00",
+      "details": "5 Pull-ups\n10 Push-ups\n15 Air Squats",
+      "scoreType": "Rounds + Reps",
+      "timeCap": "20:00"
+    },
+    "notes": "10 rounds even — 300 reps, a round every 2:00. Second benchmark on the board. RX — and the pull-ups were strict, not kipping, which is above the standard. Logged from memory, no whiteboard screenshot."
+  },
+  "2026-09-18": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-6-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Weightlifting — 5 rounds: 5 Front Squats @ 70% or RPE 8, 15 V-ups, 75 Double Unders (15:00 cap)",
+        "scheme": "5 × 5, scored on front squat weight",
+        "myWeight": "50kg — tuck-ups for V-ups, single-unders for doubles"
+      }
+    ],
+    "metcon": {
+      "format": "Karen — For Time",
+      "details": "150 Wall Balls",
+      "scoreType": "Time",
+      "timeCap": "10:00"
+    },
+    "notes": "Front squats at 50kg for the five rounds — 62% of the 80 ref against the 70% asked, which is the right call for 25 reps two days before Day 3 fives to 67. V-ups scaled to tuck-ups, double-unders to singles. Karen finished in 9:50 with the 20lb ball, ten seconds inside the cap — RX, and the first benchmark on the board. Accessories skipped."
+  },
+  "2026-09-19": {
+    "className": "CrossFit",
+    "time": "8:30am",
+    "week": "week-6-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "AMRAP 6:00 × 4, rest 2:00 between",
+      "details": "AMRAP 1 & 3:\n10 Box Jump Overs, step down (24/20\")\n10 Alternating Dumbbell Snatch (22.5/15kg)\n10 Plank Dumbbell Drag Through (22.5/15kg)\n\nAMRAP 2 & 4:\nMax calories — rower, bike, ski or run",
+      "scoreType": "Total reps across all sets",
+      "timeCap": "30:00"
+    },
+    "notes": "Dumbbells at 22.5kg, the RX load. 3 rounds in each of the movement AMRAPs (90 reps a block, 180 total), and took the run for AMRAPs 2 and 4 — 800m in each, so 1600m in 12 minutes of running with box-jump legs. Trainer Jono Zuluage. Dumbbell around-the-world accessories skipped."
+  },
+  "2026-09-20": {
+    "className": "CrossFit 3056",
+    "time": "9:00am",
+    "week": "week-6-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [],
+    "metcon": {
+      "format": "Every 10:00 × 3",
+      "details": "400m Run\n500m Row\n20 Burpees\n30 Ab Mat Sit-ups",
+      "scoreType": "Time each interval",
+      "timeCap": "30:00"
+    },
+    "accessories": [
+      "EMOM × 6, alternating — 6:00 cap",
+      "0:40 Glute Bridge up Hold — 10kg plate in the hips",
+      "0:40 Tuck / Hollow Rock"
+    ],
+    "notes": "Finished every interval with 2:30 left on the clock — about 7:30 a round, and the same all three rounds, so pacing held rather than fading. Rowing felt strong. Accessories done this time, which is the exception rather than the rule. Trainer Greta Maggs. First half of a double."
   }
 }
