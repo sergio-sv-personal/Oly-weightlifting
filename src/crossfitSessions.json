@@ -970,5 +970,47 @@
       "0:40 Tuck / Hollow Rock"
     ],
     "notes": "Finished every interval with 2:30 left on the clock — about 7:30 a round, and the same all three rounds, so pacing held rather than fading. Rowing felt strong. Accessories done this time, which is the exception rather than the rule. Trainer Greta Maggs. First half of a double."
+  },
+  "2026-09-23": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-7-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Clean & Jerk — take 20:00 to find a 1-rep max",
+        "scheme": "20:00 to a heavy single, unscored",
+        "myWeight": "60kg — held there on Seb's advice rather than going for a max"
+      }
+    ],
+    "metcon": {
+      "format": "3 Rounds For Time",
+      "details": "9 Deadlifts (225/155lb — 102/70kg)\n15/12 cal Row or Bike",
+      "scoreType": "Time",
+      "timeCap": "9:00"
+    },
+    "notes": "Didn't chase the clean & jerk single — stopped at 60kg, 92% of the tested 65, on Seb's advice. Right call with Oly Day 2 the next evening, which had jerks to 55 and hang cleans at 92%. Deadlifts at 80kg against a prescribed 102 (225lb), 57% of the 140 max. Finished the three rounds in 6:00, three minutes inside the 9:00 cap — about 2:00 a round. Trainer Greta Maggs."
+  },
+  "2026-09-25": {
+    "className": "CrossFit 3056",
+    "time": "6:00am",
+    "week": "week-7-c3",
+    "cycle": "cycle-3",
+    "location": "loc-brunswick",
+    "strength": [
+      {
+        "name": "Front Squat — 5×3 @ 70-75% of best squat clean or front squat, tempo 3.3.X.1 (15:00 cap)",
+        "scheme": "5 × 3, scored on weight",
+        "myWeight": "50, 55, 60, 65, 65kg"
+      }
+    ],
+    "metcon": {
+      "format": "AMRAP 10:00",
+      "details": "3 Hang Power Cleans (60% of best C&J)\n6 Burpee Pull-ups",
+      "scoreType": "Rounds + Reps",
+      "timeCap": "10:00"
+    },
+    "notes": "Worked the front squats up — 50, 55, 60, 65, 65 — rather than holding a fixed percentage. The top two sets are 81% of the 80kg ref against a prescribed 56-60kg, so above the sheet; 65×3 also sits just under the 67×5 from Day 3 five days earlier. Hang power cleans at 45kg where 60% of the 65 C&J is 39, so 69%. Six rounds, 54 reps, a round every 1:40. Whether the 3.3.X.1 tempo held at the top sets was not recorded. Trainer Greta Maggs."
   }
 }
